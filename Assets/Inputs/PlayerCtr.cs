@@ -19,9 +19,9 @@ public class PlayerCtr : MonoBehaviour
 
     private Vector2 currentMovement => player.FindAction("Move").ReadValue<Vector2>();
     private bool movePress => currentMovement.x != 0 || currentMovement.y != 0;
-     private Vector2 moveDirection;
-     private CapsuleCollider _collider;
-    
+    private Vector2 moveDirection;
+    private SphereCollider _collider;
+
 
     [SerializeField]
     private float maxSpeed = 10f;
@@ -31,10 +31,12 @@ public class PlayerCtr : MonoBehaviour
     [SerializeField]
     private float deceleratePerSecond = 10f;
     private float currentSpeed = 0;
-
+    private float speedAirFactor = 1;
 
     [SerializeField]
     private float jumpForce = 5f;
+    [SerializeField] private float speedLimit;
+
 
     [SerializeField] private bool isGround;
 
@@ -43,7 +45,7 @@ public class PlayerCtr : MonoBehaviour
 
     private bool isBackwarding;
     private Coroutine backwardingCoro;
-
+    private Coroutine jumpCoro;
 
 
     internal void SetInput(PlayerInput input)
@@ -69,7 +71,7 @@ public class PlayerCtr : MonoBehaviour
 
     private void Awake()
     {
-        _collider = GetComponent<CapsuleCollider>();
+        _collider = GetComponentInChildren<SphereCollider>();
         if (inputAsset == null)
             gameObject.SetActive(false);
     }
@@ -109,15 +111,35 @@ public class PlayerCtr : MonoBehaviour
     private void DoJump(InputAction.CallbackContext obj)
     {
         Debug.Log("jump");
-      if(CheckGround())
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if (!CheckGround())
+            return;
+
+        if (jumpCoro != null)
+            return;
+        jumpCoro = StartCoroutine(JumpIE());
+
+    }
+    private IEnumerator JumpIE()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        do
+        {
+            Debug.Log("air");
+            speedAirFactor = Mathf.Clamp01(speedAirFactor - speedLimit * Time.deltaTime);
+            yield return null;
+        } while (rb.velocity.y > 0|| rb.velocity.y <0&&!isGround);
+        speedAirFactor = 1;
+        jumpCoro = null;
+
+
+
     }
 
     private bool CheckGround()
     {
-        Vector3 p1 = transform.position + _collider.center + Vector3.up * (-_collider.height * 0.25f-0.1f);
-        Vector3 p2 = p1 + Vector3.up * _collider.height;
-        var cols = Physics.OverlapCapsule(p1, p2, _collider.radius, 1 << 6);
+        Vector3 p1 = transform.position + _collider.center;
+        var cols = Physics.OverlapSphere(p1, _collider.radius, 1 << 6);
 
         if (cols.Length != 0)
             return true;
@@ -128,16 +150,14 @@ public class PlayerCtr : MonoBehaviour
     private void Update()
     {
         isGround = CheckGround();
-    }
-
-    private void FixedUpdate()
-    {
         float currentAngle = 0;
         if (movePress)
             currentAngle = Rotate();
         Movement(currentAngle);
 
     }
+
+
 
     private float Rotate()
     {
@@ -182,8 +202,6 @@ public class PlayerCtr : MonoBehaviour
         backwardingCoro = null;
     }
 
-
-
     private void Movement(float rotatAngle)
     {
         float speedFactor = Mathf.Lerp(1, 0, (rotatAngle + 10) / 270);
@@ -192,27 +210,27 @@ public class PlayerCtr : MonoBehaviour
         if (movePress && !isBackwarding)
         {
 
-            currentSpeed = currentSpeed < maxSpeed ? currentSpeed + acceleratePerSecond * Time.fixedDeltaTime : maxSpeed;
+            currentSpeed = currentSpeed < maxSpeed ? currentSpeed + acceleratePerSecond * Time.deltaTime : maxSpeed;
 
         }
         else if (movePress && isBackwarding)
         {
             if (currentSpeed > minSpeed)
-                currentSpeed -= deceleratePerSecond * Time.fixedDeltaTime;
+                currentSpeed -= deceleratePerSecond * Time.deltaTime;
         }
         else
         {
-            currentSpeed = currentSpeed > 0.01f ? currentSpeed - deceleratePerSecond * Time.fixedDeltaTime : 0;
+            currentSpeed = currentSpeed > 0.01f ? currentSpeed - deceleratePerSecond * Time.deltaTime : 0;
         }
 
 
         if (currentSpeed > 0)
         {
-            rb.velocity = new Vector3(moveDirection.x, 0, moveDirection.y) * currentSpeed * speedFactor + new Vector3(0, rb.velocity.y, 0);
+            rb.velocity = new Vector3(moveDirection.x, 0, moveDirection.y) * currentSpeed * speedAirFactor * speedFactor + new Vector3(0, rb.velocity.y, 0);
         }
         else
         {
-            rb.velocity = new Vector3(0, rb.velocity.y,0);
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
         }
 
 

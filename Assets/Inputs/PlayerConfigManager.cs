@@ -21,6 +21,7 @@ public class PlayerConfigManager : MonoBehaviour
 
     private void Awake()
     {
+        playerConfigs = new List<PlayerConfig>();
         if (instance != null)
         {
 
@@ -31,7 +32,7 @@ public class PlayerConfigManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
             playerInputManager = GetComponent<PlayerInputManager>();
-            playerConfigs = new List<PlayerConfig>();
+           
         }
 
     }
