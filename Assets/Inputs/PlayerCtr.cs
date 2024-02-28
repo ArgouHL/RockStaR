@@ -14,13 +14,14 @@ public class PlayerCtr : MonoBehaviour
     private InputAction move;
 
     private Rigidbody rb;
-
-
+    [SerializeField]
+    private float maxSlopeAngle = 60f;
 
     private Vector2 currentMovement => player.FindAction("Move").ReadValue<Vector2>();
     private Vector2 currentDir => new Vector2(transform.forward.x, transform.forward.z);
 
     [SerializeField] private Vector2 moveDir;
+    [SerializeField] bool isOnSlope;
 
     private bool movePress => currentMovement.magnitude > 0.3f;
     private Vector2 moveDirection;
@@ -31,14 +32,17 @@ public class PlayerCtr : MonoBehaviour
     private float maxSpeed = 10f;
 
     [SerializeField]
-    private float accelerateForce = 10f;
+    private float accelerateForce;
     [SerializeField]
-    private float decelerateForce = 10f;
+    private float slopeAccelerateForce;
     [SerializeField]
-    private float backDecelerateForce = 10f;
+    private float decelerateForce;
     [SerializeField]
-    private float jumpDecelerateForce = 10f;
-    private float currentSpeed = 0;
+    private float backDecelerateForce;
+    [SerializeField]
+    private float jumpDecelerateForce;
+    [SerializeField]
+    private float maxSlideForce;
     private float speedAirFactor = 1;
 
     [SerializeField]
@@ -58,6 +62,8 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine backwardingCoro;
     private Coroutine jumpCoro;
 
+    private RaycastHit hit;
+    [SerializeField] private float gravityScaleOnSlope;
 
     internal void SetInput(PlayerInput input)
     {
@@ -79,15 +85,12 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-
     private void Awake()
     {
         _collider = GetComponentInChildren<SphereCollider>();
         if (inputAsset == null)
             gameObject.SetActive(false);
     }
-
-
 
     private void OnEnable()
     {
@@ -104,10 +107,6 @@ public class PlayerCtr : MonoBehaviour
         player.Enable();
         player.FindAction("Jump").started += DoJump;
         //  move = player.FindAction("Move");
-
-
-
-
     }
 
     private void OnDisable()
@@ -130,8 +129,10 @@ public class PlayerCtr : MonoBehaviour
         jumpCoro = StartCoroutine(JumpIE());
 
     }
+
     private IEnumerator JumpIE()
     {
+
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         jumpDir = currentMovement;
         do
@@ -151,26 +152,40 @@ public class PlayerCtr : MonoBehaviour
     private bool CheckGround()
     {
         Vector3 p1 = transform.position + _collider.center;
-        var cols = Physics.OverlapSphere(p1, _collider.radius, 1 << 6);
-
-        if (cols.Length != 0)
+        if (Physics.SphereCast(p1, _collider.radius - 0.1f, Vector3.down, out hit, 0.3f, 1 << 6, QueryTriggerInteraction.Ignore))
             return true;
         else
             return false;
+
+
+
+    }
+
+    private void Update()
+    {
+
+    }
+
+    private void SpeedControl()
+    {
+        if (isOnSlope)
+        {
+            if (rb.velocity.magnitude > maxSpeed)
+                rb.velocity = rb.velocity.normalized * maxSpeed;
+        }
     }
 
     private void FixedUpdate()
     {
         isGround = CheckGround();
+        
         float currentAngle = 0;
         if (movePress)
             currentAngle = Rotate();
         //Movement(currentAngle);
         MovementForce(currentAngle);
+
     }
-
-
-
 
     private float Rotate()
     {
@@ -254,50 +269,94 @@ public class PlayerCtr : MonoBehaviour
     {
         float speedFactor = Mathf.Lerp(1, 0, (rotatAngle - 20) / 160);
         float scaleMaxspeed = speedFactor * maxSpeed;
-        float addedforceMagnitude = 0;
-        Vector3 addedforceDir = Vector3.zero;
+        float addedforceMagnitude;
+        Vector3 addedforceDir;
         Vector3 orgVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
-
-
+        isOnSlope = IsOnSlope(out float slopeAngle);
         if (isGround)
         {
-
             if (movePress && !isBackwarding)
             {
-
                 addedforceMagnitude = accelerateForce;
                 addedforceDir = new Vector3(moveDirection.x, 0, moveDirection.y);
-                float netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
-                if (netSpeed > scaleMaxspeed)
-                {
-                    Vector3 deltaV = scaleMaxspeed * addedforceDir - orgVelocity;
-                    addedforceDir = deltaV.normalized;
+                float netSpeed;
 
-                    addedforceMagnitude = deltaV.magnitude;
+
+                if (isOnSlope)
+                {
+
+                    var dir = GetSlopeMoveDirection(addedforceDir);
+                    var force = slopeAccelerateForce;
+                    netSpeed = (rb.velocity + dir * force).magnitude;
+                    if (netSpeed > scaleMaxspeed)
+                    {
+                        Vector3 deltaV = scaleMaxspeed * dir - rb.velocity;
+                        dir = deltaV.normalized;
+
+                        force = deltaV.magnitude;
+
+                    }
+
+
+
+
+                    rb.AddForce(dir * force );
+                    rb.AddForce(-GetSlopeSlideDirection() * Mathf.Lerp(0, 1, slopeAngle / 60) * maxSlideForce);
+
+                    if (rb.velocity.y > 0f)
+                    {
+                        rb.AddForce(Vector3.down * gravityScaleOnSlope);
+
+                    }
 
                 }
-                rb.AddForce(addedforceMagnitude * addedforceDir);
+                else
+                {
+                    netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
+                    if (netSpeed > scaleMaxspeed)
+                    {
+                        Vector3 deltaV = scaleMaxspeed * addedforceDir - orgVelocity;
+                        addedforceDir = deltaV.normalized;
+
+                        addedforceMagnitude = deltaV.magnitude;
+                    }
+                    rb.AddForce(addedforceMagnitude * addedforceDir);
+
+                    Debug.Log("A");
+                }
+
+
             }
             else
             {
-                float forceMagnitude = 0;
+                float forceMagnitude;
                 if (movePress && isBackwarding)
                     forceMagnitude = backDecelerateForce;
                 else
                     forceMagnitude = decelerateForce;
-                Vector3 force = -orgVelocity.normalized * forceMagnitude;
-                if (rb.velocity.magnitude > 0.3f)
+                Vector3 force;
+
+                if (isOnSlope)
                 {
-                    rb.AddForce(force);
+                    force = rb.velocity;
                 }
+                else
+                    force = orgVelocity;
+
+
+                if (force.magnitude > 0.01f)
+                {
+                    rb.AddForce(-force * forceMagnitude);
+             
+                }
+               
             }
 
         }
         else
         {
-
-
+            Debug.Log("D3");
             addedforceMagnitude = accelerateForce;
             addedforceDir = new Vector3(jumpDir.x, 0, jumpDir.y);
             float netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
@@ -310,10 +369,6 @@ public class PlayerCtr : MonoBehaviour
 
             }
             Vector3 addedforce = addedforceMagnitude * addedforceDir;
-
-
-
-
             Vector3 force = -orgVelocity.normalized * jumpDecelerateForce;
             if (rb.velocity.magnitude > 0.2f)
             {
@@ -321,22 +376,40 @@ public class PlayerCtr : MonoBehaviour
             }
             rb.AddForce(addedforce);
 
-
         }
 
 
+        rb.useGravity = !isOnSlope;
+
+    }
+
+    private Vector3 GetSlopeMoveDirection(Vector3 addedforceDir)
+    {
+        var v3 = Vector3.ProjectOnPlane(addedforceDir, hit.normal).normalized;
+        return v3;
+    }
 
 
+    private Vector3 GetSlopeSlideDirection()
+    {
+        var v3 = Vector3.ProjectOnPlane(Vector3.one, hit.normal).normalized;
+        return v3;
+    }
 
+    private bool IsOnSlope(out float slopeAngle)
+    {
+        slopeAngle = 0;
+        Vector3 p1 = transform.position + _collider.center + new Vector3(0, 0.5f, 0);
+        if (Physics.SphereCast(p1, _collider.radius - 0.01f, Vector3.down, out hit, 0.6f, 1 << 6, QueryTriggerInteraction.Ignore))
+        {
 
+            slopeAngle = Vector3.Angle(Vector3.up, hit.normal);
+            Debug.DrawLine(hit.point, hit.point + hit.normal * 5, Color.black, 0.2f);
 
+            return slopeAngle < maxSlopeAngle && slopeAngle != 0 && isGround;
+        }
 
-
-
-
-
-
-
+        return false;
     }
 
 }
