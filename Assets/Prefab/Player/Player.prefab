@@ -176,14 +176,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07167634740009468c7b9fe79f5eaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 6
-  minSpeed: 5
-  acceleratePerSecond: 10
-  deceleratePerSecond: 10
-  jumpForce: 4
+  moveDir: {x: 0, y: 0}
+  v: 0
+  maxSpeed: 10
+  accelerateForce: 20
+  decelerateForce: 5
+  backDecelerateForce: 15
+  jumpForce: 5
   speedLimit: 0.4
   isGround: 0
   rotationPerSecond: 90
+  backRotationPerSecond: 750
 --- !u!54 &578256678308574816
 Rigidbody:
   m_ObjectHideFlags: 0

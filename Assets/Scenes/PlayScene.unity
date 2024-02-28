@@ -392,7 +392,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 778329170}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: fef1343b6a9bfe64badad76b320fc78e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -797,9 +797,21 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 578256678308574816, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3095981671838393312, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: jumpForce
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: normalGravity
@@ -808,6 +820,26 @@ PrefabInstance:
     - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: fallGravityAdd
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: accelerateForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: decelerateForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: rotationPerSecond
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: backDecelerateForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
+      propertyPath: jumpDecelerateForce
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7482543174625419738, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: m_Constraints

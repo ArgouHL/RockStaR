@@ -18,30 +18,41 @@ public class PlayerCtr : MonoBehaviour
 
 
     private Vector2 currentMovement => player.FindAction("Move").ReadValue<Vector2>();
-    private bool movePress => currentMovement.x != 0 || currentMovement.y != 0;
+    private Vector2 currentDir => new Vector2(transform.forward.x, transform.forward.z);
+
+    [SerializeField] private Vector2 moveDir;
+
+    private bool movePress => currentMovement.magnitude > 0.3f;
     private Vector2 moveDirection;
     private SphereCollider _collider;
-
+    [SerializeField] float v;
 
     [SerializeField]
     private float maxSpeed = 10f;
-    [SerializeField] private float minSpeed = 2f;
+
     [SerializeField]
-    private float acceleratePerSecond = 10f;
+    private float accelerateForce = 10f;
     [SerializeField]
-    private float deceleratePerSecond = 10f;
+    private float decelerateForce = 10f;
+    [SerializeField]
+    private float backDecelerateForce = 10f;
+    [SerializeField]
+    private float jumpDecelerateForce = 10f;
     private float currentSpeed = 0;
     private float speedAirFactor = 1;
 
     [SerializeField]
     private float jumpForce = 5f;
     [SerializeField] private float speedLimit;
-
+    private Vector2 jumpDir;
 
     [SerializeField] private bool isGround;
 
     [SerializeField]
     private float rotationPerSecond = 10f;
+
+    [SerializeField]
+    private float backRotationPerSecond = 10f;
 
     private bool isBackwarding;
     private Coroutine backwardingCoro;
@@ -122,15 +133,16 @@ public class PlayerCtr : MonoBehaviour
     private IEnumerator JumpIE()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
+        jumpDir = currentMovement;
         do
         {
             Debug.Log("air");
             speedAirFactor = Mathf.Clamp01(speedAirFactor - speedLimit * Time.deltaTime);
             yield return null;
-        } while (rb.velocity.y > 0|| rb.velocity.y <0&&!isGround);
+        } while (rb.velocity.y > 0 || rb.velocity.y < 0 && !isGround);
         speedAirFactor = 1;
         jumpCoro = null;
+
 
 
 
@@ -147,26 +159,29 @@ public class PlayerCtr : MonoBehaviour
             return false;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         isGround = CheckGround();
         float currentAngle = 0;
         if (movePress)
             currentAngle = Rotate();
-        Movement(currentAngle);
-
+        //Movement(currentAngle);
+        MovementForce(currentAngle);
     }
+
 
 
 
     private float Rotate()
     {
-        var v = MathHalper.AngleBetween(currentMovement, new Vector2(transform.forward.x, transform.forward.z));
-        if (v > 60)
+        if (movePress)
+            moveDir = currentMovement.normalized;
+        v = MathHalper.AngleBetween(moveDir, currentDir);
+        if (v > 60 && isGround)
         {
             if (backwardingCoro != null)
                 return v;
-            backwardingCoro = StartCoroutine(backwardingIE(600, currentMovement));
+            backwardingCoro = StartCoroutine(backwardingIE(backRotationPerSecond, moveDir));
         }
         else if (v < 5 && movePress)
         {
@@ -181,7 +196,7 @@ public class PlayerCtr : MonoBehaviour
 
         if (isBackwarding)
             return v;
-        moveDirection = Vector3.RotateTowards(moveDirection, currentMovement.normalized, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
+        moveDirection = Vector3.RotateTowards(moveDirection, moveDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
         transform.LookAt(transform.position + new Vector3(moveDirection.x, 0, moveDirection.y));
         return v;
 
@@ -191,8 +206,9 @@ public class PlayerCtr : MonoBehaviour
     {
         isBackwarding = true;
         Debug.Log("back");
-        while (MathHalper.AngleBetween(targetDir, new Vector2(transform.forward.x, transform.forward.z)) > 1f)
+        while (MathHalper.AngleBetween(targetDir, currentDir) > 1f)
         {
+
             moveDirection = Vector3.RotateTowards(moveDirection, targetDir, rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1);
 
             transform.LookAt(transform.position + new Vector3(moveDirection.x, 0, moveDirection.y));
@@ -202,42 +218,125 @@ public class PlayerCtr : MonoBehaviour
         backwardingCoro = null;
     }
 
-    private void Movement(float rotatAngle)
+    //private void Movement(float rotatAngle)
+    //{
+    //    float speedFactor = Mathf.Lerp(1, 0, (rotatAngle + 10) / 270);
+
+
+    //    if (movePress && !isBackwarding)
+    //    {
+
+    //        currentSpeed = currentSpeed < maxSpeed ? currentSpeed + accelerateForce * Time.deltaTime : maxSpeed;
+
+    //    }
+    //    else if (movePress && isBackwarding)
+    //    {
+    //        if (currentSpeed > minSpeed)
+    //            currentSpeed -= decelerateForce * Time.deltaTime;
+    //    }
+    //    else
+    //    {
+    //        currentSpeed = currentSpeed > 0.01f ? currentSpeed - decelerateForce * Time.deltaTime : 0;
+    //    }
+
+    //    if (currentSpeed > 0)
+    //    {
+    //        rb.velocity = new Vector3(moveDirection.x, 0, moveDirection.y) * currentSpeed * speedAirFactor * speedFactor + new Vector3(0, rb.velocity.y, 0);
+    //    }
+    //    else
+    //    {
+    //        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+    //    }
+
+    //}
+
+    private void MovementForce(float rotatAngle)
     {
-        float speedFactor = Mathf.Lerp(1, 0, (rotatAngle + 10) / 270);
+        float speedFactor = Mathf.Lerp(1, 0, (rotatAngle - 20) / 160);
+        float scaleMaxspeed = speedFactor * maxSpeed;
+        float addedforceMagnitude = 0;
+        Vector3 addedforceDir = Vector3.zero;
+        Vector3 orgVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
 
-        if (movePress && !isBackwarding)
+
+        if (isGround)
         {
 
-            currentSpeed = currentSpeed < maxSpeed ? currentSpeed + acceleratePerSecond * Time.deltaTime : maxSpeed;
+            if (movePress && !isBackwarding)
+            {
 
-        }
-        else if (movePress && isBackwarding)
-        {
-            if (currentSpeed > minSpeed)
-                currentSpeed -= deceleratePerSecond * Time.deltaTime;
+                addedforceMagnitude = accelerateForce;
+                addedforceDir = new Vector3(moveDirection.x, 0, moveDirection.y);
+                float netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
+                if (netSpeed > scaleMaxspeed)
+                {
+                    Vector3 deltaV = scaleMaxspeed * addedforceDir - orgVelocity;
+                    addedforceDir = deltaV.normalized;
+
+                    addedforceMagnitude = deltaV.magnitude;
+
+                }
+                rb.AddForce(addedforceMagnitude * addedforceDir);
+            }
+            else
+            {
+                float forceMagnitude = 0;
+                if (movePress && isBackwarding)
+                    forceMagnitude = backDecelerateForce;
+                else
+                    forceMagnitude = decelerateForce;
+                Vector3 force = -orgVelocity.normalized * forceMagnitude;
+                if (rb.velocity.magnitude > 0.3f)
+                {
+                    rb.AddForce(force);
+                }
+            }
+
         }
         else
         {
-            currentSpeed = currentSpeed > 0.01f ? currentSpeed - deceleratePerSecond * Time.deltaTime : 0;
+
+
+            addedforceMagnitude = accelerateForce;
+            addedforceDir = new Vector3(jumpDir.x, 0, jumpDir.y);
+            float netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
+            if (netSpeed > maxSpeed)
+            {
+                Vector3 deltaV = maxSpeed * addedforceDir - orgVelocity;
+                addedforceDir = deltaV.normalized;
+
+                addedforceMagnitude = deltaV.magnitude;
+
+            }
+            Vector3 addedforce = addedforceMagnitude * addedforceDir;
+
+
+
+
+            Vector3 force = -orgVelocity.normalized * jumpDecelerateForce;
+            if (rb.velocity.magnitude > 0.2f)
+            {
+                addedforce += force;
+            }
+            rb.AddForce(addedforce);
+
+
         }
 
 
-        if (currentSpeed > 0)
-        {
-            rb.velocity = new Vector3(moveDirection.x, 0, moveDirection.y) * currentSpeed * speedAirFactor * speedFactor + new Vector3(0, rb.velocity.y, 0);
-        }
-        else
-        {
-            rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        }
 
 
 
 
-        //  gameObject.transform.position += new Vector3(moveDirection.x, 0, moveDirection.y) * Time.fixedDeltaTime * currentSpeed* speedFactor;
-        //    Debug.Log(currentMovement);
+
+
+
+
+
+
+
 
     }
+
 }
