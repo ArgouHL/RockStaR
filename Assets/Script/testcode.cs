@@ -4,63 +4,100 @@ using UnityEngine;
 
 public class testcode : MonoBehaviour
 {
-public List<testtype> testList;
+    public List<testtype> testList;
 
-public Dictionary<int,testtype> testD;
+    public Dictionary<int, testtype> testD;
 
-private void Start()
-{
-testList=new List<testtype>();
-testD=Dictionary<int,testtype>();
+    private void Start()
+    {
+        testList = new List<testtype>();
+        testD = new Dictionary<int, testtype>();
 
-var t=new testclass1;
-var t2=new testclass1;
+       
 
-int count=0;
-testList.Add(t);
-testList.Add(t2);
+        int count = 0;
+        //testList.Add(t);
+        //testList.Add(t2);
+        //testList.Add(t3);
+        //testList.Add(t4);
 
-float startTime= Time.realtimeSinceStartup;
+        //testD.Add(t.index, t);
+        //testD.Add(t2.index, t2);
+        //testD.Add(t3.index, t3);
+        //testD.Add(t4.index, t4);
 
-for(int i=0;i<5000;i++)
-{
-if(testList.Contain(x=>x.index=1);
-count++;
+
+       
+
+
+    }
+
+
+
+    private void FixedUpdate()
+    {
+        var t = new testclass1();
+        var t2 = new testclass2();
+        var t3 = new testclass3();
+        var t4 = new testclass4();
+        float startTime = Time.realtimeSinceStartup;
+
+        
+        for (int i = 0; i < 1000; i++)
+        {
+            testList.Add(t);
+            
+        }
+
+        float end = Time.realtimeSinceStartup;
+        Debug.Log((end - startTime) * 1000 + "ms");
+
+
+        startTime = Time.realtimeSinceStartup;
+
+        for (int i = 0; i < 1000; i++)
+        {
+            testD.Add(t.index, t);
+            
+        }
+        end = Time.realtimeSinceStartup;
+        Debug.Log((end - startTime) * 1000 + "ms");
+    }
 }
-float end =Time.realtimeSinceStartup;
-Debug.Log(end-startTime+"ms");
-
-
-startTime= Time.realtimeSinceStartup;
-
-for(int i=0;i<5000;i++)
-{
-if(testD.ContainKey(1);
-count++;
-}
-end =Time.realtimeSinceStartup;
-Debug.Log(end-startTime+"ms");
-
-}
-
 public class testtype
 {
-public int index;
+    public int index;
 
 }
 
-public class testclass1: testtype
+public class testclass1 : testtype
 {
- public testclass1
-{
-index=1;
-}
+    public testclass1()
+    {
+        index = 1;
+    }
 }
 
-public class testclass2
+public class testclass2 : testtype
 {
- public testclass1
-{
-index=2;
+    public testclass2()
+    {
+        index = 2;
+    }
 }
+
+public class testclass3 : testtype
+{
+    public testclass3()
+    {
+        index = 3;
+    }
+}
+
+public class testclass4 : testtype
+{
+    public testclass4()
+    {
+        index = 4;
+    }
 }

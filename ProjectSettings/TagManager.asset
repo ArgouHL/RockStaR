@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - PlayerBoundary
+  - Jewelry
   layers:
   - Default
   - TransparentFX
@@ -13,16 +15,16 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Player_1
-  - Player_2
-  - Player_3
-  - Player_4
-  - Bond_1
-  - Bond_2
-  - Bond_3
-  - Bond_4
-  - 
-  - 
+  - Player1
+  - PlayerBond1
+  - Player2
+  - PlayerBond2
+  - Player3
+  - PlayerBond3
+  - Player4
+  - PlayerBond4
+  - Rope
+  - Jew
   - 
   - 
   - 

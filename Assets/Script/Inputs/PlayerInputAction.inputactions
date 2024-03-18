@@ -265,6 +265,17 @@
                 },
                 {
                     "name": "",
+                    "id": "7ee47bba-c1b4-4b23-9f78-8ce7d9ea6b8d",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b9074d32-9637-4779-8882-d97a0f5d4098",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
