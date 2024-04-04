@@ -28,8 +28,8 @@ public class InputConnect : MonoBehaviour
         for (int i = 0; i < index; i++)
         {
             Debug.Log("Connect times:" + i + 1);
-            var input = PlayerConfigManager.instance.GetPlayerConfig(i).Input;
-            playerCtrs[i].SetInput(input);
+            var config = PlayerConfigManager.instance.GetPlayerConfig(i);
+            playerCtrs[i].SetInput(config);
         }
         PlayerConfigManager.instance.ChangeActionMap(InputType.player);
     }
@@ -60,11 +60,12 @@ public class InputConnect : MonoBehaviour
     {
         Debug.Log("Player" + playerInput.playerIndex + " Joined");
 
-        playerConfigs.Add(new PlayerConfig(playerInput));
+        var config = new PlayerConfig(playerInput);
+       
         playerInput.transform.SetParent(transform);
 
 
-        playerCtrs[0].SetInput(playerInput);
+        playerCtrs[0].SetInput(config);
 
 
 

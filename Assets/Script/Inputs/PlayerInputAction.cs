@@ -64,6 +64,24 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""5aef57f4-4293-4d15-9bc1-88bcc6419095"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Struggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""de559e8c-7fa0-4f29-a051-123cd5561ae9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -290,10 +308,10 @@ namespace UnityEngine.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""7ee47bba-c1b4-4b23-9f78-8ce7d9ea6b8d"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -301,7 +319,7 @@ namespace UnityEngine.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""b9074d32-9637-4779-8882-d97a0f5d4098"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -317,6 +335,39 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff029bcb-acfc-444a-af28-b0e060deec29"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""561ea590-72b7-4831-adfd-1234ddc39839"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61bee344-e20b-4ec2-b393-02a9a4e45029"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Struggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -515,6 +566,8 @@ namespace UnityEngine.InputSystem
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
+            m_Player_Struggle = m_Player.FindAction("Struggle", throwIfNotFound: true);
             // SelectChara
             m_SelectChara = asset.FindActionMap("SelectChara", throwIfNotFound: true);
             m_SelectChara_Previous = m_SelectChara.FindAction("Previous", throwIfNotFound: true);
@@ -583,6 +636,8 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_UseItem;
+        private readonly InputAction m_Player_Struggle;
         public struct PlayerActions
         {
             private @PlayerInputAction m_Wrapper;
@@ -591,6 +646,8 @@ namespace UnityEngine.InputSystem
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
+            public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
+            public InputAction @Struggle => m_Wrapper.m_Player_Struggle;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -612,6 +669,12 @@ namespace UnityEngine.InputSystem
                     @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                    @UseItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
+                    @UseItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
+                    @UseItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
+                    @Struggle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
+                    @Struggle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
+                    @Struggle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStruggle;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -628,6 +691,12 @@ namespace UnityEngine.InputSystem
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @UseItem.started += instance.OnUseItem;
+                    @UseItem.performed += instance.OnUseItem;
+                    @UseItem.canceled += instance.OnUseItem;
+                    @Struggle.started += instance.OnStruggle;
+                    @Struggle.performed += instance.OnStruggle;
+                    @Struggle.canceled += instance.OnStruggle;
                 }
             }
         }
@@ -732,6 +801,8 @@ namespace UnityEngine.InputSystem
             void OnLook(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnUseItem(InputAction.CallbackContext context);
+            void OnStruggle(InputAction.CallbackContext context);
         }
         public interface ISelectCharaActions
         {

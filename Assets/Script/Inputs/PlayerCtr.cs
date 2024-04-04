@@ -3,41 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
+[DefaultExecutionOrder(-1)]
 public class PlayerCtr : MonoBehaviour
 {
-    private InputActionAsset inputAsset;
-    private InputActionMap player;
-    private InputAction move;
+    private PlayerConfig playerConfig;
 
     private Rigidbody rb;
+
+
+
+
+
     //   [SerializeField]     private float maxSlopeAngle = 60f;
     private Animator ani;
 
-    private Vector2 currentMovement => player.FindAction("Move").ReadValue<Vector2>();
+    private Vector2 currentMovement => playerConfig.gameInput.FindAction("Move").ReadValue<Vector2>();
     private Vector2 currentDir => new Vector2(transform.forward.x, transform.forward.z);
     private Vector2 currentVelocity => new Vector2(rb.velocity.x, rb.velocity.z);
     private Vector2 moveDir;
+    private Vector2 rotateDir;
     private Vector2 currentWatchDir => new Vector2(playerModel.forward.x, playerModel.forward.z);
     // bool isOnSlope;
 
     private bool movePress => currentMovement.magnitude > 0.3f;
+    private bool movePressForRotate => currentMovement.magnitude > 0.5f;
     private Vector2 moveDirection;
     private SphereCollider _collider;
     float betweenAngle;
     [SerializeField] private bool canJunp = false;
-    [SerializeField] private Transform playerModel;
+    public Transform playerModel;
     [SerializeField]
-    private float maxSpeed = 10f;
-
+    private float noramlMMaxSpeed = 10f;
+    private float maxSpeed => noramlMMaxSpeed * slowFactor;
     [SerializeField]
     private float accelerateForce;
     //  [SerializeField]    private float slopeAccelerateForce;
     [SerializeField] private float decelerateForce;
-    // [SerializeField]     private float backDecelerateForce;
+
     [SerializeField] private float jumpDecelerateForce;
     //[SerializeField]  private float maxSlideForce;
     private float speedAirFactor = 1;
@@ -48,6 +55,9 @@ public class PlayerCtr : MonoBehaviour
     private float hitBackMaxForce = 5f;
     [SerializeField]
     private float maxHitBackCap = 0.1f;
+
+
+
     [SerializeField]
     private float jumpForce = 5f;
     [SerializeField]
@@ -60,46 +70,37 @@ public class PlayerCtr : MonoBehaviour
     [SerializeField]
     private float rotationPerSecond = 10f;
 
-    //[SerializeField]private float backRotationPerSecond = 10f;
 
-    private bool isBackwarding;
-    private Coroutine backwardingCoro;
+
+
     private Coroutine jumpCoro;
 
     private RaycastHit hit;
-    //[SerializeField] private float gravityScaleOnSlope;
+
 
     [SerializeField]
     private bool dummy = false;
 
-    private Coroutine accumulatingCoro;
-    [SerializeField] private float accumulateForce;
-    [SerializeField] private float maxShootDis;
-    private float shootDis;
-    private bool accumulating = false;
-    private RopeCtr ropeCtr;
-    internal bool ropeCatching = false;
 
-    private IndicatorCtr indicatorCtr;
+    public delegate void CharaAction();
+    public CharaAction OnUseItem;
 
-    internal void SetInput(PlayerInput input)
+    private PowerGun powerGun;
+
+    private Coroutine stunCoro;
+    private float stunTime = 0;
+
+    internal void SetInput(PlayerConfig config)
     {
 
         if (dummy)
             return;
         Debug.Log("setInput");
-        inputAsset = input.actions;
-        player = inputAsset.FindActionMap("Player");
+        playerConfig = config;
 
-
-        //  animator = this.GetComponent<Animator>();
-
-        //playerActionsAsset = new ThirdPersonActionsAsset();
-        // move = player.FindAction("Move");
 
         gameObject.SetActive(true);
-        if (inputAsset != null)
-            return;
+
         EnablePlayer();
 
     }
@@ -108,29 +109,30 @@ public class PlayerCtr : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         _collider = GetComponentInChildren<SphereCollider>();
-        ropeCtr = GetComponentInChildren<RopeCtr>();
+        powerGun = GetComponentInChildren<PowerGun>();
         ani = GetComponentInChildren<Animator>();
-        indicatorCtr = GetComponentInChildren<IndicatorCtr>();
-        if (inputAsset == null && !dummy)
+
+        if (playerConfig == null && !dummy)
             gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        if (inputAsset == null)
+        if (playerConfig == null)
             return;
 
         //     player.FindAction("Attack").started += DoAttack;
 
-        EnablePlayer();
+        // EnablePlayer();
     }
 
     private void EnablePlayer()
     {
-        player.Enable();
-        player.FindAction("Jump").started += DoJump;
-        player.FindAction("Fire").performed += DoAccumulate;
-        player.FindAction("Fire").canceled += DoShoot;
+        playerConfig.ChangeInputMap(InputType.player);
+        playerConfig.gameInput.FindAction("Jump").started += DoJump;
+        playerConfig.gameInput.FindAction("Fire").performed += DoShoot;
+
+        playerConfig.gameInput.FindAction("UseItem").performed += UseItem;
         //  move = player.FindAction("Move");
     }
 
@@ -138,19 +140,21 @@ public class PlayerCtr : MonoBehaviour
 
     private void OnDisable()
     {
-        if (inputAsset == null)
+        if (playerConfig == null)
             return;
-        player.FindAction("Jump").started -= DoJump;
-        player.FindAction("Fire").performed -= DoAccumulate;
-        player.FindAction("Fire").canceled -= DoShoot;
+        playerConfig.gameInput.FindAction("Jump").started -= DoJump;
+        playerConfig.gameInput.FindAction("Fire").performed -= DoShoot;
+
+        playerConfig.gameInput.FindAction("UseItem").performed -= UseItem;
         //  player.FindAction("Attack").started -= DoAttack;
-        player.Disable();
+        playerConfig.gameInput.Disable();
     }
 
 
 
     private void DoJump(InputAction.CallbackContext obj)
     {
+        Debug.Log("D");
         if (!canJunp)
             return;
         Debug.Log("jump");
@@ -199,19 +203,37 @@ public class PlayerCtr : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Move();
+        CharatarRotate();
+    }
+
+
+    private void Move()
+    {
         isGround = CheckGround();
 
         float currentAngle = 0;
         if (dummy)
             return;
+        if (stunned)
+            return;
+        
+
         if (movePress)
-            //  currentAngle = RotateWithLimit();
+        {
             currentAngle = Rotate();
-
-        //   MovementForce(currentAngle);
+            rotateDir = currentMovement.normalized;
+        }
+         
         Movement();
+        
     }
+    private void CharatarRotate()
+    {
+      //  var watchDir = Vector3.RotateTowards(currentWatchDir, rotateDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
 
+        playerModel.LookAt(transform.position + new Vector3(rotateDir.x, 0, rotateDir.y));
+    }
     private float RotateWithLimit()
     {
         if (dummy)
@@ -231,16 +253,13 @@ public class PlayerCtr : MonoBehaviour
     {
         if (dummy)
             return 0;
-
+        if(shootReocvery)
+            return 0;
         if (movePress)
             moveDir = currentMovement.normalized;
 
-        var watchDir = Vector3.RotateTowards(currentWatchDir, moveDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
-
-        if (accumulating)
-            playerModel.LookAt(transform.position + new Vector3(moveDir.x, 0, moveDir.y));
-        else
-            playerModel.LookAt(transform.position + new Vector3(watchDir.x, 0, watchDir.y));
+       if(movePressForRotate)
+            rotateDir = currentMovement.normalized;
 
         moveDirection = moveDir;
 
@@ -251,22 +270,6 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-    private IEnumerator backwardingIE(float rotateSpeed, Vector2 targetDir)
-    {
-        isBackwarding = true;
-
-        while (MathHalper.AngleBetween(targetDir, currentDir) > 1f)
-        {
-
-            moveDirection = Vector3.RotateTowards(moveDirection, targetDir, rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1);
-
-            transform.LookAt(transform.position + new Vector3(moveDirection.x, 0, moveDirection.y));
-            yield return null;
-        }
-        yield return new WaitForSeconds(0.2f);
-        isBackwarding = false;
-        backwardingCoro = null;
-    }
 
     private void MovementForce(float rotatAngle)
     {
@@ -420,119 +423,75 @@ public class PlayerCtr : MonoBehaviour
     private void Movement()
     {
 
-        //   float scaleMaxspeed = speedFactor * maxSpeed;
+        #region SlowDown
         float addedforceMagnitude;
         Vector3 addedforceDir = Vector3.zero;
         Vector3 orgVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
+        #endregion
         //  isOnSlope = IsOnSlope(out float slopeAngle);
-
-
-
         //     rb.AddForce(-previusDir * decelerateForce * speedFactor);
         //       previusDir = Vector3.zero;
-
-        if (movePress && !dummy && !accumulating && !ropeCatching)
-        {
-            addedforceMagnitude = accelerateForce;
-            addedforceDir = new Vector3(moveDirection.x, 0, moveDirection.y);
-            previusDir = addedforceDir;
-            float netSpeed;
-
-            //if (isOnSlope)
-            //{
-            //    var dir = GetSlopeMoveDirection(addedforceDir);
-            //    var _force = slopeAccelerateForce;
-            //    netSpeed = (rb.velocity + dir * _force).magnitude;
-            //    //cap max Speed
-            //    if (netSpeed > maxSpeed)
-            //    {
-            //        Vector3 deltaV = maxSpeed * dir - rb.velocity;
-            //        dir = deltaV.normalized;
-            //        _force = deltaV.magnitude;
-            //    }
-
-            //    var force = dir * _force;
-            //    rb.AddForce(force);
-            //    rb.AddForce(-GetSlopeSlideDirection() * Mathf.Lerp(0, 1, slopeAngle / 60) * maxSlideForce);
-
-            //    if (rb.velocity.y > 0f)
-            //    {
-            //        rb.AddForce(Vector3.down * gravityScaleOnSlope);
-
-            //    }
-
-
-            //}
-            //else
-            //{
-            //    netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
-            //    //cap max Speed
-            //    if (netSpeed > maxSpeed)
-            //    {
-            //        Vector3 deltaV = maxSpeed * addedforceDir - orgVelocity;
-            //        addedforceDir = deltaV.normalized;
-
-            //        addedforceMagnitude = deltaV.magnitude;
-            //    }
-            //    var force = addedforceMagnitude * addedforceDir;
-            //    rb.AddForce(force);
-
-
-            //}
-            // no slope move
-            netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
-            //cap max Speed
-            if (netSpeed > maxSpeed)
+        if (isGround)
+            if (movePress && !dummy && !shootReocvery)
             {
-                Vector3 deltaV = maxSpeed * addedforceDir - orgVelocity;
-                addedforceDir = deltaV.normalized;
+                addedforceMagnitude = accelerateForce;
+                addedforceDir = new Vector3(moveDirection.x, 0, moveDirection.y);
+                previusDir = addedforceDir;
+                float netSpeed;
 
-                addedforceMagnitude = deltaV.magnitude;
+
+                netSpeed = (orgVelocity + addedforceDir * addedforceMagnitude).magnitude;
+                //cap max Speed
+                if (netSpeed > maxSpeed)
+                {
+                    Vector3 deltaV = maxSpeed * addedforceDir - orgVelocity;
+                    addedforceDir = deltaV.normalized;
+
+                    addedforceMagnitude = deltaV.magnitude;
+                }
+                var force = addedforceMagnitude * addedforceDir;
+                rb.AddForce(force, ForceMode.VelocityChange);
+
+
+                ani.SetBool("walking", true);
             }
-            var force = addedforceMagnitude * addedforceDir;
-            rb.AddForce(force, ForceMode.VelocityChange);
+            else
+            {
+                float forceMagnitude;
+                #region Backwarding
+                //if (isBackwarding)
+                //{
+                //    forceMagnitude = backDecelerateForce;
+                //    ani.SetBool("walking", true);
+                //    Debug.Log("back");
+                //}
+                //else
+                //{
+                //    forceMagnitude = decelerateForce;
+                //    ani.SetBool("walking", false);
+                //}
+                #endregion Backwarding
 
+                forceMagnitude = decelerateForce;
+                ani.SetBool("walking", false);
+                Vector3 force;
 
-            ani.SetBool("walking", true);
-        }
+                //if (isOnSlope)
+                //{
+                //    force = rb.velocity;
+                //}
+                //else
+                //    force = orgVelocity;
+
+                force = orgVelocity;
+                if (force.magnitude > 0.01f)
+                {
+
+                    rb.AddForce(-force * forceMagnitude * 0.2f);
+                }
+            }
+
         else
-        {
-            float forceMagnitude;
-            #region Backwarding
-            //if (isBackwarding)
-            //{
-            //    forceMagnitude = backDecelerateForce;
-            //    ani.SetBool("walking", true);
-            //    Debug.Log("back");
-            //}
-            //else
-            //{
-            //    forceMagnitude = decelerateForce;
-            //    ani.SetBool("walking", false);
-            //}
-            #endregion Backwarding
-
-            forceMagnitude = decelerateForce;
-            ani.SetBool("walking", false);
-            Vector3 force;
-
-            //if (isOnSlope)
-            //{
-            //    force = rb.velocity;
-            //}
-            //else
-            //    force = orgVelocity;
-
-            force = orgVelocity;
-            if (force.magnitude > 0.01f)
-            {
-
-                rb.AddForce(-force * forceMagnitude);
-            }
-        }
-
-        if (!isGround)
         {
             {
 
@@ -605,64 +564,96 @@ public class PlayerCtr : MonoBehaviour
         }
     }
 
+
+
+    #region ShootPower
+    private bool shootCoolDowning = false;
+    [SerializeField] private float shootCoolDownTime = 0.5f;
+    private bool shootReocvery = false;
+    [SerializeField] private float shootReocveryTime = 0.5f;
+
+    private bool stunned = false;
+    internal bool isStunned { get { return stunned; } }
+    private float pushedStuntime = 0.3f;
+    internal float slowFactor = 1;
+
     private void DoShoot(InputAction.CallbackContext obj)
     {
-        if (ropeCatching)
+        if (shootCoolDowning)
+            return;
+        powerGun.Shoot(playerModel.forward);
+        StartCoroutine(ShootCoolDownIE(shootCoolDownTime));
+        StartCoroutine(ShootReocveryIE(shootReocveryTime));
+    }
+
+    private IEnumerator ShootCoolDownIE(float shootCoolDownTime)
+    {
+        shootCoolDowning = true;
+        yield return new WaitForSeconds(shootCoolDownTime);
+        shootCoolDowning = false;
+    }
+    private IEnumerator ShootReocveryIE(float shootReocveryTime)
+    {
+        shootReocvery = true;
+        ani.SetBool("walking", false);
+        yield return new WaitForSeconds(shootReocveryTime);
+        shootReocvery = false;
+    }
+
+
+    #endregion
+
+
+
+    private void UseItem(InputAction.CallbackContext obj)
+    {
+        Debug.Log("UseItem");
+        OnUseItem?.Invoke();
+    }
+
+
+    internal void BePushed(Vector3 force)
+    {
+        rb.AddForce(force, ForceMode.Impulse);
+        StartCoroutine(StunIE(pushedStuntime));
+    }
+
+    internal void VelocityChange(Vector3 force)
+    {
+        if (GetComponent<PlayerBuffsContainer>().HaveBuff(BuffType.inf))
+            return;
+        rb.velocity = force;
+        if (stunCoro != null)
         {
-            ropeCtr.StopChargePullJew();
+            if (stunTime < 0.6f)
+                stunTime = 0.6f;
             return;
         }
-        if (accumulatingCoro == null)
-            return;
-        StopCoroutine(accumulatingCoro);
-        accumulatingCoro = null;
-        indicatorCtr.HideRopeRangeIndacator();
-        Debug.Log("dis:" + shootDis);
-
-        ShootRope(currentWatchDir);
-        accumulating = false;
-
+        stunCoro = StartCoroutine(StunIE(1));
     }
 
-    private void ShootRope(Vector2 currentWatchDir)
+    private IEnumerator StunIE(float t)
     {
-        ropeCatching = true;
-        ropeCtr.Shoot(currentWatchDir, shootDis);
-    }
-
-    private void DoAccumulate(InputAction.CallbackContext obj)
-    {
-        if (ropeCatching)
+        stunTime = t;
+        stunned = true;
+        ani.SetBool("walking", false);
+        while (stunTime > 0)
         {
-            ropeCtr.ChargePullJew();
-            return;
-        }
-
-        if (accumulatingCoro != null)
-            return;
-        accumulatingCoro = StartCoroutine(accumulatingIE());
-    }
-
-    private IEnumerator accumulatingIE()
-    {
-        accumulating = true;
-
-        shootDis = 1;
-        indicatorCtr.ShowRopeRangeIndacator(maxShootDis);
-        do
-        {
-            Debug.Log("accumulating");
-            shootDis += accelerateForce * Time.deltaTime;
-            indicatorCtr.UpdateRopeRangeIndacator(shootDis / maxShootDis, currentWatchDir);
+            stunTime -= Time.deltaTime;
             yield return null;
         }
-        while (shootDis < maxShootDis);
-        shootDis = maxShootDis;
-        while(true)
-        {
-            indicatorCtr.UpdateRopeRangeIndacator(shootDis / maxShootDis, currentWatchDir);
-            yield return null;
-        }
+        stunned = false;
+        stunCoro = null;
+    }
 
+    internal void Stun(float v)
+    {
+        if (stunCoro != null)
+        {
+            if (stunTime < v)
+                stunTime = v;
+            return;
+        }
+        stunCoro = StartCoroutine(StunIE(v));
     }
 }

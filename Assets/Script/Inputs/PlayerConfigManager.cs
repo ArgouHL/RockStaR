@@ -41,14 +41,14 @@ public class PlayerConfigManager : MonoBehaviour
     {
         foreach (var config in playerConfigs)
         {
-            var input = config.Input;
+          
             switch (inputType)
             {
                 case InputType.player:
-                    input.defaultActionMap = "Player";
+                    config.ChangeInputMap(InputType.player);
                     break;
                 case InputType.selectChara:
-                    input.defaultActionMap = "SelectChara";
+                    config.ChangeInputMap(InputType.selectChara);
                     break;
             }
         }
@@ -80,10 +80,13 @@ public class PlayerConfigManager : MonoBehaviour
 
     public void PlayerJoin(PlayerInput playerInput)
     {
+
         Debug.Log("Player" + playerInput.playerIndex + " Joined");
         if (!playerConfigs.Any(p => p.PlayerIndex == playerInput.playerIndex))
         {
-            playerConfigs.Add(new PlayerConfig(playerInput));
+            var config = new PlayerConfig(playerInput);
+            playerConfigs.Add(config);
+            playerInput.GetComponent<CharaterConfigCtr>().SetConfig(config);
             playerInput.transform.SetParent(transform);
 
             playerJoin.Invoke(playerConfigs.Count - 1);

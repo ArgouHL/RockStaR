@@ -15,7 +15,7 @@ MonoBehaviour:
   m_Active: 1
   m_Settings:
     technique: 2
-    maxDrawDistance: 940.91
+    maxDrawDistance: 90
     dBufferSettings:
       surfaceData: 1
     screenSpaceSettings:
@@ -71,7 +71,7 @@ MonoBehaviour:
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
-  m_DepthPrimingMode: 0
+  m_DepthPrimingMode: 2
   m_AccurateGbufferNormals: 0
   m_ClusteredRendering: 0
   m_TileSize: 32

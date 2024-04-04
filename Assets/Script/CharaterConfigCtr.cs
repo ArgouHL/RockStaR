@@ -6,19 +6,18 @@ using UnityEngine.InputSystem;
 
 public class CharaterConfigCtr : MonoBehaviour
 {
+    private PlayerConfig playerConfig;
     private PlayerInput input;
     private InputActionAsset inputAsset;
 
     private InputActionMap selectInput;
 
-    private void Awake()
-    {
+    //private void Awake()
+    //{
       
-        input = GetComponent<PlayerInput>();
-        inputAsset = input.actions;
-        selectInput = inputAsset.FindActionMap("SelectChara");
-        PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex).IsReady = false;
-    }
+
+       
+    //}
 
     private void OnEnable()
     {
@@ -70,4 +69,12 @@ public class CharaterConfigCtr : MonoBehaviour
 
     }
 
+    internal void SetConfig(PlayerConfig config)
+    {
+        playerConfig = config;
+        input = config.Input;
+        selectInput = config.selectInput;
+        config.ChangeInputMap(InputType.selectChara);
+        PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex).IsReady = false;
+    }
 }
