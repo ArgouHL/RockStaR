@@ -16,8 +16,8 @@ public class PlayerConfigManager : MonoBehaviour
     public static PlayerConfigManager instance { get; private set; }
 
 
-    public delegate void PlayerJoinEvent(int playerIndex);
-    public PlayerJoinEvent playerJoin;
+    //public delegate void PlayerJoinEvent(int playerIndex);
+    //public PlayerJoinEvent playerJoin;
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
-    private void AllReady()
+    public void AllReady()
     {
         SceneManager.LoadScene(1);
     }
@@ -89,13 +89,14 @@ public class PlayerConfigManager : MonoBehaviour
             playerInput.GetComponent<CharaterConfigCtr>().SetConfig(config);
             playerInput.transform.SetParent(transform);
 
-            playerJoin.Invoke(playerConfigs.Count - 1);
+          // playerJoin.Invoke(playerConfigs.Count - 1);
         }
 
     }
 
     public PlayerConfig GetPlayerConfig(int index)
     {
+        Debug.Log(index);
         return playerConfigs[index];
     }
 

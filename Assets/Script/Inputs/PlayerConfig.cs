@@ -34,12 +34,14 @@ public class PlayerConfig
 
     internal void ChangeInputMap(InputType inputType)
     {
+        Debug.Log(inputType);
         selectInput.Disable();
         gameInput.Disable();
         switch (inputType)
         {
             case InputType.selectChara:
                 selectInput.Enable();
+                gameInput.Enable();
                 break;
             case InputType.player:
                 gameInput.Enable();

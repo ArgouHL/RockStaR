@@ -15,10 +15,10 @@ public class AreaEffectSystem : MonoBehaviour
         instance = this;
     }
 
-    internal void SetMine(Vector3 position)
+    internal void SetMine(Vector3 position, int playerID)
     {
         GameObject _mine = Instantiate(mine, position, Quaternion.identity, this.transform);
-        _mine.GetComponent<MineEffect>().EffectStart();
+        _mine.GetComponent<MineEffect>().EffectStart(playerID);
     }
 
     internal void ShootToxic(Vector3 forward,Vector3 playerOrignal)
@@ -26,9 +26,10 @@ public class AreaEffectSystem : MonoBehaviour
         GameObject _toxic = Instantiate(toxic, playerOrignal+ forward*5, Quaternion.identity, this.transform);
         _toxic.GetComponent<SlowToxic>().EffectStart();
     }
-    internal void DropRock(Vector3 forward, Vector3 playerOrignal)
+    internal void DropRock()
     {
-        GameObject _rockFall = Instantiate(rockFall, playerOrignal + forward * 5, Quaternion.identity, this.transform);
+        Vector3 spawnPos = new Vector3(UnityEngine.Random.Range(-6f, 6f), 0, UnityEngine.Random.Range(-6f, 6f));
+        GameObject _rockFall = Instantiate(rockFall, spawnPos, Quaternion.identity, this.transform);
         _rockFall.GetComponent<RockDrop>().EffectStart();
     }
 }

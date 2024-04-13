@@ -10,13 +10,13 @@ public class CharaterConfigCtr : MonoBehaviour
     private PlayerInput input;
     private InputActionAsset inputAsset;
 
-    private InputActionMap selectInput;
+   [SerializeField] private InputActionMap selectInput;
 
     //private void Awake()
     //{
-      
 
-       
+
+
     //}
 
     private void OnEnable()
@@ -36,34 +36,36 @@ public class CharaterConfigCtr : MonoBehaviour
 
     private void Next(InputAction.CallbackContext obj)
     {
+        Debug.Log("Change1");
         ChangeChara(1);
     }
     private void SelectPrevious(InputAction.CallbackContext obj)
     {
+        Debug.Log("Change-");
         ChangeChara(-1);
     }
     private void ChangeChara(int value)
     {
-
+        Debug.Log("Change");
         var config = PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex);
         if (PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex).IsReady)
             return;
         int newIndex = config.CharaterIndex + value;
         if (newIndex < 0)
         {
-            newIndex = CharaterSelect.instance.charaters.Length - 1;
+            newIndex = CharaterSelect.instance.charaterSettings.Length - 1;
         }
-        else if (newIndex > CharaterSelect.instance.charaters.Length - 1)
+        else if (newIndex > CharaterSelect.instance.charaterSettings.Length - 1)
         {
             newIndex = 0;
-            }
+        }
         config.CharaterIndex = newIndex;
         CharaterSelect.instance.ChangeShowChara(input.playerIndex, newIndex);
     }
 
     private void Confirm(InputAction.CallbackContext obj)
-    { 
-       
+    {
+
         CharaterSelect.instance.ShowConfirm(input.playerIndex);
         PlayerConfigManager.instance.ReadyPlayer(input.playerIndex);
 

@@ -437,8 +437,8 @@ MonoBehaviour:
   powerStartPos: {fileID: 420382802260030919}
   shotOutPower: {fileID: 4047762985296302770}
   pushPower: 10
-  speed: 10
-  maxDis: 5
+  speed: 30
+  maxDis: 8
 --- !u!54 &3471142289893191407
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -503,6 +503,7 @@ GameObject:
   - component: {fileID: 8043876809993594670}
   - component: {fileID: 3940659957561374062}
   - component: {fileID: 8836287409614169942}
+  - component: {fileID: 580292748531596477}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -544,9 +545,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07167634740009468c7b9fe79f5eaa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   canJunp: 0
   playerModel: {fileID: 7835141516555820656}
-  noramlMMaxSpeed: 10
+  noramlMMaxSpeed: 5
   accelerateForce: 10
   decelerateForce: 10
   jumpDecelerateForce: 2
@@ -559,7 +561,7 @@ MonoBehaviour:
   rotationPerSecond: 600
   dummy: 0
   shootCoolDownTime: 0.5
-  shootReocveryTime: 0.5
+  shootReocveryTime: 0.2
 --- !u!54 &578256678308574816
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -643,6 +645,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+--- !u!114 &580292748531596477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7482543174625419740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8af922cc28a224d9b56927249ecb42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7165654360901170558}
+  sk: {fileID: 7444350154668391700}
 --- !u!1 &7587176553581800306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,5 +1246,15 @@ PrefabInstance:
 --- !u!4 &3860051595589054212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e5f7506e389afd8489cd91c7576d58f7, type: 3}
+  m_PrefabInstance: {fileID: 3610498239297390831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7165654360901170558 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: e5f7506e389afd8489cd91c7576d58f7, type: 3}
+  m_PrefabInstance: {fileID: 3610498239297390831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &7444350154668391700 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6148737315974723067, guid: e5f7506e389afd8489cd91c7576d58f7, type: 3}
   m_PrefabInstance: {fileID: 3610498239297390831}
   m_PrefabAsset: {fileID: 0}

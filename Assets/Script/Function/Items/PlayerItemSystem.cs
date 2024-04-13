@@ -29,10 +29,13 @@ public class PlayerItemSystem : MonoBehaviour
     {
         if (other.transform.CompareTag("Item"))
         {
+            Debug.Log(other.name);
             if (holdingItem != null)
                 return;
+            Debug.Log(other.name+"2");
             if (other.TryGetComponent<ItemObj>(out ItemObj i))
             {
+                Debug.Log(other.name + "3");
                 holdingItem = i;
                 itemInd.material = i.GrapedUp();
                 itemInd.gameObject.SetActive(true);
@@ -45,8 +48,10 @@ public class PlayerItemSystem : MonoBehaviour
     {
         if (player.isStunned)
             return;
+
         if (holdingItem == null)
             return;
+        
         ItemType _type = holdingItem.GetItemType();
         switch (_type)
         {
@@ -58,27 +63,27 @@ public class PlayerItemSystem : MonoBehaviour
                 break;
             case ItemType.Inf:
                 AddInf();
-                break;
+                break;  
             case ItemType.Mines:
-                PlaceMine();
+                PlaceMine(player.playerID);
                 break;
 
         }
-        holdingItem = null;
+        
         itemInd.gameObject.SetActive(false);
-
+        holdingItem = null;
     }
 
     private void DropRock()
     {
         Debug.Log("Drop");
-        AreaEffectSystem.instance.DropRock(playerModel.forward, playerModel.position);
+        AreaEffectSystem.instance.DropRock();
     }
 
-    private void PlaceMine()
+    private void PlaceMine(int playerID)
     {
         Debug.Log("PlaceMine");
-        AreaEffectSystem.instance.SetMine(transform.position);
+        AreaEffectSystem.instance.SetMine(transform.position, playerID);
     }
 
     private void ShootToxic()

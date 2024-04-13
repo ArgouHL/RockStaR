@@ -13,6 +13,8 @@ public class InputConnect : MonoBehaviour
     private PlayerInputManager testPlayerInput;
     [SerializeField] private GameObject testPlayer;
     private List<PlayerConfig> playerConfigs=new List<PlayerConfig>();
+    private PlayerSkinManagment[] playerSkinManagments;
+
     private void Awake()
     {
         if (test)
@@ -31,10 +33,34 @@ public class InputConnect : MonoBehaviour
             var config = PlayerConfigManager.instance.GetPlayerConfig(i);
             playerCtrs[i].SetInput(config);
         }
+        ApplySkin();
+
+
+
+
+
+
+
         PlayerConfigManager.instance.ChangeActionMap(InputType.player);
+
+
+
+
     }
 
+    private void ApplySkin()
+    {
+        playerSkinManagments = new PlayerSkinManagment[playerCtrs.Length];
+        for (int i = 0; i < 4; i++)
+        {
+            playerSkinManagments[i] = playerCtrs[i].GetComponent<PlayerSkinManagment>();
 
+            playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
+        }
+
+
+
+    }
 
     private void OnEnable()
     {

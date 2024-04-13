@@ -47,7 +47,7 @@ public class ItemPooling : MonoBehaviour
 
     internal ItemObj SpawnItem(ItemType itemType)
     {
-        Vector3 spawnPos = new Vector3(Random.Range(-5f, 5f), 5, Random.Range(-5f, 5f));
+        Vector3 spawnPos = new Vector3(Random.Range(-6f, 6f), 5, Random.Range(-6f, 6f));
         ItemObj itemObj = itemPool.Dequeue();
         itemObj.itemType = itemType;
         //Type

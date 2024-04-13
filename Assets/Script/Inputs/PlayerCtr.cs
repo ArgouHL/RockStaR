@@ -12,9 +12,9 @@ using UnityEngine.UIElements;
 public class PlayerCtr : MonoBehaviour
 {
     private PlayerConfig playerConfig;
-
+    private CharaterMovement charaterMovement;
     private Rigidbody rb;
-
+    public int playerID;
 
 
 
@@ -53,6 +53,8 @@ public class PlayerCtr : MonoBehaviour
 
     [SerializeField]
     private float hitBackMaxForce = 5f;
+
+  
     [SerializeField]
     private float maxHitBackCap = 0.1f;
 
@@ -94,7 +96,9 @@ public class PlayerCtr : MonoBehaviour
     {
 
         if (dummy)
+
             return;
+        
         Debug.Log("setInput");
         playerConfig = config;
 
@@ -102,7 +106,7 @@ public class PlayerCtr : MonoBehaviour
         gameObject.SetActive(true);
 
         EnablePlayer();
-
+        playerID = playerConfig.PlayerIndex;
     }
 
     private void Awake()
@@ -111,9 +115,11 @@ public class PlayerCtr : MonoBehaviour
         _collider = GetComponentInChildren<SphereCollider>();
         powerGun = GetComponentInChildren<PowerGun>();
         ani = GetComponentInChildren<Animator>();
-
+        charaterMovement = GetComponent<CharaterMovement>();
         if (playerConfig == null && !dummy)
             gameObject.SetActive(false);
+        if (dummy)
+            playerID = 999;
     }
 
     private void OnEnable()
@@ -541,27 +547,27 @@ public class PlayerCtr : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("PlayerBoundary"))
-        {
-            Rigidbody hittedRb = collision.transform.parent.GetComponent<Rigidbody>();
+        //if (collision.transform.CompareTag("PlayerBoundary"))
+        //{
+        //    Rigidbody hittedRb = collision.transform.parent.GetComponent<Rigidbody>();
 
-            Vector3 dir = transform.position - hittedRb.transform.position;
-            Vector2 dir2D = new Vector2(dir.x, dir.z).normalized;
-            Vector2 rotatedDir2D = new Vector2(dir.z, dir.x).normalized;
-            Vector3 netVelocity = rb.velocity - hittedRb.velocity;
-            Vector2 netVelocity2D = new Vector2(netVelocity.x, netVelocity.z);
+        //    Vector3 dir = transform.position - hittedRb.transform.position;
+        //    Vector2 dir2D = new Vector2(dir.x, dir.z).normalized;
+        //    Vector2 rotatedDir2D = new Vector2(dir.z, dir.x).normalized;
+        //    Vector3 netVelocity = rb.velocity - hittedRb.velocity;
+        //    Vector2 netVelocity2D = new Vector2(netVelocity.x, netVelocity.z);
 
-            float hitVelocity = Math.Abs(Vector2.Dot(netVelocity2D, dir2D));
-            float velocityFactor = hitVelocity > maxHitBackCap ? 1 : 0;
+        //    float hitVelocity = Math.Abs(Vector2.Dot(netVelocity2D, dir2D));
+        //    float velocityFactor = hitVelocity > maxHitBackCap ? 1 : 0;
 
 
-            Vector2 relativeMoveVelocity = Vector2.Dot(currentVelocity, rotatedDir2D) * rotatedDir2D;
-            rb.velocity = new Vector3(relativeMoveVelocity.x, rb.velocity.y, relativeMoveVelocity.y);
-            //  rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            // float velocityFactor = Mathf.Lerp(0,1, Vector2.Dot(rb.velocity, dir2D))
-            rb.AddForce(dir * hitBackMaxForce * velocityFactor, ForceMode.Impulse);
-            Debug.Log("jf");
-        }
+        //    Vector2 relativeMoveVelocity = Vector2.Dot(currentVelocity, rotatedDir2D) * rotatedDir2D;
+        //    rb.velocity = new Vector3(relativeMoveVelocity.x, rb.velocity.y, relativeMoveVelocity.y);
+        //    //  rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        //    // float velocityFactor = Mathf.Lerp(0,1, Vector2.Dot(rb.velocity, dir2D))
+        //    rb.AddForce(dir * hitBackMaxForce * velocityFactor, ForceMode.Impulse);
+        //    Debug.Log("jf");
+        //}
     }
 
 
@@ -656,4 +662,11 @@ public class PlayerCtr : MonoBehaviour
         }
         stunCoro = StartCoroutine(StunIE(v));
     }
+
+
+    internal void StopMove()
+    {
+        rb.velocity = Vector3.zero;
+    }
+
 }

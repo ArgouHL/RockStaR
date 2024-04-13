@@ -70,6 +70,7 @@ public class RockDrop : AreaEffect
                 {
                     Debug.Log("Hit");
                     po.Stun(3f);
+                    po.StopMove();
                 }
             }
         }

@@ -11,7 +11,7 @@ public class PowerGun : MonoBehaviour
     [SerializeField] private Transform powerStartPos;
     [SerializeField] private Transform shotOutPower;
     private Coroutine powerFlayingCoro;
-    private Vector3 _powerDir;
+   // private Vector3 _powerDir;
     [SerializeField] private float pushPower =5;
 
     [SerializeField] private float speed = 2;
@@ -38,7 +38,7 @@ public class PowerGun : MonoBehaviour
     {
         shootDir.y = 0;
         shootDir = shootDir.normalized;
-        _powerDir = shootDir;
+        //_powerDir = shootDir;
         shotOutPower.gameObject.SetActive(true);
         if (powerFlayingCoro != null)
             return;
@@ -104,7 +104,9 @@ public class PowerGun : MonoBehaviour
 
     private void PushObj(PushableObj pullableObj)
     {
-
+        Vector3 _powerDir = pullableObj.transform.position - shotOutPower.position;
+        _powerDir.y = 0;
+        _powerDir=_powerDir.normalized;
         pullableObj.Pushed(_powerDir* pushPower);
 
     }

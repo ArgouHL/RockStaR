@@ -9,6 +9,9 @@ public class JewelryCtr : MonoBehaviour
     [SerializeField] private float bePushedSpeed = 3;
     [SerializeField] private float decelerateForce = 1;
     private Coroutine moveCoro;
+
+    
+
     private Coroutine SelfMoveRepeadCoro;
     private Vector3 moveDir;
     private int energy = 0;
@@ -18,6 +21,7 @@ public class JewelryCtr : MonoBehaviour
     private float coolDown = 0;
     [Space]
     [Header("State1")]
+    [SerializeField] private int state1Charge = 5;
     [SerializeField] private float state1CoolDowns=2;
     [SerializeField] private float state1MoveDis = 6;
     [SerializeField] private float state1MoveSpeed = 60;
@@ -30,6 +34,13 @@ public class JewelryCtr : MonoBehaviour
         Inst();
     }
 
+    internal void Reset(Vector3 resetPos)
+    {
+        transform.position = resetPos;
+        Inst();
+    }
+
+
     private void Inst()
     {
         energy = 0;
@@ -38,11 +49,11 @@ public class JewelryCtr : MonoBehaviour
 
     internal void BePush(Vector3 normalizedVector)
     {
-        energy++;
+       // energy++;
         switch (state)
         {
             case 0:
-                if (energy > 2)
+                if (energy > state1Charge)
                 {
                     coolDown = state1CoolDowns;
                     if (SelfMoveRepeadCoro == null)
@@ -61,10 +72,37 @@ public class JewelryCtr : MonoBehaviour
     {
         isMoving = true;
         float currentSpeed = bePushedSpeed;
-        while (currentSpeed > bePushedSpeed * 0.5f)
+        float circumference = 2 * Mathf.PI * 1f;
+        while (currentSpeed > bePushedSpeed * 0.01f)
         {
-            rig.MovePosition(transform.position + moveDir * currentSpeed * Time.fixedDeltaTime);
+           float moveDistance =  currentSpeed * Time.fixedDeltaTime;
+            rig.MovePosition(transform.position + moveDir*moveDistance);
+            Vector3 rotationAxis = Vector3.Cross(Vector3.up, moveDir).normalized;
+            //    Debug.DrawLine(transform.position, transform.position + rotationAxis * 10);
+            float angle = Mathf.Rad2Deg * (moveDistance / circumference);
+
+           // float angle = Mathf.Rad2Deg * Mathf.Atan2(1, currentSpeed * Time.fixedDeltaTime);
+            
+           // float _angle = Mathf.Rad2Deg * (moveDistance / circumference);
+            float deceleratedAngle= angle * Mathf.Clamp01(currentSpeed / bePushedSpeed);          
+
+
+            Quaternion rotation = Quaternion.AngleAxis(deceleratedAngle, rotationAxis);
+            Matrix4x4 originalMatrix = Matrix4x4.Rotate(transform.rotation);
+            Matrix4x4 deceleratedMatrix = Matrix4x4.Rotate(rotation);
+          
+            Matrix4x4 newMatrix = deceleratedMatrix * originalMatrix;
+
+        
+            Quaternion newRotation = Quaternion.LookRotation(newMatrix.GetColumn(2), newMatrix.GetColumn(1));
+
+
+
+           
+            rig.MoveRotation(newRotation);
+
             currentSpeed -= decelerateForce * Time.fixedDeltaTime;
+           
             yield return new WaitForFixedUpdate();
 
         }
@@ -111,7 +149,9 @@ public class JewelryCtr : MonoBehaviour
      
         while (dis < state1MoveDis)
         {
-            rig.MovePosition(transform.position + moveDir * state1MoveSpeed * Time.fixedDeltaTime);
+            rig.MovePosition(transform.position + moveDir    * state1MoveSpeed * Time.fixedDeltaTime);
+           
+            // rig.MovePosition
             dis += state1MoveSpeed * Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
@@ -120,7 +160,14 @@ public class JewelryCtr : MonoBehaviour
 
 
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("End"))
+        {
+            StopCoroutine(moveCoro);
+            JewelrySystem.instance.SpawnJewelry();
+        }
+    }
 
 
 
