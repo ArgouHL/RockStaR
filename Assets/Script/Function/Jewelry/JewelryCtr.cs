@@ -76,7 +76,7 @@ public class JewelryCtr : MonoBehaviour
         while (currentSpeed > bePushedSpeed * 0.01f)
         {
            float moveDistance =  currentSpeed * Time.fixedDeltaTime;
-            rig.MovePosition(transform.position + moveDir*moveDistance);
+            rig.Velocity=moveDir*moveDistance;
             Vector3 rotationAxis = Vector3.Cross(Vector3.up, moveDir).normalized;
             //    Debug.DrawLine(transform.position, transform.position + rotationAxis * 10);
             float angle = Mathf.Rad2Deg * (moveDistance / circumference);
