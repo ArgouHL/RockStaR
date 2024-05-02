@@ -17,6 +17,7 @@ public class PlayerConfig
     internal InputActionMap selectInput;
     internal InputActionMap gameInput;
 
+    internal Team PlayerTeam;
 
     public PlayerConfig(PlayerInput playerInput)
     {
@@ -47,5 +48,11 @@ public class PlayerConfig
                 gameInput.Enable();
                 break;
         }
+    }
+
+    public void SetPlayerTeam(Team team)
+    {
+        PlayerTeam = team;
+
     }
 }

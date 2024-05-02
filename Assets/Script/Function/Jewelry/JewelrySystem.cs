@@ -6,17 +6,32 @@ public class JewelrySystem : MonoBehaviour
 {
     private JewelryCtr jewelryCtr;
     public static JewelrySystem instance;
-
+    [SerializeField] private Transform spwanPos;
+    [SerializeField] internal bool modeA;
+    [SerializeField] internal bool modeB;
+    internal bool instFinish=false;
 
     private void Awake()
     {
         instance = this;
         jewelryCtr = GetComponentInChildren<JewelryCtr>();
-        
+        instFinish = true;
+
     }
 
-    internal void SpawnJewelry()
+    //private void Start()
+    //{
+    //    ReSpawnJewelry();
+    //}
+    internal void ReSpawnJewelry()
     {
-        jewelryCtr.Reset(Vector3.zero);
+        HolesSys.instance.Shield();
+        if (!modeB)
+            return;
+        jewelryCtr.Stop();
+        jewelryCtr.Reset(spwanPos.position);
+
     }
+
+
 }

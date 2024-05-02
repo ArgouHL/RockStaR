@@ -7,28 +7,29 @@ using UnityEngine;
 public class PowerGun : MonoBehaviour
 {
     private PlayerCtr playerCtr;
-    private Transform ownPlayer=> playerCtr.transform;
+    private Transform ownPlayer => playerCtr.transform;
     [SerializeField] private Transform powerStartPos;
     [SerializeField] private Transform shotOutPower;
     private Coroutine powerFlayingCoro;
-   // private Vector3 _powerDir;
-    [SerializeField] private float pushPower =5;
+    // private Vector3 _powerDir;
+    [SerializeField] private float pushPower = 5;
 
     [SerializeField] private float speed = 2;
 
 
-  //  private JewelryCtr jewelryCtr;
+    //  private JewelryCtr jewelryCtr;
 
     [SerializeField] private float maxDis = 5;
-  //  private float pullForce;
+    //  private float pullForce;
 
-
+    [SerializeField] private Material powerMat;
 
     private void Awake()
     {
         playerCtr = GetComponentInParent<PlayerCtr>();
-
-    
+        shotOutPower.GetComponentInChildren<MeshRenderer>().material = new Material(powerMat);
+        Debug.Log("PowerAwake");
+        SetPowerColor(playerCtr.choosedTeam);
     }
 
 
@@ -49,7 +50,7 @@ public class PowerGun : MonoBehaviour
 
     private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis)
     {
-       
+
         Debug.Log("RopeF");
         //line.positionCount = 2;
         //line.SetPositions(new Vector3[] { shotOutPower.position, powerStartPos.position });
@@ -73,7 +74,7 @@ public class PowerGun : MonoBehaviour
             powerFlayingCoro = null;
         }
         shotOutPower.position = powerStartPos.position;
-        Debug.Log("RopeStop");      
+        Debug.Log("RopeStop");
         shotOutPower.gameObject.SetActive(false);
 
     }
@@ -82,34 +83,48 @@ public class PowerGun : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log(other.gameObject.name); 
-        
+        Debug.Log(other.gameObject.name);
+
 
         if (other.TryGetComponent(out PushableObj pullableObj))
         {
-            
+
             if (pullableObj.transform == ownPlayer)
             {
                 Debug.Log("s");
                 return;
             }
-              
+
             PushObj(pullableObj);
             PowerDisapper();
         }
+        if (other.TryGetComponent(out JewelryCtr jewelryCtr))
+        {
+            jewelryCtr.SetTeam(playerCtr.choosedTeam);
 
-
-
+        }
     }
-
     private void PushObj(PushableObj pullableObj)
     {
         Vector3 _powerDir = pullableObj.transform.position - shotOutPower.position;
         _powerDir.y = 0;
-        _powerDir=_powerDir.normalized;
-        pullableObj.Pushed(_powerDir* pushPower);
+        _powerDir = _powerDir.normalized;
+        pullableObj.Pushed(_powerDir * pushPower);
 
     }
 
-   
+    internal void SetPowerColor(Team team)
+    {
+        switch (team)
+        {
+            case Team.Blue:
+                shotOutPower.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+                break;
+            case Team.Red:
+                shotOutPower.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
+                break;
+
+        }
+    }
+
 }

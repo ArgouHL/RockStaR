@@ -54,7 +54,7 @@ public class PlayerCtr : MonoBehaviour
     [SerializeField]
     private float hitBackMaxForce = 5f;
 
-  
+
     [SerializeField]
     private float maxHitBackCap = 0.1f;
 
@@ -92,13 +92,15 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine stunCoro;
     private float stunTime = 0;
 
+    internal Team choosedTeam=Team.None;
+
     internal void SetInput(PlayerConfig config)
     {
 
         if (dummy)
 
             return;
-        
+
         Debug.Log("setInput");
         playerConfig = config;
 
@@ -107,6 +109,27 @@ public class PlayerCtr : MonoBehaviour
 
         EnablePlayer();
         playerID = playerConfig.PlayerIndex;
+        choosedTeam = playerConfig.PlayerTeam;
+        Debug.Log("SetInput");
+
+    }
+
+    private void SetTeam()
+    {
+        var MeshRs = GetComponentsInChildren<MeshRenderer>();
+        foreach (var meshr in MeshRs)
+        {
+            switch (choosedTeam)
+            {
+                case Team.Blue:
+                    meshr.sharedMaterial.color = Color.blue;
+                    break;
+                case Team.Red:
+                    meshr.sharedMaterial.color = Color.red;
+                    break;
+
+            }
+        }
     }
 
     private void Awake()
@@ -114,6 +137,7 @@ public class PlayerCtr : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _collider = GetComponentInChildren<SphereCollider>();
         powerGun = GetComponentInChildren<PowerGun>();
+        
         ani = GetComponentInChildren<Animator>();
         charaterMovement = GetComponent<CharaterMovement>();
         if (playerConfig == null && !dummy)
@@ -223,20 +247,20 @@ public class PlayerCtr : MonoBehaviour
             return;
         if (stunned)
             return;
-        
+
 
         if (movePress)
         {
             currentAngle = Rotate();
             rotateDir = currentMovement.normalized;
         }
-         
+
         Movement();
-        
+
     }
     private void CharatarRotate()
     {
-      //  var watchDir = Vector3.RotateTowards(currentWatchDir, rotateDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
+        //  var watchDir = Vector3.RotateTowards(currentWatchDir, rotateDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
 
         playerModel.LookAt(transform.position + new Vector3(rotateDir.x, 0, rotateDir.y));
     }
@@ -259,12 +283,12 @@ public class PlayerCtr : MonoBehaviour
     {
         if (dummy)
             return 0;
-        if(shootReocvery)
+        if (shootReocvery)
             return 0;
         if (movePress)
             moveDir = currentMovement.normalized;
 
-       if(movePressForRotate)
+        if (movePressForRotate)
             rotateDir = currentMovement.normalized;
 
         moveDirection = moveDir;
@@ -580,7 +604,9 @@ public class PlayerCtr : MonoBehaviour
 
     private bool stunned = false;
     internal bool isStunned { get { return stunned; } }
-    private float pushedStuntime = 0.3f;
+    [SerializeField]
+    [Range(0, 1)]
+    private float pushedRecoverForce = 0;
     internal float slowFactor = 1;
 
     private void DoShoot(InputAction.CallbackContext obj)
@@ -620,8 +646,10 @@ public class PlayerCtr : MonoBehaviour
 
     internal void BePushed(Vector3 force)
     {
+        rb.velocity = Vector3.zero;
         rb.AddForce(force, ForceMode.Impulse);
-        StartCoroutine(StunIE(pushedStuntime));
+        StartCoroutine(StunIE(force));
+
     }
 
     internal void VelocityChange(Vector3 force)
@@ -635,17 +663,38 @@ public class PlayerCtr : MonoBehaviour
                 stunTime = 0.6f;
             return;
         }
-        stunCoro = StartCoroutine(StunIE(1));
+        stunCoro = StartCoroutine(StunIE(force));
     }
 
-    private IEnumerator StunIE(float t)
+    private IEnumerator StunIE(Vector3 force)
     {
-        stunTime = t;
+
+        Vector3 dir = -force.normalized;
+        float _force = force.magnitude * pushedRecoverForce;
         stunned = true;
         ani.SetBool("walking", false);
-        while (stunTime > 0)
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        Debug.Log("Stop" + rb.velocity);
+        while (rb.velocity.sqrMagnitude > 0.1f)
         {
-            stunTime -= Time.deltaTime;
+            Debug.Log("Stopping");
+
+            yield return new WaitForFixedUpdate();
+        }
+        stunned = false;
+        stunCoro = null;
+    }
+
+    private IEnumerator StunIE(float time)
+    {
+        float _time = time;
+        stunned = true;
+        ani.SetBool("walking", false);
+        while (_time > 0)
+        {
+            _time -= Time.deltaTime;
             yield return null;
         }
         stunned = false;
@@ -667,6 +716,15 @@ public class PlayerCtr : MonoBehaviour
     internal void StopMove()
     {
         rb.velocity = Vector3.zero;
+    }
+
+
+    internal void SetTeamInConfig(Team team)
+    {
+        playerConfig.SetPlayerTeam(team);
+        choosedTeam = playerConfig.PlayerTeam;
+        powerGun.SetPowerColor(team);
+        Debug.Log(team);
     }
 
 }
