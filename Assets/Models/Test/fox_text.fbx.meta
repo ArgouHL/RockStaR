@@ -1,0 +1,212 @@
+fileFormatVersion: 2
+guid: 72da94af0d29ce74e82e081cabee034e
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'RightUpperLeg' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: fox_text(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Light
+      parentName: fox_text(Clone)
+      position: {x: -4.0762453, y: 5.903862, z: -1.005454}
+      rotation: {x: 0.52327543, y: -0.34203392, z: 0.72694236, w: 0.28416622}
+      scale: {x: 100.00001, y: 100, z: 100}
+    - name: Camera
+      parentName: fox_text(Clone)
+      position: {x: -7.3588915, y: 4.958309, z: 6.925791}
+      rotation: {x: 0.09062847, y: 0.89379627, z: -0.20997298, w: 0.3857799}
+      scale: {x: 100, y: 100.00001, z: 99.99999}
+    - name: fox
+      parentName: fox_text(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.000000037748947, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: tail
+      parentName: fox
+      position: {x: -0, y: -0.004539036, z: -0.0056598303}
+      rotation: {x: -0.034281824, y: 0, z: -0, w: 0.99941224}
+      scale: {x: 0.522369, y: 0.8023897, z: 0.572622}
+    - name: ear_R
+      parentName: fox
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 1, y: 0, z: 0, w: 0.0000000754979}
+      scale: {x: -1, y: -1, z: -1}
+    - name: ear_L
+      parentName: fox
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 1, y: 0, z: 0, w: 0.0000000754979}
+      scale: {x: -1, y: -1, z: -1}
+    - name: nose
+      parentName: fox
+      position: {x: -0, y: 0.00001953436, z: 0.000029609799}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 0.87777776, z: 1}
+    - name: eye_L_gp
+      parentName: fox
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyelash
+      parentName: eye_L_gp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeball
+      parentName: eye_L_gp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: body
+      parentName: fox
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: teeth
+      parentName: fox
+      position: {x: -0.00085007463, y: -0.00093697844, z: 0.0036212848}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.04222218, y: 0.04222218, z: 0.04222218}
+    - name: earring2
+      parentName: fox
+      position: {x: -0.004475316, y: 0.004894075, z: 0.00093814987}
+      rotation: {x: 0.004779638, y: -0.0015862316, z: -0.039449643, w: 0.99920887}
+      scale: {x: 0.05485362, y: 0.020705435, z: 0.054853614}
+    - name: earring1
+      parentName: fox
+      position: {x: -0.004423137, y: 0.005431159, z: 0.00093814987}
+      rotation: {x: -0.0089099035, y: -0.0014337858, z: -0.083172634, w: 0.9964943}
+      scale: {x: 0.054853614, y: 0.020705434, z: 0.054853614}
+    - name: headphone1
+      parentName: fox
+      position: {x: -0.001074181, y: -0.0031281577, z: 0.0016339286}
+      rotation: {x: -0.15032807, y: 0.18041578, z: -0.6961112, w: 0.67844}
+      scale: {x: 0.09652671, y: 0.036435656, z: 0.10493931}
+    - name: headphone3
+      parentName: fox
+      position: {x: -0, y: 0.0047543766, z: 0.0006403921}
+      rotation: {x: 0.041995462, y: 0, z: -0, w: 0.9991178}
+      scale: {x: 1.2568322, y: 2.9309766, z: 1.2568324}
+    - name: headphone2
+      parentName: fox
+      position: {x: -0.0005339627, y: 0, z: 0.0005191443}
+      rotation: {x: 0.98443013, y: 0.000000013270742, z: -0.17577636, w: 0.00000007432241}
+      scale: {x: -0.9999998, y: -1, z: -0.9999998}
+    - name: eye_R_gp
+      parentName: fox
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 1, y: 0, z: 0, w: 0.0000000754979}
+      scale: {x: -1, y: -1, z: -1}
+    - name: eyelash.001
+      parentName: eye_R_gp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -7.1054274e-15, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: eyeball.001
+      parentName: eye_R_gp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -7.1054274e-15, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -7,9 +7,9 @@ using UnityEngine;
 public class ScoreSys : MonoBehaviour
 {
     public static ScoreSys instance;
-    [SerializeField] private TMP_Text redScoreTMP;
+    [SerializeField] private TMP_Text yellowScoreTMP;
     [SerializeField] private TMP_Text blueScoreTMP;
-    private float redScore;
+    private float yellowScore;
     private float blueScore;
     private void Awake()
     {
@@ -24,26 +24,26 @@ public class ScoreSys : MonoBehaviour
 
     private void UpdateScore()
     {
-        redScoreTMP.text= redScore.ToString();
+        yellowScoreTMP.text= yellowScore.ToString();
         blueScoreTMP.text = blueScore.ToString();
     }
 
     private void Inst()
     {
-        redScore=0;
+        yellowScore=0;
         blueScore = 0;
     }
 
 
-   internal void AddScore(Team team)
+   internal void AddScore(Team team,int score)
     {
         switch(team)
         {
             case Team.Blue:
-                blueScore++;
+                blueScore+= score ;
                 break;
-            case Team.Red:
-                redScore++;
+            case Team.Yellow:
+                yellowScore += score;
                 break;
         }
         UpdateScore();

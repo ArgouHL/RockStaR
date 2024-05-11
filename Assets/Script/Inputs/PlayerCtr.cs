@@ -114,23 +114,7 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-    private void SetTeam()
-    {
-        var MeshRs = GetComponentsInChildren<MeshRenderer>();
-        foreach (var meshr in MeshRs)
-        {
-            switch (choosedTeam)
-            {
-                case Team.Blue:
-                    meshr.sharedMaterial.color = Color.blue;
-                    break;
-                case Team.Red:
-                    meshr.sharedMaterial.color = Color.red;
-                    break;
-
-            }
-        }
-    }
+  
 
     private void Awake()
     {
@@ -594,6 +578,12 @@ public class PlayerCtr : MonoBehaviour
         //}
     }
 
+ private bool stunned = false;
+    internal bool isStunned { get { return stunned; } }
+    [SerializeField]
+    [Range(0, 1)]
+    private float pushedRecoverForce = 0;
+    internal float slowFactor = 1;
 
 
     #region ShootPower
@@ -602,20 +592,16 @@ public class PlayerCtr : MonoBehaviour
     private bool shootReocvery = false;
     [SerializeField] private float shootReocveryTime = 0.5f;
 
-    private bool stunned = false;
-    internal bool isStunned { get { return stunned; } }
-    [SerializeField]
-    [Range(0, 1)]
-    private float pushedRecoverForce = 0;
-    internal float slowFactor = 1;
-
+    private Coroutine ShootReocveryCoro;
     private void DoShoot(InputAction.CallbackContext obj)
     {
         if (shootCoolDowning)
             return;
         powerGun.Shoot(playerModel.forward);
         StartCoroutine(ShootCoolDownIE(shootCoolDownTime));
-        StartCoroutine(ShootReocveryIE(shootReocveryTime));
+        if (ShootReocveryCoro != null)
+            StopCoroutine(ShootReocveryCoro);
+        ShootReocveryCoro= StartCoroutine(ShootReocveryIE(shootReocveryTime));
     }
 
     private IEnumerator ShootCoolDownIE(float shootCoolDownTime)
@@ -623,6 +609,7 @@ public class PlayerCtr : MonoBehaviour
         shootCoolDowning = true;
         yield return new WaitForSeconds(shootCoolDownTime);
         shootCoolDowning = false;
+        
     }
     private IEnumerator ShootReocveryIE(float shootReocveryTime)
     {
@@ -630,6 +617,7 @@ public class PlayerCtr : MonoBehaviour
         ani.SetBool("walking", false);
         yield return new WaitForSeconds(shootReocveryTime);
         shootReocvery = false;
+        ShootReocveryCoro = null;
     }
 
 
@@ -723,7 +711,7 @@ public class PlayerCtr : MonoBehaviour
     {
         playerConfig.SetPlayerTeam(team);
         choosedTeam = playerConfig.PlayerTeam;
-        powerGun.SetPowerColor(team);
+        powerGun.SetTeam(team);
         Debug.Log(team);
     }
 

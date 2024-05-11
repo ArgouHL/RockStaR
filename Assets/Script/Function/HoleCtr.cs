@@ -27,9 +27,9 @@ public class HoleCtr : MonoBehaviour
     {
         if (other.CompareTag("Jewelry")&& other.TryGetComponent<JewelryCtr>(out JewelryCtr jewelryCtr))
         {
-            if (jewelryCtr.NowTeam() == Team.None)
+            if (JewelrySystem.instance.NowTeam() == Team.None)
                 return;
-            ScoreSys.instance.AddScore(jewelryCtr.NowTeam());
+            ScoreSys.instance.AddScore(JewelrySystem.instance.NowTeam(), 1);
             JewelrySystem.instance.ReSpawnJewelry();
         }
     }

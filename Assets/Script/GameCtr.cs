@@ -14,6 +14,6 @@ public class GameCtr : MonoBehaviour
     private IEnumerator GameIE()
     {
         yield return null;
-        JewelrySystem.instance.ReSpawnJewelry();
+        JewelrySystem.instance.SpawnJewelry();
     }
 }

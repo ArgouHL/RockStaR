@@ -23,10 +23,10 @@ public class JewelryCtr : MonoBehaviour
     private bool isMoving = false;
     private bool isSelfMoving = false;
     private float coolDown = 0;
-    private Team nowTeam=Team.None;
+  
 
 
-    
+
 
     [Space]
     [Header("State1")]
@@ -48,11 +48,11 @@ public class JewelryCtr : MonoBehaviour
 
     internal void Reset(Vector3 resetPos)
     {
-       
+
         visual.SetActive(false);
         transform.position = resetPos + new Vector3(0, GetComponent<SphereCollider>().radius, 0);
         Inst();
-       
+
 
         visual.SetActive(true);
         float angle = Random.Range(60f, 120f) * Mathf.Deg2Rad;
@@ -61,7 +61,7 @@ public class JewelryCtr : MonoBehaviour
     }
 
 
-    private void Inst()
+    internal void Inst()
     {
         energy = 0;
         state = 0;
@@ -72,29 +72,28 @@ public class JewelryCtr : MonoBehaviour
             nowSpeed = bePushedMaxSpeed;
     }
 
-    internal Team NowTeam()
+   
+    
+   
+    internal void SetTeam(Team team)
     {
-        return nowTeam;
-    }
-
-    internal void SetTeam(Team t)
-    {
-        nowTeam = t;
-        switch (t)
+       
+        switch (team)
         {
             case Team.Blue:
-                visual.GetComponent<MeshRenderer>().material.color = Color.blue;
+                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.blueJew;
                 break;
-            case Team.Red:
-                visual.GetComponent<MeshRenderer>().material.color = Color.red;
+            case Team.Yellow:
+                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.yellowJew;
                 break;
             case Team.None:
-                visual.GetComponent<MeshRenderer>().material.color = Color.white;
+                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.grayJew;
                 break;
             default:
                 break;
         }
     }
+
     internal void BePush(Vector3 normalizedVector)
     {
         // energy++;
@@ -116,9 +115,7 @@ public class JewelryCtr : MonoBehaviour
             case 1:
                 break;
         }
-
     }
-
 
     private IEnumerator MoveIE()
     {
@@ -139,19 +136,19 @@ public class JewelryCtr : MonoBehaviour
             float deceleratedAngle = angle * Mathf.Clamp01(currentSpeed / nowSpeed);
 
 
-            Quaternion rotation = Quaternion.AngleAxis(deceleratedAngle, rotationAxis);
-            Matrix4x4 originalMatrix = Matrix4x4.Rotate(transform.rotation);
-            Matrix4x4 deceleratedMatrix = Matrix4x4.Rotate(rotation);
+            //  Quaternion rotation = Quaternion.AngleAxis(deceleratedAngle, rotationAxis);
+            // Matrix4x4 originalMatrix = Matrix4x4.Rotate(transform.rotation);
+            //Matrix4x4 deceleratedMatrix = Matrix4x4.Rotate(rotation);
 
-            Matrix4x4 newMatrix = deceleratedMatrix * originalMatrix;
-
-
-            Quaternion newRotation = Quaternion.LookRotation(newMatrix.GetColumn(2), newMatrix.GetColumn(1));
+            // Matrix4x4 newMatrix = deceleratedMatrix * originalMatrix;
 
 
+            //Quaternion newRotation = Quaternion.LookRotation(newMatrix.GetColumn(2), newMatrix.GetColumn(1));
 
 
-            rig.MoveRotation(newRotation);
+
+            visual.transform.Rotate(rotationAxis, deceleratedAngle,Space.World);
+            //rig.MoveRotation(newRotation);
 
             currentSpeed -= decelerateForce * Time.fixedDeltaTime;
 
@@ -181,7 +178,6 @@ public class JewelryCtr : MonoBehaviour
 
 
     }
-
 
     private IEnumerator SelfMoveRepeadIE()
     {
