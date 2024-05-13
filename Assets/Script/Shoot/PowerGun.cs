@@ -41,12 +41,14 @@ public class PowerGun : MonoBehaviour
             GameObject powerObj = Instantiate(powerPerfab, transform);
             powers.Enqueue(powerObj);
         }
-        SetTeam(playerCtr.choosedTeam);
+       // SetTeam(playerCtr.choosedTeam);
     }
 
 
     internal void Shoot(Vector3 shootDir)
     {
+        if (powers == null || powers.Count <= 0)
+            return;
         ShootOutPower _power = powers.Dequeue().GetComponent<ShootOutPower>();
         shootDir.y = 0;
         shootDir = shootDir.normalized;
@@ -68,14 +70,14 @@ public class PowerGun : MonoBehaviour
 
 
 
-    internal void SetTeam(Team team)
-    {
-        foreach (var power in powers)
-        {
-            power.GetComponent<ShootOutPower>().SetTeam(team);
-        }
+    //internal void SetTeam(Team team)
+    //{
+    //    foreach (var power in powers)
+    //    {
+    //        power.GetComponent<ShootOutPower>().SetTeam(team);
+    //    }
 
-    }
+    //}
 
     internal Transform PowerBackPool(ShootOutPower shootOutPower)
     {

@@ -13,12 +13,12 @@ public class PushableObj :MonoBehaviour
         rig = GetComponent<Rigidbody>();
     }
 
-    public void Pushed(Vector3 force)
+    public void PowerPushed(Vector3 force)
     {
         switch(type)
         {
             case PullableObjType.Player:
-              GetComponent<PlayerCtr>().BePushed(force);
+              GetComponent<PlayerCtr>().BePowerPushed(force);
                 break;
             case PullableObjType.Jewelry:
                 GetComponent<JewelryCtr>().BePush(force.normalized);
@@ -26,6 +26,19 @@ public class PushableObj :MonoBehaviour
                 break;
         }
     }
+
+
+    public void JewPushed(Vector3 force)
+    {
+        switch (type)
+        {
+            case PullableObjType.Player:
+                GetComponent<PlayerCtr>().BeJewPushed(force);
+                break;
+        
+        }
+    }
+
 
     public void HardPushed(Vector3 force)
     {

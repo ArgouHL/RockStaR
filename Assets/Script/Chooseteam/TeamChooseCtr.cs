@@ -31,7 +31,7 @@ public class TeamChooseCtr : MonoBehaviour
                 StopCoroutine(gameStartCountdown);
         }
 
-        else if (blueCount == targetNumber && redCount == targetNumber)
+        else if (blueCount >= targetNumber && redCount >= targetNumber)
         {
             if (gameStartCountdown == null)
                 gameStartCountdown = StartCoroutine(CountDownIE(countDownTime));

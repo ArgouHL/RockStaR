@@ -8,9 +8,26 @@ public class ShootOutPower : MonoBehaviour
     private PowerGun powerGun;
     private Coroutine powerFlayingCoro;
 
+   
+
+
+    private void Awake()
+    {
+        powerGun = GetComponentInParent<PowerGun>();
+        GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
+    }
+
+    internal void ShootOut(Vector3 shootDir, float maxDis, Vector3 startPos, float speed)
+    {
+        transform.position = startPos;
+        gameObject.SetActive(true);
+        SetTeam(powerGun.playerCtr.choosedTeam);
+        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed));
+    }
+
     private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis, float speed)
     {
-        Debug.Log("Shooted");
+       
         transform.parent = null;
 
         float dis = 0;
@@ -31,22 +48,6 @@ public class ShootOutPower : MonoBehaviour
 
 
 
-
-    private void Awake()
-    {
-        powerGun = GetComponentInParent<PowerGun>();
-        GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
-    }
-
-    internal void ShootOut(Vector3 shootDir, float maxDis, Vector3 startPos, float speed)
-    {
-        transform.position = startPos;
-        gameObject.SetActive(true);
-        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed));
-    }
-
-
-
     private void OnTriggerEnter(Collider other)
     {
 
@@ -58,7 +59,7 @@ public class ShootOutPower : MonoBehaviour
 
             if (pullableObj.transform == powerGun.ownPlayer)
             {
-                Debug.Log("s");
+               // Debug.Log("s");
                 return;
             }
 
@@ -82,6 +83,7 @@ public class ShootOutPower : MonoBehaviour
     {
         switch (team)
         {
+            
             case Team.Blue:
                 GetComponentInChildren<MeshRenderer>().material.color = Color.cyan;
                 break;
@@ -93,6 +95,7 @@ public class ShootOutPower : MonoBehaviour
                 break;
 
         }
+        Debug.Log("Set " + team);
     }
 
     private void PushObj(PushableObj pullableObj)
@@ -100,7 +103,7 @@ public class ShootOutPower : MonoBehaviour
         Vector3 _powerDir = pullableObj.transform.position - transform.position;
         _powerDir.y = 0;
         _powerDir = _powerDir.normalized;
-        pullableObj.Pushed(_powerDir * powerGun.pushPower);
+        pullableObj.PowerPushed(_powerDir * powerGun.pushPower);
 
     }
 
@@ -109,7 +112,7 @@ public class ShootOutPower : MonoBehaviour
     {     
         
         transform.position = powerGun.PowerBackPool(this).position;
-        Debug.Log("PowerDisapper");
+       // Debug.Log("PowerDisapper");
         gameObject.SetActive(false);
 
     }

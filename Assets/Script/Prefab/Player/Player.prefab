@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64176754ecad6b9428fc4a05abf876a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pushforce: 30
 --- !u!1 &3289533558755737909
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerStartPos: {fileID: 420382802260030919}
-  pushPower: 20
+  pushPower: 10
   speed: 30
   powerPerfab: {fileID: 4264688790744530637, guid: a1970986212138643b69403fba3c6206, type: 3}
   maxDis: 20
@@ -527,7 +528,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5120094532910248914}
+  - {fileID: 2625203947619437164}
   m_Father: {fileID: 7482543174625419741}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -650,7 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307c93c4a0a59804fbcc5f83ad4d2367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bePushForce: 50
+  bePushForce: 10
 --- !u!114 &8043876809993594670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -850,7 +851,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0.19, z: 0}
---- !u!1001 &866244016815411770
+--- !u!1001 &8026865455607098244
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -907,8 +908,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7abc63deab18d42e1a82fe64d008ab70, type: 3}
---- !u!4 &5120094532910248914 stripped
+--- !u!4 &2625203947619437164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5407625296119587304, guid: 7abc63deab18d42e1a82fe64d008ab70, type: 3}
-  m_PrefabInstance: {fileID: 866244016815411770}
+  m_PrefabInstance: {fileID: 8026865455607098244}
   m_PrefabAsset: {fileID: 0}

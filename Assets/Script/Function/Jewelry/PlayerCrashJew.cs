@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCrashJew : MonoBehaviour
 {
     private PushableObj pushableObj;
+    [SerializeField] private float pushforce=10; 
 
     private void Awake()
     {
@@ -15,8 +16,11 @@ public class PlayerCrashJew : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Jewelry"))
         {
+    
             Vector3 vec=transform.position - collision.transform.position;
-            pushableObj.Pushed(vec.normalized * 10);
+            vec.y=0;
+           // Debug.Log(vec);
+            pushableObj.JewPushed(vec.normalized * pushforce);     
         }
     }
 }

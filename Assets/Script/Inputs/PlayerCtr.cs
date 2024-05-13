@@ -25,6 +25,9 @@ public class PlayerCtr : MonoBehaviour
     private Vector2 currentMovement => playerConfig.gameInput.FindAction("Move").ReadValue<Vector2>();
     private Vector2 currentDir => new Vector2(transform.forward.x, transform.forward.z);
     private Vector2 currentVelocity => new Vector2(rb.velocity.x, rb.velocity.z);
+
+
+
     private Vector2 moveDir;
     private Vector2 rotateDir;
     private Vector2 currentWatchDir => new Vector2(playerModel.forward.x, playerModel.forward.z);
@@ -92,7 +95,7 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine stunCoro;
     private float stunTime = 0;
 
-    internal Team choosedTeam=Team.None;
+    internal Team choosedTeam = Team.None;
 
     internal void SetInput(PlayerConfig config)
     {
@@ -114,14 +117,14 @@ public class PlayerCtr : MonoBehaviour
 
     }
 
-  
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         _collider = GetComponentInChildren<SphereCollider>();
         powerGun = GetComponentInChildren<PowerGun>();
-        
+
         ani = GetComponentInChildren<Animator>();
         charaterMovement = GetComponent<CharaterMovement>();
         if (playerConfig == null && !dummy)
@@ -168,10 +171,10 @@ public class PlayerCtr : MonoBehaviour
 
     private void DoJump(InputAction.CallbackContext obj)
     {
-        Debug.Log("D");
+
         if (!canJunp)
             return;
-        Debug.Log("jump");
+
         if (!CheckGround())
             return;
 
@@ -218,57 +221,52 @@ public class PlayerCtr : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        CharatarRotate();
+
     }
 
+    private void Update()
+    {
+        CharatarRotate();
+    }
 
     private void Move()
     {
         isGround = CheckGround();
 
-        float currentAngle = 0;
-        if (dummy)
-            return;
-        if (stunned)
+        //float currentAngle = 0;
+        if (dummy || stunned)
             return;
 
 
         if (movePress)
         {
-            currentAngle = Rotate();
+            //currentAngle = Rotate();
+            Rotate();
+
             rotateDir = currentMovement.normalized;
         }
-
-        Movement();
+        if (jewHitback)
+            Movement(false);
+        else
+            Movement(true);
 
     }
     private void CharatarRotate()
     {
-        //  var watchDir = Vector3.RotateTowards(currentWatchDir, rotateDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
+
+        if (stunned)
+            return;
 
         playerModel.LookAt(transform.position + new Vector3(rotateDir.x, 0, rotateDir.y));
     }
-    private float RotateWithLimit()
-    {
-        if (dummy)
-            return 0;
 
-        if (movePress)
-            moveDir = currentMovement.normalized;
-        betweenAngle = MathHalper.AngleBetween(moveDir, currentDir);
-
-        moveDirection = Vector3.RotateTowards(moveDirection, moveDir, rotationPerSecond * Mathf.Deg2Rad * Time.fixedDeltaTime, 1);
-        transform.LookAt(transform.position + new Vector3(moveDirection.x, 0, moveDirection.y));
-
-        return betweenAngle;
-
-    }
     private float Rotate()
     {
+        if (stunned)
+            return 0;
         if (dummy)
             return 0;
-        if (shootReocvery)
-            return 0;
+
         if (movePress)
             moveDir = currentMovement.normalized;
 
@@ -434,7 +432,7 @@ public class PlayerCtr : MonoBehaviour
         // rb.useGravity = !isOnSlope;
     }
 
-    private void Movement()
+    private void Movement(bool canMove)
     {
 
         #region SlowDown
@@ -442,11 +440,9 @@ public class PlayerCtr : MonoBehaviour
         Vector3 addedforceDir = Vector3.zero;
         Vector3 orgVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         #endregion
-        //  isOnSlope = IsOnSlope(out float slopeAngle);
-        //     rb.AddForce(-previusDir * decelerateForce * speedFactor);
-        //       previusDir = Vector3.zero;
+
         if (isGround)
-            if (movePress && !dummy && !shootReocvery)
+            if (movePress && canMove)
             {
                 addedforceMagnitude = accelerateForce;
                 addedforceDir = new Vector3(moveDirection.x, 0, moveDirection.y);
@@ -467,7 +463,7 @@ public class PlayerCtr : MonoBehaviour
                 rb.AddForce(force, ForceMode.VelocityChange);
 
 
-                ani.SetBool("walking", true);
+                ani.SetBool("running", true);
             }
             else
             {
@@ -487,15 +483,8 @@ public class PlayerCtr : MonoBehaviour
                 #endregion Backwarding
 
                 forceMagnitude = decelerateForce;
-                ani.SetBool("walking", false);
+                ani.SetBool("running", false);
                 Vector3 force;
-
-                //if (isOnSlope)
-                //{
-                //    force = rb.velocity;
-                //}
-                //else
-                //    force = orgVelocity;
 
                 force = orgVelocity;
                 if (force.magnitude > 0.01f)
@@ -578,18 +567,19 @@ public class PlayerCtr : MonoBehaviour
         //}
     }
 
- private bool stunned = false;
+    private bool stunned = false;
     internal bool isStunned { get { return stunned; } }
     [SerializeField]
     [Range(0, 1)]
     private float pushedRecoverForce = 0;
     internal float slowFactor = 1;
 
+    private bool jewHitback = false;
 
     #region ShootPower
     private bool shootCoolDowning = false;
     [SerializeField] private float shootCoolDownTime = 0.5f;
-    private bool shootReocvery = false;
+    [SerializeField] private bool shootReocvery = false;
     [SerializeField] private float shootReocveryTime = 0.5f;
 
     private Coroutine ShootReocveryCoro;
@@ -601,7 +591,7 @@ public class PlayerCtr : MonoBehaviour
         StartCoroutine(ShootCoolDownIE(shootCoolDownTime));
         if (ShootReocveryCoro != null)
             StopCoroutine(ShootReocveryCoro);
-        ShootReocveryCoro= StartCoroutine(ShootReocveryIE(shootReocveryTime));
+        ShootReocveryCoro = StartCoroutine(ShootReocveryIE(shootReocveryTime));
     }
 
     private IEnumerator ShootCoolDownIE(float shootCoolDownTime)
@@ -609,12 +599,12 @@ public class PlayerCtr : MonoBehaviour
         shootCoolDowning = true;
         yield return new WaitForSeconds(shootCoolDownTime);
         shootCoolDowning = false;
-        
+
     }
     private IEnumerator ShootReocveryIE(float shootReocveryTime)
     {
         shootReocvery = true;
-        ani.SetBool("walking", false);
+        ani.SetBool("running", false);
         yield return new WaitForSeconds(shootReocveryTime);
         shootReocvery = false;
         ShootReocveryCoro = null;
@@ -632,11 +622,16 @@ public class PlayerCtr : MonoBehaviour
     }
 
 
-    internal void BePushed(Vector3 force)
+    internal void BePowerPushed(Vector3 force)
     {
+        Debug.Log("bePush");
         rb.velocity = Vector3.zero;
+
+        if (!stunned)
+            playerModel.LookAt(transform.position - force);
+        stunned = true;
         rb.AddForce(force, ForceMode.Impulse);
-        StartCoroutine(StunIE(force));
+        StartCoroutine(StunIE(2));
 
     }
 
@@ -645,41 +640,41 @@ public class PlayerCtr : MonoBehaviour
         if (GetComponent<PlayerBuffsContainer>().HaveBuff(BuffType.inf))
             return;
         rb.velocity = force;
+
         if (stunCoro != null)
         {
             if (stunTime < 0.6f)
                 stunTime = 0.6f;
             return;
         }
-        stunCoro = StartCoroutine(StunIE(force));
+        stunCoro = StartCoroutine(StunIE(3));
+    }
+
+    internal void BeJewPushed(Vector3 force)
+    {
+        Debug.Log("bePush");
+        rb.velocity = force;
+        StartCoroutine(StunIE(force));
     }
 
     private IEnumerator StunIE(Vector3 force)
     {
+        jewHitback = true;
+        yield return new WaitForSeconds(0.3f);
+        yield return new WaitWhile(() => rb.velocity.sqrMagnitude > 0.01f);
 
-        Vector3 dir = -force.normalized;
-        float _force = force.magnitude * pushedRecoverForce;
-        stunned = true;
-        ani.SetBool("walking", false);
-        yield return new WaitForFixedUpdate();
-        yield return new WaitForFixedUpdate();
-        yield return new WaitForFixedUpdate();
-        Debug.Log("Stop" + rb.velocity);
-        while (rb.velocity.sqrMagnitude > 0.1f)
-        {
-            Debug.Log("Stopping");
-
-            yield return new WaitForFixedUpdate();
-        }
-        stunned = false;
+        Debug.Log("End");
+        jewHitback = false;
         stunCoro = null;
+
     }
 
     private IEnumerator StunIE(float time)
     {
         float _time = time;
         stunned = true;
-        ani.SetBool("walking", false);
+
+        ani.SetBool("falldown", true);
         while (_time > 0)
         {
             _time -= Time.deltaTime;
@@ -687,10 +682,12 @@ public class PlayerCtr : MonoBehaviour
         }
         stunned = false;
         stunCoro = null;
+        ani.SetBool("falldown", false);
     }
 
-    internal void Stun(float v)
+    internal void Stun(Vector3 hitPosition, float v)
     {
+        playerModel.LookAt(hitPosition);
         if (stunCoro != null)
         {
             if (stunTime < v)
@@ -700,18 +697,17 @@ public class PlayerCtr : MonoBehaviour
         stunCoro = StartCoroutine(StunIE(v));
     }
 
-
     internal void StopMove()
     {
         rb.velocity = Vector3.zero;
     }
 
-
     internal void SetTeamInConfig(Team team)
     {
         playerConfig.SetPlayerTeam(team);
         choosedTeam = playerConfig.PlayerTeam;
-        powerGun.SetTeam(team);
+
+       // powerGun.SetTeam(team);
         Debug.Log(team);
     }
 

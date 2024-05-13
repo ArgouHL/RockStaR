@@ -69,7 +69,7 @@ public class RockDrop : AreaEffect
                 if (col.TryGetComponent<PlayerCtr>(out PlayerCtr po))
                 {
                     Debug.Log("Hit");
-                    po.Stun(3f);
+                    po.Stun(transform.position,3f);
                     po.StopMove();
                 }
             }

@@ -23,17 +23,17 @@ public class JewelryCtr : MonoBehaviour
     private bool isMoving = false;
     private bool isSelfMoving = false;
     private float coolDown = 0;
-  
+
 
 
 
 
     [Space]
     [Header("State1")]
-    [SerializeField] private int state1Charge = 5;
-    [SerializeField] private float state1CoolDowns = 2;
-    [SerializeField] private float state1MoveDis = 6;
-    [SerializeField] private float state1MoveSpeed = 60;
+    private int state1Charge = 5;
+    private float state1CoolDowns = 2;
+    private float state1MoveDis = 6;
+    private float state1MoveSpeed = 60;
 
 
     [SerializeField] private GameObject visual;
@@ -72,12 +72,12 @@ public class JewelryCtr : MonoBehaviour
             nowSpeed = bePushedMaxSpeed;
     }
 
-   
-    
-   
+
+
+
     internal void SetTeam(Team team)
     {
-       
+
         switch (team)
         {
             case Team.Blue:
@@ -147,7 +147,7 @@ public class JewelryCtr : MonoBehaviour
 
 
 
-            visual.transform.Rotate(rotationAxis, deceleratedAngle,Space.World);
+            visual.transform.Rotate(rotationAxis, deceleratedAngle, Space.World);
             //rig.MoveRotation(newRotation);
 
             currentSpeed -= decelerateForce * Time.fixedDeltaTime;

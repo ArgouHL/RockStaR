@@ -157,7 +157,7 @@ MonoBehaviour:
   - {fileID: 130733328}
   - {fileID: 1086690346}
   - {fileID: 1161682632}
-  test: 1
+  test: 0
   testPlayer: {fileID: 4368388118555588848, guid: 83bbf2deca4d8b647a980c4169962d20, type: 3}
 --- !u!4 &1784732
 Transform:
@@ -706,7 +706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: dummy
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: jumpForce
@@ -963,11 +963,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spwanPos: {fileID: 1318571337}
-  modeA: 1
+  modeA: 0
   modeB: 1
   grayJew: {fileID: 2100000, guid: 3c90d97ee56719644a8f9be1db4a7b99, type: 2}
   blueJew: {fileID: 2100000, guid: eca6dc3aa1e242b44b098894a0dbc946, type: 2}
   yellowJew: {fileID: 2100000, guid: d72a3c6a8bd53f640b4e05dc4f95b248, type: 2}
+  totalTime: 3
+  countTimes: 5
 --- !u!4 &258886426
 Transform:
   m_ObjectHideFlags: 0
@@ -1722,7 +1724,7 @@ GameObject:
   - component: {fileID: 778329172}
   - component: {fileID: 778329176}
   m_Layer: 6
-  m_Name: Plane
+  m_Name: GroundPlane
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4635,10 +4637,6 @@ MonoBehaviour:
   bePushedMaxSpeed: 10
   bePushedMinSpeed: 2
   decelerateForce: 0
-  state1Charge: 6
-  state1CoolDowns: 5
-  state1MoveDis: 3
-  state1MoveSpeed: 40
   visual: {fileID: 1298757253}
 --- !u!114 &1952578531
 MonoBehaviour:
@@ -5233,10 +5231,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
-      propertyPath: shootReocveryTime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7482543174625419737, guid: eabad5f9f93af684384da41fa864464f, type: 3}
       propertyPath: maxHitBackVelocity
       value: 1
       objectReference: {fileID: 0}
@@ -5539,6 +5533,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8556772822153380313, guid: 0285534ce040bab408cf96b625028e77, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1560575207a7b4f27bcd4ab2aeb2e3a1, type: 2}
     - target: {fileID: 8707300856305141843, guid: 0285534ce040bab408cf96b625028e77, type: 3}
       propertyPath: m_IsActive
       value: 1

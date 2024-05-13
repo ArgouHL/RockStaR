@@ -18,6 +18,8 @@ public class JewelrySystem : MonoBehaviour
     [SerializeField] internal Material blueJew;
     [SerializeField] internal Material yellowJew;
 
+    [SerializeField] internal float totalTime = 2f;
+    [SerializeField] internal int countTimes = 5;
     private Coroutine GetPountCountDown;
 
     private void Awake()
@@ -42,15 +44,15 @@ public class JewelrySystem : MonoBehaviour
         jewelryCtr.SetTeam(team);
         if (GetPountCountDown != null)
             StopCoroutine(GetPountCountDown);
-        GetPountCountDown = StartCoroutine(GetPountIE(countWait: 0.2f, totalTime: 1f));
+        GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime/ countTimes  , _totalTime: totalTime));
     }
 
-    private IEnumerator GetPountIE(float countWait, float totalTime)
+    private IEnumerator GetPountIE(float countWait, float _totalTime)
     {
         float time = 0;
         int count = 0;
-        yield return new WaitForSeconds(countWait);
-        while (time < totalTime)
+        
+        while (time < _totalTime)
         {
             count++;
             JewelryCounterUI.instance.ShowCount(nowTeam,count);
