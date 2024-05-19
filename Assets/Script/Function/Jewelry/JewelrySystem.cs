@@ -14,9 +14,7 @@ public class JewelrySystem : MonoBehaviour
 
 
     internal bool instFinish = false;
-    [SerializeField] internal Material grayJew;
-    [SerializeField] internal Material blueJew;
-    [SerializeField] internal Material yellowJew;
+  
 
     [SerializeField] internal float totalTime = 2f;
     [SerializeField] internal int countTimes = 5;
@@ -94,4 +92,11 @@ public class JewelrySystem : MonoBehaviour
         HolesSys.instance.Shield();
         jewelryCtr.Reset(spwanPos.position);
     }
+}
+
+[Serializable]
+public struct JewLight
+{
+    public Color color;
+    public float intensity;
 }

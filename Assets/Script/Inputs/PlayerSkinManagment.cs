@@ -11,10 +11,10 @@ public class PlayerSkinManagment : MonoBehaviour
    
 
 
-    internal void ChangeSkin(CharaterSetting charaterSetting)
-    {
-        animator.runtimeAnimatorController = charaterSetting.controller;
-       // sk.sharedMesh=charaterSetting.bodyMesh;
-        sk.material = charaterSetting.material;
-    }
+    //internal void ChangeSkin(CharaterSetting charaterSetting)
+    //{
+    //    animator.runtimeAnimatorController = charaterSetting.controller;
+    //   // sk.sharedMesh=charaterSetting.bodyMesh;
+    //    sk.material = charaterSetting.material;
+    //}
 }

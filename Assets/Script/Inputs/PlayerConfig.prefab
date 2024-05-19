@@ -60,7 +60,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 3ffd9283-7c64-4c22-9893-fabbfec2c46b
+  m_DefaultActionMap: SelectChara
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &3427905516902811260
@@ -75,3 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8522b1b7f37a5ed49a1f406cb771fa89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectInput:
+    m_Name: Select Input
+    m_Id: fc00e313-b4d3-4f5d-84a6-adfa177ce2cc
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []

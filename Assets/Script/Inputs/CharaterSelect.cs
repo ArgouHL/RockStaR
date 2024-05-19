@@ -9,7 +9,7 @@ public class CharaterSelect : MonoBehaviour
 {
     public static CharaterSelect instance;
     [SerializeField] private CharaterSettingObj[] charaters;
-    [SerializeField] internal CharaterSetting[] charaterSettings;
+    //[SerializeField] internal CharaterSetting[] charaterSettings;
    // public CharaterUICtr[] charaterUICtr;
 
     public PlayerCtr[] playerCtrs => FindObjectOfType<SelectInputConnect>().playerCtrs;
@@ -21,7 +21,7 @@ public class CharaterSelect : MonoBehaviour
     }
     private void Start()
     {
-        charaterSettings = charaters.Select(s => s.charaterSetting).ToArray();
+        //charaterSettings = charaters.Select(s => s.charaterSetting).ToArray();
 
         playerSkinManagment = new PlayerSkinManagment[playerCtrs.Length];
         for (int i = 0; i < 4; i++)
@@ -40,12 +40,12 @@ public class CharaterSelect : MonoBehaviour
         // PlayerConfigManager.instance.playerJoin -= ShowChara;
     }
 
-    internal void ChangeShowChara(int playerIndex, int newIndex)
-    {
-        PlayerConfigManager.instance.GetPlayerConfig(playerIndex).ChangeCharater(newIndex);
-        playerSkinManagment[playerIndex].ChangeSkin(charaterSettings[newIndex]);
-        //charaterUICtr[playerIndex].ChangeColor(charaters[newIndex]);
-    }
+    //internal void ChangeShowChara(int playerIndex, int newIndex)
+    //{
+    //    PlayerConfigManager.instance.GetPlayerConfig(playerIndex).ChangeCharater(newIndex);
+    //    playerSkinManagment[playerIndex].ChangeSkin(charaterSettings[newIndex]);
+    //    //charaterUICtr[playerIndex].ChangeColor(charaters[newIndex]);
+    //}
 
 
 
@@ -54,8 +54,8 @@ public class CharaterSelect : MonoBehaviour
      //   charaterUICtr[playerIndex].ShowConfirm();
     }
 
-    internal CharaterSetting GetChara(int i)
-    {
-        return charaterSettings[i];
-    }
+    //internal CharaterSetting GetChara(int i)
+    //{
+    //    return charaterSettings[i];
+    //}
 }

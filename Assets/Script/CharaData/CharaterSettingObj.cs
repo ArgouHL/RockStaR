@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="new Chara",menuName = "CharaterSetting/new Chara")]
+[CreateAssetMenu(fileName = "new SkinColour", menuName = "CharaterSetting/new SkinColour")]
 public class CharaterSettingObj : ScriptableObject
 {
-    public CharaterSetting charaterSetting;
+    public CharaterSkinSetting charaterSkinSetting;
 }
 
 [Serializable]
-public class CharaterSetting
-{ 
-    public Mesh bodyMesh;
-    public Material material;
-    public AnimatorOverrideController controller;
-
+public class CharaterSkinSetting
+{
+    public CharaType charaType;
+    public Material[] materials;  
    
 }
+
+public enum CharaType { fox=0,duck=1,rokoon=2,rubbit=3}

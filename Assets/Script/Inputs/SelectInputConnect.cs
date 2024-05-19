@@ -29,7 +29,7 @@ public class SelectInputConnect : MonoBehaviour
         // int index = PlayerConfigManager.instance.GetPlayerCount();
         Debug.Log("Player " + input.playerIndex + "Connected");
 
-
+        
         var config = PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex);
         playerCtrs[input.playerIndex].SetInput(config);
 

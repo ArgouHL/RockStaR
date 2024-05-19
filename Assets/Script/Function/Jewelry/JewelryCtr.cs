@@ -28,17 +28,15 @@ public class JewelryCtr : MonoBehaviour
 
 
 
-    [Space]
-    [Header("State1")]
-    private int state1Charge = 5;
-    private float state1CoolDowns = 2;
-    private float state1MoveDis = 6;
-    private float state1MoveSpeed = 60;
 
 
     [SerializeField] private GameObject visual;
-
-
+    [SerializeField] internal Material grayJew;
+    [SerializeField] internal JewLight grayLight;
+    [SerializeField] internal Material cyanJew;
+    [SerializeField] internal JewLight cyanLight;
+    [SerializeField] internal Material yellowJew;
+    [SerializeField] internal JewLight yellowLight;
     private void Awake()
     {
         rig = GetComponent<Rigidbody>();
@@ -77,17 +75,26 @@ public class JewelryCtr : MonoBehaviour
 
     internal void SetTeam(Team team)
     {
-
+        Light light = GetComponentInChildren<Light>();
         switch (team)
         {
             case Team.Blue:
-                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.blueJew;
+                visual.GetComponent<MeshRenderer>().material=cyanJew;
+                light.color = cyanLight.color;
+                light.intensity = cyanLight.intensity;
                 break;
             case Team.Yellow:
-                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.yellowJew;
+                visual.GetComponent<MeshRenderer>().material=yellowJew;
+
+                light.color = yellowLight.color;
+                light.intensity = yellowLight.intensity;
+
                 break;
             case Team.None:
-                visual.GetComponent<MeshRenderer>().material = JewelrySystem.instance.grayJew;
+                visual.GetComponent<MeshRenderer>().material=grayJew;
+                light.color = grayLight.color;
+                light.intensity = grayLight.intensity;
+                ;
                 break;
             default:
                 break;
@@ -96,25 +103,11 @@ public class JewelryCtr : MonoBehaviour
 
     internal void BePush(Vector3 normalizedVector)
     {
-        // energy++;
-        switch (state)
-        {
-            case 0:
-                if (energy > state1Charge)
-                {
-                    coolDown = state1CoolDowns;
-                    if (SelfMoveRepeadCoro == null)
-                        SelfMoveRepeadCoro = StartCoroutine(SelfMoveRepeadIE());
-                }
-                if (JewelrySystem.instance.modeA)
-                    nowSpeed = nowSpeed >= bePushedMaxSpeed ? bePushedMaxSpeed : nowSpeed + bePushedAddSpeed;
 
+        if (JewelrySystem.instance.modeA)
+            nowSpeed = nowSpeed >= bePushedMaxSpeed ? bePushedMaxSpeed : nowSpeed + bePushedAddSpeed;
+        Move(normalizedVector);
 
-                Move(normalizedVector);
-                break;
-            case 1:
-                break;
-        }
     }
 
     private IEnumerator MoveIE()
@@ -179,42 +172,42 @@ public class JewelryCtr : MonoBehaviour
 
     }
 
-    private IEnumerator SelfMoveRepeadIE()
-    {
-        while (true)
-        {
-            yield return new WaitWhile(() => isMoving);
-            yield return SelfMove();
-            yield return new WaitForSeconds(coolDown);
-        }
+    //private IEnumerator SelfMoveRepeadIE()
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitWhile(() => isMoving);
+    //        yield return SelfMove();
+    //        yield return new WaitForSeconds(coolDown);
+    //    }
 
 
-    }
+    //}
 
-    private IEnumerator SelfMove()
-    {
-        yield return StateOneMove();
+    //private IEnumerator SelfMove()
+    //{
+    //    yield return StateOneMove();
 
-    }
+    //}
 
-    private IEnumerator StateOneMove()
-    {
-        isSelfMoving = true;
-        Debug.Log("StateOneMove");
-        var direction = Random.insideUnitCircle.normalized;
-        moveDir = new Vector3(direction.x, 0, direction.y);
-        float dis = 0;
+    //private IEnumerator StateOneMove()
+    //{
+    //    isSelfMoving = true;
+    //    Debug.Log("StateOneMove");
+    //    var direction = Random.insideUnitCircle.normalized;
+    //    moveDir = new Vector3(direction.x, 0, direction.y);
+    //    float dis = 0;
 
-        while (dis < state1MoveDis)
-        {
-            rig.MovePosition(transform.position + moveDir * state1MoveSpeed * Time.fixedDeltaTime);
+    //    while (dis < state1MoveDis)
+    //    {
+    //        rig.MovePosition(transform.position + moveDir * state1MoveSpeed * Time.fixedDeltaTime);
 
-            // rig.MovePosition
-            dis += state1MoveSpeed * Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        isSelfMoving = false;
-    }
+    //        // rig.MovePosition
+    //        dis += state1MoveSpeed * Time.fixedDeltaTime;
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //    isSelfMoving = false;
+    //}
 
 
 
