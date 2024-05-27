@@ -30,7 +30,7 @@ public class HoleCtr : MonoBehaviour
             if (JewelrySystem.instance.NowTeam() == Team.None)
                 return;
             ScoreSys.instance.AddScore(JewelrySystem.instance.NowTeam(), 1);
-            JewelrySystem.instance.ReSpawnJewelry();
+           // JewelrySystem.instance.ReSpawnJewelry();
         }
     }
 }

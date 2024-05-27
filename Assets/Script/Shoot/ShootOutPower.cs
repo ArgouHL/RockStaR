@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ShootOutPower : MonoBehaviour
@@ -8,11 +9,12 @@ public class ShootOutPower : MonoBehaviour
     private PowerGun powerGun;
     private Coroutine powerFlayingCoro;
 
-   
+
 
 
     private void Awake()
     {
+
         powerGun = GetComponentInParent<PowerGun>();
         GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
     }
@@ -27,7 +29,7 @@ public class ShootOutPower : MonoBehaviour
 
     private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis, float speed)
     {
-       
+
         transform.parent = null;
 
         float dis = 0;
@@ -40,7 +42,7 @@ public class ShootOutPower : MonoBehaviour
             yield return null;
         }
 
-        PowerDisapper();
+        PowerDisapper(false);
         transform.parent = powerGun.transform;
         powerFlayingCoro = null;
     }
@@ -59,7 +61,7 @@ public class ShootOutPower : MonoBehaviour
 
             if (pullableObj.transform == powerGun.ownPlayer)
             {
-               // Debug.Log("s");
+                // Debug.Log("s");
                 return;
             }
 
@@ -75,26 +77,39 @@ public class ShootOutPower : MonoBehaviour
         if (other.CompareTag("Jewelry"))
         {
             JewelrySystem.instance.ChangeTeam(powerGun.playerCtr.choosedTeam);
+            PowerDisapper();
+        }
 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            PowerDisapper();
         }
     }
 
     internal void SetTeam(Team team)
     {
+        Color color;
         switch (team)
         {
-            
+
             case Team.Blue:
-                GetComponentInChildren<MeshRenderer>().material.color = Color.cyan;
+                color = Color.cyan;
                 break;
             case Team.Yellow:
-                GetComponentInChildren<MeshRenderer>().material.color = Color.yellow;
+                color = Color.yellow;
                 break;
             default:
-                GetComponentInChildren<MeshRenderer>().material.color = Color.gray;
+                color = Color.gray;
+
                 break;
 
         }
+        GetComponentInChildren<MeshRenderer>().material.color = color;
+        GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", color);
         Debug.Log("Set " + team);
     }
 
@@ -108,11 +123,12 @@ public class ShootOutPower : MonoBehaviour
     }
 
 
-    private void PowerDisapper()
-    {     
-        
+    private void PowerDisapper(bool playHitSfx = true)
+    {
+        if (playHitSfx)
+            powerGun.PlayEnergyHitSfx(transform.position);
         transform.position = powerGun.PowerBackPool(this).position;
-       // Debug.Log("PowerDisapper");
+        // Debug.Log("PowerDisapper");
         gameObject.SetActive(false);
 
     }

@@ -11,6 +11,7 @@ public class PlayerConfig
     public int PlayerIndex;
     public bool IsReady;
     public int CharaterIndex = 0;
+    public int CharaterColorIndex = 0;
     public InputManager inputManager;
 
     private InputActionAsset inputAsset;
@@ -21,16 +22,23 @@ public class PlayerConfig
 
     public PlayerConfig(PlayerInput playerInput)
     {
+      
         PlayerIndex = playerInput.playerIndex;
         Input = playerInput;
         inputAsset = playerInput.actions;
         selectInput = inputAsset.FindActionMap("SelectChara");
         gameInput = inputAsset.FindActionMap("Player");
+        ChangeCharater(PlayerIndex);
     }
 
     public void ChangeCharater(int val)
     {
         CharaterIndex = val;
+    }
+
+    public void ChangeCharaterColor(int val)
+    {
+        CharaterColorIndex = val;
     }
 
     internal void ChangeInputMap(InputType inputType)

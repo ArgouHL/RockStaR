@@ -4,100 +4,42 @@ using UnityEngine;
 
 public class testcode : MonoBehaviour
 {
-    public List<testtype> testList;
+    public Transform orgObj;
+    public Vector3 orgPos;
 
-    public Dictionary<int, testtype> testD;
+    public int nowStep;
+    bool isUpward = true;
 
     private void Start()
     {
-        testList = new List<testtype>();
-        testD = new Dictionary<int, testtype>();
-
-       
-
-        int count = 0;
-        //testList.Add(t);
-        //testList.Add(t2);
-        //testList.Add(t3);
-        //testList.Add(t4);
-
-        //testD.Add(t.index, t);
-        //testD.Add(t2.index, t2);
-        //testD.Add(t3.index, t3);
-        //testD.Add(t4.index, t4);
-
-
-       
-
-
+        orgPos = orgObj.position;
     }
 
-
-
-    private void FixedUpdate()
+    public float stepHeight;
+   
+    [ContextMenu("UpOrDown")]
+    public void UpOrDown()
     {
-        var t = new testclass1();
-        var t2 = new testclass2();
-        var t3 = new testclass3();
-        var t4 = new testclass4();
-        float startTime = Time.realtimeSinceStartup;
-
+        if (nowStep == 0)
+        {
+            isUpward = true;
+        }
+        else if (nowStep == 2)
+        {
+            isUpward = false;
+        }
         
-        for (int i = 0; i < 1000; i++)
+        if (isUpward)
         {
-            testList.Add(t);
-            
+            nowStep++;
+        }
+        else
+        {
+            nowStep--;
         }
 
-        float end = Time.realtimeSinceStartup;
-        Debug.Log((end - startTime) * 1000 + "ms");
+        orgObj.position = orgPos+ new Vector3(0,stepHeight* nowStep, 0);
 
-
-        startTime = Time.realtimeSinceStartup;
-
-        for (int i = 0; i < 1000; i++)
-        {
-            testD.Add(t.index, t);
-            
-        }
-        end = Time.realtimeSinceStartup;
-        Debug.Log((end - startTime) * 1000 + "ms");
     }
-}
-public class testtype
-{
-    public int index;
-
-}
-
-public class testclass1 : testtype
-{
-    public testclass1()
-    {
-        index = 1;
-    }
-}
-
-public class testclass2 : testtype
-{
-    public testclass2()
-    {
-        index = 2;
-    }
-}
-
-public class testclass3 : testtype
-{
-    public testclass3()
-    {
-        index = 3;
-    }
-}
-
-public class testclass4 : testtype
-{
-    public testclass4()
-    {
-        index = 4;
-    }
+    
 }

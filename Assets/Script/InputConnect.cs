@@ -55,7 +55,7 @@ public class InputConnect : MonoBehaviour
         {
             playerSkinManagments[i] = playerCtrs[i].GetComponent<PlayerSkinManagment>();
 
-            playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
+            //playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
         }
 
 

@@ -23,12 +23,16 @@ public class TeamChooseCtr : MonoBehaviour
     {
         int blueCount = blueField.GetMembersOnField(targetNumber);
         int redCount = redField.GetMembersOnField(targetNumber);
-        Debug.Log(blueCount + redCount + "/" + targetNumber * 2);
+        Debug.Log(blueCount + redCount + "/" + targetNumber);
         if (blueCount < targetNumber || redCount < targetNumber)
         {
             Debug.Log("LessThantargetNumber");
             if (gameStartCountdown != null)
+            {
                 StopCoroutine(gameStartCountdown);
+                gameStartCountdown = null;
+            }
+              
         }
 
         else if (blueCount >= targetNumber && redCount >= targetNumber)

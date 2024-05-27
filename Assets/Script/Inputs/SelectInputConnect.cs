@@ -6,13 +6,8 @@ using UnityEngine.InputSystem;
 public class SelectInputConnect : MonoBehaviour
 {
     [SerializeField] internal PlayerCtr[] playerCtrs;
-  
-    private void Start()
-    {
-    
-       
-    }
-        
+
+
     private void OnEnable()
     {
         PlayerInputManager.instance.onPlayerJoined += ConnectInputs;
@@ -29,11 +24,13 @@ public class SelectInputConnect : MonoBehaviour
         // int index = PlayerConfigManager.instance.GetPlayerCount();
         Debug.Log("Player " + input.playerIndex + "Connected");
 
-        
+
         var config = PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex);
         playerCtrs[input.playerIndex].SetInput(config);
 
         PlayerConfigManager.instance.ChangeActionMap(InputType.selectChara);
+        var skinmgr = playerCtrs[input.playerIndex].GetComponent<PlayerSkinManagment>();
+        GetComponent<SkinSystem>().AddPlayerSkinManagment(input.playerIndex, skinmgr);
     }
 
 

@@ -7,18 +7,21 @@ public class JewelrySystem : MonoBehaviour
 {
     private JewelryCtr jewelryCtr;
     public static JewelrySystem instance;
-    [SerializeField] private Transform spwanPos;
+    [SerializeField] private float sceneRadius = 13;
     [SerializeField] internal bool modeA;
     [SerializeField] internal bool modeB;
 
 
 
     internal bool instFinish = false;
-  
+
 
     [SerializeField] internal float totalTime = 2f;
     [SerializeField] internal int countTimes = 5;
+    [SerializeField] internal float coolDownTime = 3f;
     private Coroutine GetPountCountDown;
+
+    private int count = 0;
 
     private void Awake()
     {
@@ -39,58 +42,69 @@ public class JewelrySystem : MonoBehaviour
         if (JewelrySystem.instance.NowTeam() == team)
             return;
         nowTeam = team;
+        jewelryCtr.crystalSfxControl.PlayCrystalChangeTeamSfx();
         jewelryCtr.SetTeam(team);
-        if (GetPountCountDown != null)
-            StopCoroutine(GetPountCountDown);
-        GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime/ countTimes  , _totalTime: totalTime));
+        JewelryCounterUI.instance.ShowCount(nowTeam, count);
+        //if (GetPountCountDown != null)
+        //    StopCoroutine(GetPountCountDown);
+        //GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime/ countTimes  , _totalTime: totalTime));
     }
 
     private IEnumerator GetPountIE(float countWait, float _totalTime)
     {
         float time = 0;
-        int count = 0;
-        
+        count = 0;
+        JewelryCounterUI.instance.ShowEmpty();
+        StartCoroutine(CrystalWorning(_totalTime+ countWait*0.75f));
         while (time < _totalTime)
         {
-            count++;
-            JewelryCounterUI.instance.ShowCount(nowTeam,count);
-            ScoreSys.instance.AddScore(nowTeam, 1);
             yield return new WaitForSeconds(countWait);
+            count++;
+            JewelryCounterUI.instance.ShowCount(nowTeam, count);
             time += countWait;
         }
-        ScoreSys.instance.AddScore(nowTeam, 5);
+        yield return new WaitForSeconds(countWait);
+        count++;
+        ScoreSys.instance.AddScore(nowTeam, 1);
+
         JewelryCounterUI.instance.ShowEnd(nowTeam);
         nowTeam = Team.None;
         jewelryCtr.SetTeam(Team.None);
-        GetPountCountDown = null;
-    }
-
-   
-
-    //private void Start()
-    //{
-    //    ReSpawnJewelry();
-    //}
-    internal void ReSpawnJewelry()
-    {
-        HolesSys.instance.Shield();
-
-        if (!modeB)
-        {
-            jewelryCtr.Inst();
-            return;
-        }
-
-
         jewelryCtr.Stop();
-        jewelryCtr.Reset(spwanPos.position);
+        LeanTween.delayedCall(coolDownTime, () => SpawnJewelry());
+        GetPountCountDown = null;
 
     }
+
+    private IEnumerator CrystalWorning(float _totalTime)
+    {
+        float startPeriod = 0.7f;
+        float endPeriod = 0.01f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _totalTime)
+        {
+            jewelryCtr.crystalSfxControl.PlayCrystalWrongingSfx();
+
+            Debug.Log("Wronging");
+
+            // Calculate the current period based on elapsed time
+            float t = elapsedTime / _totalTime; // Normalized time (0 to 1)
+            float currentPeriod = Mathf.Lerp(startPeriod, endPeriod, t);
+
+            yield return new WaitForSeconds(currentPeriod);
+            elapsedTime += currentPeriod;
+        }
+       
+
+    }
+
     internal void SpawnJewelry()
     {
-        if (HolesSys.instance!=null)
-        HolesSys.instance.Shield();
-        jewelryCtr.Reset(spwanPos.position);
+        jewelryCtr.Appear(sceneRadius);
+        if (GetPountCountDown != null)
+            StopCoroutine(GetPountCountDown);
+        GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime / countTimes, _totalTime: totalTime));
     }
 }
 

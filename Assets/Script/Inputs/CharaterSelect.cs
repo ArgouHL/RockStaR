@@ -8,12 +8,14 @@ using UnityEngine.UI;
 public class CharaterSelect : MonoBehaviour
 {
     public static CharaterSelect instance;
-    [SerializeField] private CharaterSettingObj[] charaters;
-    //[SerializeField] internal CharaterSetting[] charaterSettings;
-   // public CharaterUICtr[] charaterUICtr;
+    [SerializeField] internal CharaterColorSettingObj[] charaterSettings;
+
+  
+    [SerializeField] internal Dictionary<CharaType, List<CharaterColorSetting>> charaterColorSettingsDict;
+    // public CharaterUICtr[] charaterUICtr;
 
     public PlayerCtr[] playerCtrs => FindObjectOfType<SelectInputConnect>().playerCtrs;
-    private PlayerSkinManagment[] playerSkinManagment;
+
 
     private void Awake()
     {
@@ -21,13 +23,19 @@ public class CharaterSelect : MonoBehaviour
     }
     private void Start()
     {
-        //charaterSettings = charaters.Select(s => s.charaterSetting).ToArray();
-
-        playerSkinManagment = new PlayerSkinManagment[playerCtrs.Length];
-        for (int i = 0; i < 4; i++)
+        charaterColorSettingsDict = new Dictionary<CharaType, List<CharaterColorSetting>>();
+        foreach(var charaterSetting in charaterSettings)
         {
-            playerSkinManagment[i] = playerCtrs[i].GetComponent<PlayerSkinManagment>();
+            CharaType _type = charaterSetting.charaterColorSetting.charaType;
+            
+            if(!charaterColorSettingsDict.ContainsKey(_type))
+            {
+                charaterColorSettingsDict.Add(_type, new List<CharaterColorSetting>()); 
+            }
+
+            charaterColorSettingsDict[_type].Add(charaterSetting.charaterColorSetting);
         }
+
     }
 
     private void OnEnable()
@@ -40,13 +48,18 @@ public class CharaterSelect : MonoBehaviour
         // PlayerConfigManager.instance.playerJoin -= ShowChara;
     }
 
-    //internal void ChangeShowChara(int playerIndex, int newIndex)
-    //{
-    //    PlayerConfigManager.instance.GetPlayerConfig(playerIndex).ChangeCharater(newIndex);
-    //    playerSkinManagment[playerIndex].ChangeSkin(charaterSettings[newIndex]);
-    //    //charaterUICtr[playerIndex].ChangeColor(charaters[newIndex]);
-    //}
+    internal void ChangeShowChara(int playerIndex, int newIndex)
+    {
+        PlayerConfigManager.instance.GetPlayerConfig(playerIndex).ChangeCharater(newIndex);
+       // playerSkinManagment[playerIndex].ChangeSkin(charaterSettings[newIndex]);
+        //charaterUICtr[playerIndex].ChangeColor(charaters[newIndex]);
+    }
 
+    internal void ChangeShowColor(int playerIndex, int newIndex)
+    {
+        PlayerConfigManager.instance.GetPlayerConfig(playerIndex).ChangeCharaterColor(newIndex);
+        SkinSystem.instance.GetPlayerSkinManagment(playerIndex).ChangeCharaterColor(newIndex);
+    }
 
 
     internal void ShowConfirm(int playerIndex)

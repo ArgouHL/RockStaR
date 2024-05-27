@@ -88,7 +88,7 @@ public class PlayerConfigManager : MonoBehaviour
             playerConfigs.Add(config);
             playerInput.GetComponent<CharaterConfigCtr>().SetConfig(config);
             playerInput.transform.SetParent(transform);
-
+        
           // playerJoin.Invoke(playerConfigs.Count - 1);
         }
 

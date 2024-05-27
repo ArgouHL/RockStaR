@@ -11,14 +11,6 @@ public class CharaterConfigCtr : MonoBehaviour
     private InputActionAsset inputAsset;
 
    [SerializeField] private InputActionMap selectInput;
-
-    //private void Awake()
-    //{
-
-
-
-    //}
-
     private void OnEnable()
     {
         selectInput.FindAction("Previous").performed += SelectPrevious;
@@ -52,7 +44,23 @@ public class CharaterConfigCtr : MonoBehaviour
     }
     private void ChangeCharaColor(int value)
     {
-        throw new NotImplementedException();
+        Debug.Log("ChangeColor");
+       var config = PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex);
+        if (PlayerConfigManager.instance.GetPlayerConfig(input.playerIndex).IsReady)
+            return;
+        int newIndex = config.CharaterColorIndex + value;
+        CharaType t = (CharaType)config.CharaterIndex;
+
+        if(newIndex < 0)
+        {
+            newIndex = CharaterSelect.instance.charaterColorSettingsDict[t].Count - 1;
+        }
+        else if (newIndex > CharaterSelect.instance.charaterColorSettingsDict[t].Count - 1)
+        {
+            newIndex = 0;
+        }
+        config.CharaterColorIndex = newIndex;
+        CharaterSelect.instance.ChangeShowColor(input.playerIndex, newIndex);
     }
 
     //private void ChangeChara(int value)

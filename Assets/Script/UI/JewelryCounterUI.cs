@@ -9,6 +9,7 @@ public class JewelryCounterUI : MonoBehaviour
     public static JewelryCounterUI instance;
     [SerializeField] private Sprite[] yellowJew;
     [SerializeField] private Sprite[] blueJew;
+    [SerializeField] private Sprite[] grayJew;
     [SerializeField] private Sprite emptyJew;
     [SerializeField] private float maxSize = 2f;
     [SerializeField] private Image image;
@@ -21,9 +22,17 @@ public class JewelryCounterUI : MonoBehaviour
         canvas = GetComponentInChildren<FollowObjCanvas>();
     }
 
+    internal void ShowEmpty()
+    {
+        image.transform.localScale = Vector3.one;
+        image.sprite = emptyJew;
+        image.color = new Color(1, 1, 1, 1);
+    }
+
     internal void ShowCount(Team nowTeam, int count)
     {
-        image.color = new Color(1, 1, 1, 1);
+
+        
         image.transform.localScale = Vector3.one;
         switch (nowTeam)
         {
@@ -33,13 +42,18 @@ public class JewelryCounterUI : MonoBehaviour
             case Team.Yellow:
                 image.sprite = count <= yellowJew.Length ? yellowJew[count - 1] : yellowJew[yellowJew.Length - 1];
                 break;
+            case Team.None:
+                image.sprite = count <= grayJew.Length ? grayJew[count - 1] : grayJew[grayJew.Length - 1];
+                break;
 
         }
+        image.color = new Color(1, 1, 1, 1);
         Debug.Log("Co");
     }
 
     internal void ShowEnd(Team nowTeam)
     {
+
         image.color = new Color(1, 1, 1, 1);
         switch (nowTeam)
         {
@@ -48,6 +62,9 @@ public class JewelryCounterUI : MonoBehaviour
                 break;
             case Team.Yellow:
                 image.sprite = yellowJew[yellowJew.Length - 1];
+                break;
+            case Team.None:
+                image.sprite = grayJew[grayJew.Length - 1];
                 break;
 
         }

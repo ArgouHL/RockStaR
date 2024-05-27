@@ -9,8 +9,8 @@ public class ScoreSys : MonoBehaviour
     public static ScoreSys instance;
     [SerializeField] private TMP_Text yellowScoreTMP;
     [SerializeField] private TMP_Text blueScoreTMP;
-    private float yellowScore;
-    private float blueScore;
+    private static float yellowScore;
+    private static float blueScore;
     private void Awake()
     {
         instance = this;

@@ -95,7 +95,10 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine stunCoro;
     private float stunTime = 0;
 
-    internal Team choosedTeam = Team.None;
+    [SerializeField] internal Team choosedTeam = Team.None;
+
+
+    internal PlayerSfxControl playerSfxControl;
 
     internal void SetInput(PlayerConfig config)
     {
@@ -113,6 +116,7 @@ public class PlayerCtr : MonoBehaviour
         EnablePlayer();
         playerID = playerConfig.PlayerIndex;
         choosedTeam = playerConfig.PlayerTeam;
+        GetComponentInChildren<TeamPlateShow>().ChangeTeam(choosedTeam);
         Debug.Log("SetInput");
 
     }
@@ -124,7 +128,7 @@ public class PlayerCtr : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _collider = GetComponentInChildren<SphereCollider>();
         powerGun = GetComponentInChildren<PowerGun>();
-
+        playerSfxControl = GetComponentInChildren<PlayerSfxControl>();
         ani = GetComponentInChildren<Animator>();
         charaterMovement = GetComponent<CharaterMovement>();
         if (playerConfig == null && !dummy)
@@ -585,10 +589,14 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine ShootReocveryCoro;
     private void DoShoot(InputAction.CallbackContext obj)
     {
+        ani.ResetTrigger("Shoot");
+        if (stunned)
+            return;
         if (shootCoolDowning)
             return;
         powerGun.Shoot(playerModel.forward);
         StartCoroutine(ShootCoolDownIE(shootCoolDownTime));
+        ani.SetTrigger("Shoot");
         if (ShootReocveryCoro != null)
             StopCoroutine(ShootReocveryCoro);
         ShootReocveryCoro = StartCoroutine(ShootReocveryIE(shootReocveryTime));
@@ -626,12 +634,13 @@ public class PlayerCtr : MonoBehaviour
     {
         Debug.Log("bePush");
         rb.velocity = Vector3.zero;
-
-        if (!stunned)
-            playerModel.LookAt(transform.position - force);
-        stunned = true;
         rb.AddForce(force, ForceMode.Impulse);
-        StartCoroutine(StunIE(2));
+
+        if (stunned)
+            return;
+        playerModel.LookAt(transform.position - force);
+        playerSfxControl.PlayGetEnergyHitBackSfx();
+        StartCoroutine(StunIE(3));
 
     }
 
@@ -680,6 +689,12 @@ public class PlayerCtr : MonoBehaviour
             _time -= Time.deltaTime;
             yield return null;
         }
+
+        while (_time > 0)
+        {
+            _time -= Time.deltaTime;
+            yield return null;
+        }
         stunned = false;
         stunCoro = null;
         ani.SetBool("falldown", false);
@@ -706,8 +721,8 @@ public class PlayerCtr : MonoBehaviour
     {
         playerConfig.SetPlayerTeam(team);
         choosedTeam = playerConfig.PlayerTeam;
-
-       // powerGun.SetTeam(team);
+        GetComponentInChildren<TeamPlateShow>().ChangeTeam(choosedTeam);
+        // powerGun.SetTeam(team);
         Debug.Log(team);
     }
 

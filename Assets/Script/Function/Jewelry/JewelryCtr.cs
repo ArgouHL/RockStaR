@@ -6,6 +6,7 @@ using UnityEngine;
 public class JewelryCtr : MonoBehaviour
 {
     private Rigidbody rig;
+    private Collider collider;
     [SerializeField] private float bePushedAddSpeed = 10;
     [SerializeField] private float bePushedMaxSpeed = 50;
     [SerializeField] private float bePushedMinSpeed = 10;
@@ -16,19 +17,11 @@ public class JewelryCtr : MonoBehaviour
 
     private Coroutine SelfMoveRepeadCoro;
     private Vector3 moveDir;
-    private int energy = 0;
-    private int state = 0;
 
 
     private bool isMoving = false;
     private bool isSelfMoving = false;
     private float coolDown = 0;
-
-
-
-
-
-
 
     [SerializeField] private GameObject visual;
     [SerializeField] internal Material grayJew;
@@ -37,33 +30,38 @@ public class JewelryCtr : MonoBehaviour
     [SerializeField] internal JewLight cyanLight;
     [SerializeField] internal Material yellowJew;
     [SerializeField] internal JewLight yellowLight;
+
+    internal CrystalSfxControl crystalSfxControl;
+
     private void Awake()
     {
         rig = GetComponent<Rigidbody>();
+        collider = GetComponent<Collider>();
+        crystalSfxControl = GetComponent<CrystalSfxControl>();
         Inst();
     }
 
 
-    internal void Reset(Vector3 resetPos)
+    internal void Appear(float radius)
     {
 
-        visual.SetActive(false);
-        transform.position = resetPos + new Vector3(0, GetComponent<SphereCollider>().radius, 0);
+    
+        var v2 = Random.insideUnitCircle * (radius-4f);
+        transform.position = new Vector3(v2.x, 1, v2.y);
         Inst();
-
-
+        collider.enabled = true;
+        crystalSfxControl.PlayCrystalAppearSfx();
         visual.SetActive(true);
-        float angle = Random.Range(60f, 120f) * Mathf.Deg2Rad;
+        float angle = Random.Range(0f,360f) * Mathf.Deg2Rad;
         BePush(new Vector3(Mathf.Cos(angle), 0, -Mathf.Sin(angle)).normalized);
-
+       
     }
 
 
     internal void Inst()
     {
-        energy = 0;
-        state = 0;
         SetTeam(Team.None);
+
         if (JewelrySystem.instance.modeA)
             nowSpeed = bePushedMinSpeed;
         else
@@ -107,7 +105,7 @@ public class JewelryCtr : MonoBehaviour
         if (JewelrySystem.instance.modeA)
             nowSpeed = nowSpeed >= bePushedMaxSpeed ? bePushedMaxSpeed : nowSpeed + bePushedAddSpeed;
         Move(normalizedVector);
-
+        crystalSfxControl.PlayCrystalHitSfx();  
     }
 
     private IEnumerator MoveIE()
@@ -168,8 +166,10 @@ public class JewelryCtr : MonoBehaviour
         if (moveCoro != null)
             StopCoroutine(moveCoro);
         rig.velocity = Vector3.zero;
-
-
+        visual.SetActive(false);
+        collider.enabled = false ;
+        GetComponentInChildren<Light>().intensity = 0;
+        crystalSfxControl.PlayCrystalDisappearSfx();
     }
 
     //private IEnumerator SelfMoveRepeadIE()
@@ -220,9 +220,10 @@ public class JewelryCtr : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("PlayerBoundary"))
         {
+            crystalSfxControl.PlayCrystalHitSfx();
             moveDir = Vector3.Reflect(moveDir, collision.contacts[0].normal);
             //nowSpeed = nowSpeed<=bePushedMinSpeed? bePushedMinSpeed: nowSpeed - bePushedAddSpeed;
-
+            
         }
     }
 

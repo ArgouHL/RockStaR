@@ -74,4 +74,4 @@ public class TeamChooseDetecter : MonoBehaviour
 
 }
 
-public enum Team { Blue, Yellow, None }
+public enum Team { None,Blue, Yellow }

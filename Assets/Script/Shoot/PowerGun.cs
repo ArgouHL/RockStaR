@@ -24,10 +24,11 @@ public class PowerGun : MonoBehaviour
     [SerializeField] internal Material powerMat;
     private bool canShoot;
 
+    private EnergySfxControl energySfxControl;
     private void Awake()
     {
         playerCtr = GetComponentInParent<PlayerCtr>();
-
+        energySfxControl = GetComponentInChildren<EnergySfxControl>();
         Debug.Log("PowerAwake");
 
     }
@@ -52,7 +53,7 @@ public class PowerGun : MonoBehaviour
         ShootOutPower _power = powers.Dequeue().GetComponent<ShootOutPower>();
         shootDir.y = 0;
         shootDir = shootDir.normalized;
-
+        playerCtr.playerSfxControl.PlayShootSfx();
         _power.ShootOut(shootDir, maxDis, transform.position, speed);
         //_powerDir = shootDir;
 
@@ -83,5 +84,10 @@ public class PowerGun : MonoBehaviour
     {
         powers.Enqueue(shootOutPower.gameObject);
         return powerStartPos;
+    }
+
+    internal void PlayEnergyHitSfx(Vector3 pos)
+    {
+        energySfxControl.PlayEnergyHitSfx(pos);
     }
 }
