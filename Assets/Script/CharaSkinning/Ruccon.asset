@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f340f999c0e4b48b6ac4a620edbed9, type: 3}
+  m_Name: Ruccon
+  m_EditorClassIdentifier: 
+  charaterColorSetting:
+    charaType: 2
+    materials:
+    - {fileID: 2100000, guid: 4bc33d986b04142c3a6b8a5c3f7be739, type: 2}
+    - {fileID: 2100000, guid: 7ca0f7e3184b64cd6857f02a53f0342b, type: 2}
+    - {fileID: 2100000, guid: c5d906eba575e47fabaaf3f9f7a3f71a, type: 2}
+    - {fileID: 2100000, guid: f6951854747ec44ae9361f2c0d017db5, type: 2}

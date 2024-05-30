@@ -14,7 +14,7 @@ public class InputConnect : MonoBehaviour
     [SerializeField] private GameObject testPlayer;
     private List<PlayerConfig> playerConfigs=new List<PlayerConfig>();
     private PlayerSkinManagment[] playerSkinManagments;
-
+    private CharaSwitcher charaSwitcher;
     private void Awake()
     {
         if (test)
@@ -27,11 +27,14 @@ public class InputConnect : MonoBehaviour
     {
         int index = PlayerConfigManager.instance.GetPlayerCount();
         Debug.Log("PlayerCount:" + index);
+       
         for (int i = 0; i < index; i++)
         {
             Debug.Log("Connect times:" + i + 1);
             var config = PlayerConfigManager.instance.GetPlayerConfig(i);
             playerCtrs[i].SetInput(config);
+            CharaSwitcher.instance.AddPlayerSkinManagment(playerCtrs[i].GetComponent<PlayerSkinManagment>());
+           
         }
         ApplySkin();
 
@@ -50,10 +53,11 @@ public class InputConnect : MonoBehaviour
 
     private void ApplySkin()
     {
-        playerSkinManagments = new PlayerSkinManagment[playerCtrs.Length];
+       
         for (int i = 0; i < 4; i++)
         {
-            playerSkinManagments[i] = playerCtrs[i].GetComponent<PlayerSkinManagment>();
+            charaSwitcher.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
+
 
             //playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
         }

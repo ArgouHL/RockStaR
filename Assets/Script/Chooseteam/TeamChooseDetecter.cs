@@ -22,15 +22,19 @@ public class TeamChooseDetecter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+
         if (!other.gameObject.CompareTag("Player"))
             return;
-        teamChooseCtr.Check();
-        if (other.transform.parent.TryGetComponent<PlayerCtr>(out PlayerCtr playerCtr))
-        {
-            Debug.Log(other.transform.parent.gameObject.name);
-            playerCtr.SetTeamInConfig(team);
-        }
+        if (!other.gameObject.TryGetComponent<CharaTeamCtr>(out CharaTeamCtr charaTeamCtr))
+            return;
+        charaTeamCtr.SetTempTeam(team);
+
+      ////  teamChooseCtr.Check();
+      //  if (other.transform.parent.TryGetComponent<PlayerCtr>(out PlayerCtr playerCtr))
+      //  {
+      //      Debug.Log(other.transform.parent.gameObject.name);
+      //      playerCtr.SetTeamInConfig(team);
+      //  }
 
 
 
@@ -38,36 +42,39 @@ public class TeamChooseDetecter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-      
+
         if (!other.gameObject.CompareTag("Player"))
             return;
-        teamChooseCtr.Check();
-        if (other.transform.parent.TryGetComponent<PlayerCtr>(out PlayerCtr playerCtr))
-        {
-            Debug.Log(other.transform.parent.gameObject.name);
-            playerCtr.SetTeamInConfig(Team.None);
-        }
-    }
+        if (!other.gameObject.TryGetComponent<CharaTeamCtr>(out CharaTeamCtr charaTeamCtr))
+            return;
+        charaTeamCtr.SetTempTeam(Team.None);
+        //    teamChooseCtr.Check();
+        //    if (other.transform.parent.TryGetComponent<PlayerCtr>(out PlayerCtr playerCtr))
+        //    {
+        //        Debug.Log(other.transform.parent.gameObject.name);
+        //        playerCtr.SetTeamInConfig(Team.None);
+        //    }
+        //}
 
-    internal int GetMembersOnField(int targetNumber)
-    {
-        int num = 0;
-        var cols = Physics.OverlapSphere(transform.position, radius, 1 << 20, QueryTriggerInteraction.Collide);
-        foreach (var col in cols)
-        {
-            var vector = col.transform.position - transform.position;
-            vector.y = 0;
-            float disSqrt = vector.sqrMagnitude;
-          //  Debug.Log(col.gameObject.name + disSqrt);
+        //internal int GetMembersOnField(int targetNumber)
+        //{
+        //    int num = 0;
+        //    var cols = Physics.OverlapSphere(transform.position, radius, 1 << 20, QueryTriggerInteraction.Collide);
+        //    foreach (var col in cols)
+        //    {
+        //        var vector = col.transform.position - transform.position;
+        //        vector.y = 0;
+        //        float disSqrt = vector.sqrMagnitude;
+        //      //  Debug.Log(col.gameObject.name + disSqrt);
 
-            if (disSqrt < radius * radius)
-            {
+        //        if (disSqrt < radius * radius)
+        //        {
 
-                num++;
-            }
-        }
-        numShow.text = num + "/" + targetNumber;
-        return num;
+        //            num++;
+        //        }
+        //    }
+        //    numShow.text = num + "/" + targetNumber;
+        //    return num;
     }
 
 

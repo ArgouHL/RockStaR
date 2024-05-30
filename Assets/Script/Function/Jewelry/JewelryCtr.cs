@@ -31,6 +31,9 @@ public class JewelryCtr : MonoBehaviour
     [SerializeField] internal Material yellowJew;
     [SerializeField] internal JewLight yellowLight;
 
+    [SerializeField] internal ParticleSystem appearEffect;
+    [SerializeField] internal EffectSwitcher countEffect;
+    [SerializeField] internal EffectSwitcher disappearEffect;
     internal CrystalSfxControl crystalSfxControl;
 
     private void Awake()
@@ -44,23 +47,24 @@ public class JewelryCtr : MonoBehaviour
 
     internal void Appear(float radius)
     {
+        appearEffect.Play();
 
-    
         var v2 = Random.insideUnitCircle * (radius-4f);
         transform.position = new Vector3(v2.x, 1, v2.y);
         Inst();
         collider.enabled = true;
         crystalSfxControl.PlayCrystalAppearSfx();
-        visual.SetActive(true);
+        VisualAppear();
         float angle = Random.Range(0f,360f) * Mathf.Deg2Rad;
         BePush(new Vector3(Mathf.Cos(angle), 0, -Mathf.Sin(angle)).normalized);
-       
+        countEffect.StartEffect(Team.None);
     }
 
+   
 
     internal void Inst()
     {
-        SetTeam(Team.None);
+        SetTeamVisual(Team.None);
 
         if (JewelrySystem.instance.modeA)
             nowSpeed = bePushedMinSpeed;
@@ -71,32 +75,45 @@ public class JewelryCtr : MonoBehaviour
 
 
 
-    internal void SetTeam(Team team)
+    internal void SetTeamVisual(Team team)
     {
         Light light = GetComponentInChildren<Light>();
         switch (team)
         {
             case Team.Blue:
-                visual.GetComponent<MeshRenderer>().material=cyanJew;
+                visual.GetComponent<MeshRenderer>().material = new Material(cyanJew);
                 light.color = cyanLight.color;
                 light.intensity = cyanLight.intensity;
                 break;
             case Team.Yellow:
-                visual.GetComponent<MeshRenderer>().material=yellowJew;
+                visual.GetComponent<MeshRenderer>().material= new Material(yellowJew);
 
                 light.color = yellowLight.color;
                 light.intensity = yellowLight.intensity;
 
                 break;
             case Team.None:
-                visual.GetComponent<MeshRenderer>().material=grayJew;
+                visual.GetComponent<MeshRenderer>().material= new Material(grayJew);
                 light.color = grayLight.color;
-                light.intensity = grayLight.intensity;
+                //light.intensity = grayLight.intensity;
                 ;
                 break;
             default:
                 break;
         }
+    }
+
+    private void VisualAppear()
+    {
+        SetTeamVisual(Team.None);
+        Light light = GetComponentInChildren<Light>();
+        Material mat= visual.GetComponent<MeshRenderer>().material;
+        float emmisonStrange = mat.GetFloat("_EmiStrenge");
+        LeanTween.value(0, 1, 0.5f).setOnUpdate((float val) => {
+            mat.SetFloat("_EmiStrenge", emmisonStrange * val);
+            light.intensity = grayLight.intensity * val;
+        });
+        visual.SetActive(true);
     }
 
     internal void BePush(Vector3 normalizedVector)
@@ -105,7 +122,8 @@ public class JewelryCtr : MonoBehaviour
         if (JewelrySystem.instance.modeA)
             nowSpeed = nowSpeed >= bePushedMaxSpeed ? bePushedMaxSpeed : nowSpeed + bePushedAddSpeed;
         Move(normalizedVector);
-        crystalSfxControl.PlayCrystalHitSfx();  
+        crystalSfxControl.PlayCrystalHitSfx();
+        
     }
 
     private IEnumerator MoveIE()
@@ -167,54 +185,14 @@ public class JewelryCtr : MonoBehaviour
             StopCoroutine(moveCoro);
         rig.velocity = Vector3.zero;
         visual.SetActive(false);
+        GetComponentInChildren<Light>().intensity = 0;
         collider.enabled = false ;
         GetComponentInChildren<Light>().intensity = 0;
+      
         crystalSfxControl.PlayCrystalDisappearSfx();
     }
 
-    //private IEnumerator SelfMoveRepeadIE()
-    //{
-    //    while (true)
-    //    {
-    //        yield return new WaitWhile(() => isMoving);
-    //        yield return SelfMove();
-    //        yield return new WaitForSeconds(coolDown);
-    //    }
-
-
-    //}
-
-    //private IEnumerator SelfMove()
-    //{
-    //    yield return StateOneMove();
-
-    //}
-
-    //private IEnumerator StateOneMove()
-    //{
-    //    isSelfMoving = true;
-    //    Debug.Log("StateOneMove");
-    //    var direction = Random.insideUnitCircle.normalized;
-    //    moveDir = new Vector3(direction.x, 0, direction.y);
-    //    float dis = 0;
-
-    //    while (dis < state1MoveDis)
-    //    {
-    //        rig.MovePosition(transform.position + moveDir * state1MoveSpeed * Time.fixedDeltaTime);
-
-    //        // rig.MovePosition
-    //        dis += state1MoveSpeed * Time.fixedDeltaTime;
-    //        yield return new WaitForFixedUpdate();
-    //    }
-    //    isSelfMoving = false;
-    //}
-
-
-
-
-
-
-
+   
     #region bounce
     private void OnCollisionEnter(Collision collision)
     {

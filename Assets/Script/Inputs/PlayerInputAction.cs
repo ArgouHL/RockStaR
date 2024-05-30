@@ -378,7 +378,7 @@ namespace UnityEngine.InputSystem
             ""id"": ""3ffd9283-7c64-4c22-9893-fabbfec2c46b"",
             ""actions"": [
                 {
-                    ""name"": ""Previous"",
+                    ""name"": ""PreChara"",
                     ""type"": ""Button"",
                     ""id"": ""424f51de-4ca1-439f-8401-11f05f8598b3"",
                     ""expectedControlType"": ""Button"",
@@ -387,7 +387,7 @@ namespace UnityEngine.InputSystem
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Next"",
+                    ""name"": ""NextChara"",
                     ""type"": ""Button"",
                     ""id"": ""e7d413cc-dfa7-48dd-a3c2-40401e2539eb"",
                     ""expectedControlType"": ""Button"",
@@ -403,6 +403,33 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PreColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5adf94a-d5af-423c-9729-e0320bc58115"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe56dece-63c4-4bad-aaa6-a220d8802028"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ca14143-e0d9-4188-9144-396f0905ff71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -413,7 +440,29 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Previous"",
+                    ""action"": ""PreChara"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""420a9762-fe91-410b-96d6-1088c0546fd4"",
+                    ""path"": ""<Keyboard>/numpad4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreChara"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ea46eff-7b94-4590-b010-c3f08840db0f"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreChara"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -424,7 +473,95 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Next"",
+                    ""action"": ""NextChara"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""047fcfe7-5851-41cc-9d3c-8c53931dde22"",
+                    ""path"": ""<Keyboard>/numpad6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextChara"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24142667-2ab4-4221-84db-34030820cb89"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextChara"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""322d9d13-bfc4-40b4-b84a-b46251150780"",
+                    ""path"": ""<Keyboard>/numpad8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69ca3f07-e36a-4dd6-a97d-d22939fa55c7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3381ecb-9f03-4c5e-878b-41fb5000b702"",
+                    ""path"": ""<Keyboard>/numpad2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e1c6f0e-bb29-4e35-92f6-9009aa0175f9"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a05f687-56bc-428f-917c-79056450678a"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""942547d6-85c8-4aaf-a8ea-4d9c5dc21782"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1020,9 +1157,12 @@ namespace UnityEngine.InputSystem
             m_Player_Struggle = m_Player.FindAction("Struggle", throwIfNotFound: true);
             // SelectChara
             m_SelectChara = asset.FindActionMap("SelectChara", throwIfNotFound: true);
-            m_SelectChara_Previous = m_SelectChara.FindAction("Previous", throwIfNotFound: true);
-            m_SelectChara_Next = m_SelectChara.FindAction("Next", throwIfNotFound: true);
+            m_SelectChara_PreChara = m_SelectChara.FindAction("PreChara", throwIfNotFound: true);
+            m_SelectChara_NextChara = m_SelectChara.FindAction("NextChara", throwIfNotFound: true);
             m_SelectChara_Confirm = m_SelectChara.FindAction("Confirm", throwIfNotFound: true);
+            m_SelectChara_PreColor = m_SelectChara.FindAction("PreColor", throwIfNotFound: true);
+            m_SelectChara_NextColor = m_SelectChara.FindAction("NextColor", throwIfNotFound: true);
+            m_SelectChara_Cancel = m_SelectChara.FindAction("Cancel", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1167,16 +1307,22 @@ namespace UnityEngine.InputSystem
         // SelectChara
         private readonly InputActionMap m_SelectChara;
         private ISelectCharaActions m_SelectCharaActionsCallbackInterface;
-        private readonly InputAction m_SelectChara_Previous;
-        private readonly InputAction m_SelectChara_Next;
+        private readonly InputAction m_SelectChara_PreChara;
+        private readonly InputAction m_SelectChara_NextChara;
         private readonly InputAction m_SelectChara_Confirm;
+        private readonly InputAction m_SelectChara_PreColor;
+        private readonly InputAction m_SelectChara_NextColor;
+        private readonly InputAction m_SelectChara_Cancel;
         public struct SelectCharaActions
         {
             private @PlayerInputAction m_Wrapper;
             public SelectCharaActions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Previous => m_Wrapper.m_SelectChara_Previous;
-            public InputAction @Next => m_Wrapper.m_SelectChara_Next;
+            public InputAction @PreChara => m_Wrapper.m_SelectChara_PreChara;
+            public InputAction @NextChara => m_Wrapper.m_SelectChara_NextChara;
             public InputAction @Confirm => m_Wrapper.m_SelectChara_Confirm;
+            public InputAction @PreColor => m_Wrapper.m_SelectChara_PreColor;
+            public InputAction @NextColor => m_Wrapper.m_SelectChara_NextColor;
+            public InputAction @Cancel => m_Wrapper.m_SelectChara_Cancel;
             public InputActionMap Get() { return m_Wrapper.m_SelectChara; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1186,28 +1332,46 @@ namespace UnityEngine.InputSystem
             {
                 if (m_Wrapper.m_SelectCharaActionsCallbackInterface != null)
                 {
-                    @Previous.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPrevious;
-                    @Previous.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPrevious;
-                    @Previous.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPrevious;
-                    @Next.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNext;
-                    @Next.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNext;
-                    @Next.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNext;
+                    @PreChara.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreChara;
+                    @PreChara.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreChara;
+                    @PreChara.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreChara;
+                    @NextChara.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextChara;
+                    @NextChara.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextChara;
+                    @NextChara.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextChara;
                     @Confirm.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnConfirm;
                     @Confirm.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnConfirm;
                     @Confirm.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnConfirm;
+                    @PreColor.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreColor;
+                    @PreColor.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreColor;
+                    @PreColor.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnPreColor;
+                    @NextColor.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextColor;
+                    @NextColor.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextColor;
+                    @NextColor.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnNextColor;
+                    @Cancel.started -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnCancel;
+                    @Cancel.performed -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnCancel;
+                    @Cancel.canceled -= m_Wrapper.m_SelectCharaActionsCallbackInterface.OnCancel;
                 }
                 m_Wrapper.m_SelectCharaActionsCallbackInterface = instance;
                 if (instance != null)
                 {
-                    @Previous.started += instance.OnPrevious;
-                    @Previous.performed += instance.OnPrevious;
-                    @Previous.canceled += instance.OnPrevious;
-                    @Next.started += instance.OnNext;
-                    @Next.performed += instance.OnNext;
-                    @Next.canceled += instance.OnNext;
+                    @PreChara.started += instance.OnPreChara;
+                    @PreChara.performed += instance.OnPreChara;
+                    @PreChara.canceled += instance.OnPreChara;
+                    @NextChara.started += instance.OnNextChara;
+                    @NextChara.performed += instance.OnNextChara;
+                    @NextChara.canceled += instance.OnNextChara;
                     @Confirm.started += instance.OnConfirm;
                     @Confirm.performed += instance.OnConfirm;
                     @Confirm.canceled += instance.OnConfirm;
+                    @PreColor.started += instance.OnPreColor;
+                    @PreColor.performed += instance.OnPreColor;
+                    @PreColor.canceled += instance.OnPreColor;
+                    @NextColor.started += instance.OnNextColor;
+                    @NextColor.performed += instance.OnNextColor;
+                    @NextColor.canceled += instance.OnNextColor;
+                    @Cancel.started += instance.OnCancel;
+                    @Cancel.performed += instance.OnCancel;
+                    @Cancel.canceled += instance.OnCancel;
                 }
             }
         }
@@ -1373,9 +1537,12 @@ namespace UnityEngine.InputSystem
         }
         public interface ISelectCharaActions
         {
-            void OnPrevious(InputAction.CallbackContext context);
-            void OnNext(InputAction.CallbackContext context);
+            void OnPreChara(InputAction.CallbackContext context);
+            void OnNextChara(InputAction.CallbackContext context);
             void OnConfirm(InputAction.CallbackContext context);
+            void OnPreColor(InputAction.CallbackContext context);
+            void OnNextColor(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

@@ -11,8 +11,11 @@ using UnityEngine.UIElements;
 [DefaultExecutionOrder(-1)]
 public class PlayerCtr : MonoBehaviour
 {
-    private PlayerConfig playerConfig;
+
+    internal PlayerConfig playerConfig;
     private CharaterMovement charaterMovement;
+
+
     private Rigidbody rb;
     public int playerID;
 
@@ -100,6 +103,7 @@ public class PlayerCtr : MonoBehaviour
 
     internal PlayerSfxControl playerSfxControl;
 
+
     internal void SetInput(PlayerConfig config)
     {
 
@@ -129,7 +133,7 @@ public class PlayerCtr : MonoBehaviour
         _collider = GetComponentInChildren<SphereCollider>();
         powerGun = GetComponentInChildren<PowerGun>();
         playerSfxControl = GetComponentInChildren<PlayerSfxControl>();
-        ani = GetComponentInChildren<Animator>();
+        ReGetAnimator();
         charaterMovement = GetComponent<CharaterMovement>();
         if (playerConfig == null && !dummy)
             gameObject.SetActive(false);
@@ -137,14 +141,16 @@ public class PlayerCtr : MonoBehaviour
             playerID = 999;
     }
 
+    internal void ReGetAnimator()
+    {
+        ani = GetComponentInChildren<Animator>();
+    }
     private void OnEnable()
     {
         if (playerConfig == null)
             return;
 
-        //     player.FindAction("Attack").started += DoAttack;
-
-        // EnablePlayer();
+        CanMove(true);
     }
 
     private void EnablePlayer()
@@ -169,6 +175,7 @@ public class PlayerCtr : MonoBehaviour
         playerConfig.gameInput.FindAction("UseItem").performed -= UseItem;
         //  player.FindAction("Attack").started -= DoAttack;
         playerConfig.gameInput.Disable();
+        CanMove(false);
     }
 
 
@@ -221,16 +228,33 @@ public class PlayerCtr : MonoBehaviour
         //        rb.velocity = rb.velocity.normalized * maxSpeed;
         //}
     }
+    private delegate void MovementEvent();
+    private MovementEvent OnMove;
+    private MovementEvent OnRotate;
+    internal void CanMove(bool v)
+    {
+        if(v)
+        {
+            
+            OnMove += Move;
+            OnRotate += CharatarRotate;
+        }
+        else
+        {
+            playerModel.rotation = Quaternion.Euler(0, 180, 0);
+            OnMove -= Move;
+            OnRotate -= CharatarRotate;
+        }
+    }
 
     private void FixedUpdate()
     {
-        Move();
-
+        OnMove?.Invoke();
     }
 
     private void Update()
     {
-        CharatarRotate();
+        OnRotate?.Invoke();
     }
 
     private void Move()
@@ -630,8 +654,10 @@ public class PlayerCtr : MonoBehaviour
     }
 
 
-    internal void BePowerPushed(Vector3 force)
+    internal void BePowerPushed(Vector3 force, Team team)
     {
+        if (team == choosedTeam || stunned)
+            return;
         Debug.Log("bePush");
         rb.velocity = Vector3.zero;
         rb.AddForce(force, ForceMode.Impulse);
@@ -640,7 +666,7 @@ public class PlayerCtr : MonoBehaviour
             return;
         playerModel.LookAt(transform.position - force);
         playerSfxControl.PlayGetEnergyHitBackSfx();
-        StartCoroutine(StunIE(3));
+        StartCoroutine(StunIE(1.5f));
 
     }
 
@@ -682,13 +708,15 @@ public class PlayerCtr : MonoBehaviour
     {
         float _time = time;
         stunned = true;
-
+        ani.ResetTrigger("Up");
         ani.SetBool("falldown", true);
-        while (_time > 0)
+        while (_time > 0.45f)
         {
             _time -= Time.deltaTime;
             yield return null;
         }
+
+        ani.SetTrigger("Up");
 
         while (_time > 0)
         {
@@ -717,13 +745,6 @@ public class PlayerCtr : MonoBehaviour
         rb.velocity = Vector3.zero;
     }
 
-    internal void SetTeamInConfig(Team team)
-    {
-        playerConfig.SetPlayerTeam(team);
-        choosedTeam = playerConfig.PlayerTeam;
-        GetComponentInChildren<TeamPlateShow>().ChangeTeam(choosedTeam);
-        // powerGun.SetTeam(team);
-        Debug.Log(team);
-    }
+
 
 }

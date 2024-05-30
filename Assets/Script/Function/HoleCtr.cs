@@ -25,12 +25,12 @@ public class HoleCtr : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Jewelry")&& other.TryGetComponent<JewelryCtr>(out JewelryCtr jewelryCtr))
-        {
-            if (JewelrySystem.instance.NowTeam() == Team.None)
-                return;
-            ScoreSys.instance.AddScore(JewelrySystem.instance.NowTeam(), 1);
-           // JewelrySystem.instance.ReSpawnJewelry();
-        }
+        //if (other.CompareTag("Jewelry")&& other.TryGetComponent<JewelryCtr>(out JewelryCtr jewelryCtr))
+        //{
+        //    if (JewelrySystem.instance.NowTeam() == Team.None)
+        //        return;
+        //    ScoreSys.instance.AddScore(JewelrySystem.instance.NowTeam(), 1);
+        //   // JewelrySystem.instance.ReSpawnJewelry();
+        //}
     }
 }

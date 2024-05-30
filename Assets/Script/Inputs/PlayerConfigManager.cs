@@ -10,7 +10,10 @@ public class PlayerConfigManager : MonoBehaviour
 {
     private PlayerInputManager playerInputManager;
     private List<PlayerConfig> playerConfigs;
-  
+    internal List<PlayerConfig> PlayerConfigs()
+    {
+        return playerConfigs;
+    }
     const int MaxPlayerCount = 4;
 
     public static PlayerConfigManager instance { get; private set; }
@@ -32,7 +35,7 @@ public class PlayerConfigManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
             playerInputManager = GetComponent<PlayerInputManager>();
-           
+
         }
 
     }
@@ -41,7 +44,7 @@ public class PlayerConfigManager : MonoBehaviour
     {
         foreach (var config in playerConfigs)
         {
-          
+
             switch (inputType)
             {
                 case InputType.player:
@@ -66,7 +69,7 @@ public class PlayerConfigManager : MonoBehaviour
     public void ReadyPlayer(int index)
     {
         playerConfigs[index].IsReady = true;
-        if ( playerConfigs.All(p => p.IsReady))
+        if (playerConfigs.All(p => p.IsReady))
         {
             AllReady();
         }
@@ -88,15 +91,14 @@ public class PlayerConfigManager : MonoBehaviour
             playerConfigs.Add(config);
             playerInput.GetComponent<CharaterConfigCtr>().SetConfig(config);
             playerInput.transform.SetParent(transform);
-        
-          // playerJoin.Invoke(playerConfigs.Count - 1);
+
+            // playerJoin.Invoke(playerConfigs.Count - 1);
         }
 
     }
 
     public PlayerConfig GetPlayerConfig(int index)
-    {
-        Debug.Log(index);
+    {    
         return playerConfigs[index];
     }
 
@@ -105,7 +107,10 @@ public class PlayerConfigManager : MonoBehaviour
         return playerConfigs.Count;
     }
 
-
+    internal void Cancel(int playerIndex)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public enum InputType { player, selectChara }

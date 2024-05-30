@@ -22,6 +22,7 @@ public class JewelrySystem : MonoBehaviour
     private Coroutine GetPountCountDown;
 
     private int count = 0;
+    float countTime = 0;
 
     private void Awake()
     {
@@ -31,9 +32,10 @@ public class JewelrySystem : MonoBehaviour
 
     }
 
-    private Team nowTeam = Team.None;
+    private Team nowTeam ;
     internal Team NowTeam()
     {
+
         return nowTeam;
     }
 
@@ -43,8 +45,9 @@ public class JewelrySystem : MonoBehaviour
             return;
         nowTeam = team;
         jewelryCtr.crystalSfxControl.PlayCrystalChangeTeamSfx();
-        jewelryCtr.SetTeam(team);
-        JewelryCounterUI.instance.ShowCount(nowTeam, count);
+        jewelryCtr.SetTeamVisual(team);
+        jewelryCtr.countEffect.StartEffectInTime(team, countTime);
+        //JewelryCounterUI.instance.ShowCount(nowTeam, count);
         //if (GetPountCountDown != null)
         //    StopCoroutine(GetPountCountDown);
         //GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime/ countTimes  , _totalTime: totalTime));
@@ -52,24 +55,24 @@ public class JewelrySystem : MonoBehaviour
 
     private IEnumerator GetPountIE(float countWait, float _totalTime)
     {
-        float time = 0;
+         countTime = 0;
         count = 0;
-        JewelryCounterUI.instance.ShowEmpty();
+      //  JewelryCounterUI.instance.ShowEmpty();
         StartCoroutine(CrystalWorning(_totalTime+ countWait*0.75f));
-        while (time < _totalTime)
+        while (countTime < _totalTime)
         {
             yield return new WaitForSeconds(countWait);
             count++;
-            JewelryCounterUI.instance.ShowCount(nowTeam, count);
-            time += countWait;
+            //JewelryCounterUI.instance.ShowCount(nowTeam, count);
+            countTime += countWait;
         }
         yield return new WaitForSeconds(countWait);
         count++;
         ScoreSys.instance.AddScore(nowTeam, 1);
-
-        JewelryCounterUI.instance.ShowEnd(nowTeam);
+        jewelryCtr.disappearEffect.StartEffect(nowTeam);
+        //  JewelryCounterUI.instance.ShowEnd(nowTeam);
         nowTeam = Team.None;
-        jewelryCtr.SetTeam(Team.None);
+        jewelryCtr.SetTeamVisual(Team.None);
         jewelryCtr.Stop();
         LeanTween.delayedCall(coolDownTime, () => SpawnJewelry());
         GetPountCountDown = null;

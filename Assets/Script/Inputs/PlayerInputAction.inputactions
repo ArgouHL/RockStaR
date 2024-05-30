@@ -354,7 +354,7 @@
             "id": "3ffd9283-7c64-4c22-9893-fabbfec2c46b",
             "actions": [
                 {
-                    "name": "Previous",
+                    "name": "PreChara",
                     "type": "Button",
                     "id": "424f51de-4ca1-439f-8401-11f05f8598b3",
                     "expectedControlType": "Button",
@@ -363,7 +363,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Next",
+                    "name": "NextChara",
                     "type": "Button",
                     "id": "e7d413cc-dfa7-48dd-a3c2-40401e2539eb",
                     "expectedControlType": "Button",
@@ -379,6 +379,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PreColor",
+                    "type": "Button",
+                    "id": "f5adf94a-d5af-423c-9729-e0320bc58115",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextColor",
+                    "type": "Button",
+                    "id": "fe56dece-63c4-4bad-aaa6-a220d8802028",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "1ca14143-e0d9-4188-9144-396f0905ff71",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -389,7 +416,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Previous",
+                    "action": "PreChara",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "420a9762-fe91-410b-96d6-1088c0546fd4",
+                    "path": "<Keyboard>/numpad4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PreChara",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ea46eff-7b94-4590-b010-c3f08840db0f",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PreChara",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -400,7 +449,95 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Next",
+                    "action": "NextChara",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "047fcfe7-5851-41cc-9d3c-8c53931dde22",
+                    "path": "<Keyboard>/numpad6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextChara",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24142667-2ab4-4221-84db-34030820cb89",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextChara",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "322d9d13-bfc4-40b4-b84a-b46251150780",
+                    "path": "<Keyboard>/numpad8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PreColor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69ca3f07-e36a-4dd6-a97d-d22939fa55c7",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PreColor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3381ecb-9f03-4c5e-878b-41fb5000b702",
+                    "path": "<Keyboard>/numpad2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextColor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e1c6f0e-bb29-4e35-92f6-9009aa0175f9",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextColor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a05f687-56bc-428f-917c-79056450678a",
+                    "path": "<Keyboard>/rightBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "942547d6-85c8-4aaf-a8ea-4d9c5dc21782",
+                    "path": "<Keyboard>/leftBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

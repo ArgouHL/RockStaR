@@ -8,19 +8,19 @@ public class ShootOutPower : MonoBehaviour
 {
     private PowerGun powerGun;
     private Coroutine powerFlayingCoro;
-
-
+    [SerializeField] private EffectSwitcher shootEnergyEffect;
 
 
     private void Awake()
     {
 
         powerGun = GetComponentInParent<PowerGun>();
-        GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
+     //   GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
     }
 
     internal void ShootOut(Vector3 shootDir, float maxDis, Vector3 startPos, float speed)
     {
+        shootEnergyEffect.StopEffect();
         transform.position = startPos;
         gameObject.SetActive(true);
         SetTeam(powerGun.playerCtr.choosedTeam);
@@ -92,24 +92,7 @@ public class ShootOutPower : MonoBehaviour
 
     internal void SetTeam(Team team)
     {
-        Color color;
-        switch (team)
-        {
-
-            case Team.Blue:
-                color = Color.cyan;
-                break;
-            case Team.Yellow:
-                color = Color.yellow;
-                break;
-            default:
-                color = Color.gray;
-
-                break;
-
-        }
-        GetComponentInChildren<MeshRenderer>().material.color = color;
-        GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", color);
+        shootEnergyEffect.StartEffect(team);
         Debug.Log("Set " + team);
     }
 
@@ -118,13 +101,14 @@ public class ShootOutPower : MonoBehaviour
         Vector3 _powerDir = pullableObj.transform.position - transform.position;
         _powerDir.y = 0;
         _powerDir = _powerDir.normalized;
-        pullableObj.PowerPushed(_powerDir * powerGun.pushPower);
+        pullableObj.PowerPushed(_powerDir * powerGun.pushPower, powerGun.playerCtr.choosedTeam);
 
     }
 
 
     private void PowerDisapper(bool playHitSfx = true)
     {
+        shootEnergyEffect.StopEffect();
         if (playHitSfx)
             powerGun.PlayEnergyHitSfx(transform.position);
         transform.position = powerGun.PowerBackPool(this).position;

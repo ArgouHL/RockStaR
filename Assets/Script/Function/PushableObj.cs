@@ -13,12 +13,12 @@ public class PushableObj :MonoBehaviour
         rig = GetComponent<Rigidbody>();
     }
 
-    public void PowerPushed(Vector3 force)
+    public void PowerPushed(Vector3 force, Team choosedTeam)
     {
         switch(type)
         {
             case PullableObjType.Player:
-              GetComponent<PlayerCtr>().BePowerPushed(force);
+              GetComponent<PlayerCtr>().BePowerPushed(force, choosedTeam);
                 break;
             case PullableObjType.Jewelry:
                 GetComponent<JewelryCtr>().BePush(force.normalized);

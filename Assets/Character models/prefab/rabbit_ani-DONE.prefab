@@ -1585,7 +1585,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a380268f19b5645e0a01efed6e464291, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5296,7 +5296,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0aabc6d0118bb4df381e33df030f367f, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6312,7 +6312,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b9e290b29461647e79e9ebd47e86cabb, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10800,7 +10800,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a380268f19b5645e0a01efed6e464291, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10995,7 +10995,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0aabc6d0118bb4df381e33df030f367f, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13953,7 +13953,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 091a8a58f3efb424aa8f71f055bed2f3, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15529,7 +15529,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a380268f19b5645e0a01efed6e464291, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18972,7 +18972,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b9e290b29461647e79e9ebd47e86cabb, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23622,7 +23622,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b9e290b29461647e79e9ebd47e86cabb, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26073,7 +26073,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 091a8a58f3efb424aa8f71f055bed2f3, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32896,7 +32896,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 091a8a58f3efb424aa8f71f055bed2f3, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -40261,7 +40261,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a380268f19b5645e0a01efed6e464291, type: 2}
+  - {fileID: 2100000, guid: 59bec94944ae64daaae96860869a9360, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -45115,6 +45115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8428349380156504479}
   - component: {fileID: 8321871897992411604}
+  - component: {fileID: 1443737280880062835}
   m_Layer: 0
   m_Name: rabbit_ani-DONE
   m_TagString: Untagged
@@ -45159,6 +45160,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1443737280880062835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9204323786125271845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d884d4349c5659143b95035fe6f8b1fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaType: 3
+  meshRenderers:
+  - {fileID: 5621099310609787522}
+  - {fileID: 1799518138040044498}
+  - {fileID: 3572843115232622652}
+  - {fileID: 5746445561301901724}
+  - {fileID: 7740545180132332021}
+  - {fileID: 1750088264937345995}
+  - {fileID: 2829338276017742760}
+  - {fileID: 5589132837002116477}
+  - {fileID: 70174498839692533}
+  - {fileID: 4482257533549293008}
+  - {fileID: 8218368259315021662}
+  - {fileID: 1000387386349133115}
 --- !u!1 &9213975562304340311
 GameObject:
   m_ObjectHideFlags: 0

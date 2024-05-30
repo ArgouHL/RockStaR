@@ -1,28 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInputManager))]
+
 public class CharaSwitcher : MonoBehaviour
 {
-    int index = 0;
-    [SerializeField] private List<GameObject> players = new List<GameObject>();
-    private PlayerInputManager manager;
+    internal static CharaSwitcher instance;
+    [SerializeField] private List<PlayerSkinManagment> playerSkinManagments;
 
-    private void Start()
+    private void Awake()
     {
-        manager = GetComponent<PlayerInputManager>();
-        index = 0;
-        manager.playerPrefab = players[index];
+        playerSkinManagments = new List<PlayerSkinManagment>();
+        instance = this;
     }
 
-    public void SwitchNextSpawnCharacter(PlayerInput input)
+    internal void AddPlayerSkinManagment(PlayerSkinManagment playerSkinManagment)
     {
-        index++;
-      
-        manager.playerPrefab = players[index];
+        playerSkinManagments.Add(playerSkinManagment);
+    }
+    internal void SetPlayerSkinColor(int playerIndex, int newIndex)
+    {
+        CharaType charaType = (CharaType)PlayerConfigManager.instance.GetPlayerConfig(playerIndex).CharaterIndex;
+
+        playerSkinManagments[playerIndex].SetColor(newIndex);
     }
 
+    internal void SetPlayerSkin(int playerIndex, int newIndex)
+    {
+        playerSkinManagments[playerIndex].SetModel(newIndex);
+    }
+
+    internal bool IsColorUsing(int charaterIndex, int colorIndex)
+    {
+        var usedSkin =playerSkinManagments.Where(skinManagment=> skinManagment.gameObject.activeInHierarchy).Select(skinManagment => skinManagment.GetSkinID());
+        foreach (var v2 in usedSkin)
+        {
+            Debug.Log(v2);
+
+        }
+        Debug.Log("now " + charaterIndex + "," + colorIndex);
+        bool b = usedSkin.Contains(new Vector2Int(charaterIndex, colorIndex));
+        Debug.Log(b);
+        return b;
+
+    }
 }

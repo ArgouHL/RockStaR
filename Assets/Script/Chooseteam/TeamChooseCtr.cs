@@ -15,47 +15,46 @@ public class TeamChooseCtr : MonoBehaviour
 
     private void Start()
     {
-        blueField.GetMembersOnField(targetNumber);
-        redField.GetMembersOnField(targetNumber);
+      
     }
 
-    internal void Check()
-    {
-        int blueCount = blueField.GetMembersOnField(targetNumber);
-        int redCount = redField.GetMembersOnField(targetNumber);
-        Debug.Log(blueCount + redCount + "/" + targetNumber);
-        if (blueCount < targetNumber || redCount < targetNumber)
-        {
-            Debug.Log("LessThantargetNumber");
-            if (gameStartCountdown != null)
-            {
-                StopCoroutine(gameStartCountdown);
-                gameStartCountdown = null;
-            }
+    //internal void Check()
+    //{
+    //    int blueCount = blueField.GetMembersOnField(targetNumber);
+    //    int redCount = redField.GetMembersOnField(targetNumber);
+    //    Debug.Log(blueCount + redCount + "/" + targetNumber);
+    //    if (blueCount < targetNumber || redCount < targetNumber)
+    //    {
+    //        Debug.Log("LessThantargetNumber");
+    //        if (gameStartCountdown != null)
+    //        {
+    //            StopCoroutine(gameStartCountdown);
+    //            gameStartCountdown = null;
+    //        }
               
-        }
+    //    }
 
-        else if (blueCount >= targetNumber && redCount >= targetNumber)
-        {
-            if (gameStartCountdown == null)
-                gameStartCountdown = StartCoroutine(CountDownIE(countDownTime));
-        }
+    //    else if (blueCount >= targetNumber && redCount >= targetNumber)
+    //    {
+    //        if (gameStartCountdown == null)
+    //            gameStartCountdown = StartCoroutine(CountDownIE(countDownTime));
+    //    }
 
 
 
-    }
+    //}
 
-    private IEnumerator CountDownIE(int countDownTime)
-    {
-        Debug.Log("StartCountDownIE");
-        float time = 0;
-        while(time< countDownTime)
-        {
-            time += Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log("GameStart");
-        SceneManager.LoadScene(1);
+    //private IEnumerator CountDownIE(int countDownTime)
+    //{
+    //    Debug.Log("StartCountDownIE");
+    //    float time = 0;
+    //    while(time< countDownTime)
+    //    {
+    //        time += Time.deltaTime;
+    //        yield return null;
+    //    }
+    //    Debug.Log("GameStart");
+    //    SceneManager.LoadScene(1);
 
-    }
+    //}
 }

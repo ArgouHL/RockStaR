@@ -30,7 +30,9 @@ public class SelectInputConnect : MonoBehaviour
 
         PlayerConfigManager.instance.ChangeActionMap(InputType.selectChara);
         var skinmgr = playerCtrs[input.playerIndex].GetComponent<PlayerSkinManagment>();
-        GetComponent<SkinSystem>().AddPlayerSkinManagment(input.playerIndex, skinmgr);
+        CharaSwitcher.instance.AddPlayerSkinManagment(playerCtrs[input.playerIndex].GetComponent<PlayerSkinManagment>());
+        CharaTeamManger.instance.AddTeamCtr(playerCtrs[input.playerIndex].GetComponent<CharaTeamCtr>());
+
     }
 
 
