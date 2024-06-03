@@ -219,7 +219,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &276918353
 GameObject:
@@ -377,6 +377,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: duck_ani-DONE
       objectReference: {fileID: 0}
+    - target: {fileID: 8149645881020407060, guid: 1b30c8888552f4496894785a69041750, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8814260719336949678, guid: 1b30c8888552f4496894785a69041750, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -478,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rabbit_ani-DONE
       objectReference: {fileID: 0}
+    - target: {fileID: 9204323786125271845, guid: f01d4125040e44fc3ab69c1155f66733, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f01d4125040e44fc3ab69c1155f66733, type: 3}
 --- !u!1001 &908621841
@@ -490,6 +498,10 @@ PrefabInstance:
     - target: {fileID: 8109386689890826175, guid: 9e6e36645ec9a4f889af6515801caff2, type: 3}
       propertyPath: m_Name
       value: fox_ani-DONE
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109386689890826175, guid: 9e6e36645ec9a4f889af6515801caff2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8917554518016224517, guid: 9e6e36645ec9a4f889af6515801caff2, type: 3}
       propertyPath: m_RootOrder
@@ -618,7 +630,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1994430217
 GameObject:
@@ -703,7 +715,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 3.204, y: 0, z: 0}
 --- !u!114 &1994430221
 MonoBehaviour:
@@ -745,6 +757,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 752180181616268769, guid: 66c061fbc975c42858dd2d164606ad5e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2462446879458851667, guid: 66c061fbc975c42858dd2d164606ad5e, type: 3}
       propertyPath: m_Name
       value: racoon_ani-DONE

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80dcf2c5ebfd5a45836c6f7ce02a8e1, type: 3}
   m_Name: Sfx_07_CrystalDisapper
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: dc6a6054c4876b7418ea673cacd1a9a7, type: 3}
+  audioClip: {fileID: 8300000, guid: 2a5c5fd240bc3b449978b0d2098cf58e, type: 3}

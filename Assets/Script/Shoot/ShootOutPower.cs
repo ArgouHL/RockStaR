@@ -8,6 +8,7 @@ public class ShootOutPower : MonoBehaviour
 {
     private PowerGun powerGun;
     private Coroutine powerFlayingCoro;
+    private Rigidbody rig;
     [SerializeField] private EffectSwitcher shootEnergyEffect;
 
 
@@ -15,6 +16,7 @@ public class ShootOutPower : MonoBehaviour
     {
 
         powerGun = GetComponentInParent<PowerGun>();
+        rig = GetComponent<Rigidbody>();
      //   GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
     }
 
@@ -24,10 +26,10 @@ public class ShootOutPower : MonoBehaviour
         transform.position = startPos;
         gameObject.SetActive(true);
         SetTeam(powerGun.playerCtr.choosedTeam);
-        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed));
+        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed, startPos));
     }
 
-    private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis, float speed)
+    private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis, float speed, Vector3 startPos)
     {
 
         transform.parent = null;
@@ -35,11 +37,11 @@ public class ShootOutPower : MonoBehaviour
         float dis = 0;
         while (dis < maxDis)
         {
-            float translateDis = Time.deltaTime * speed;
-            dis += Time.deltaTime * speed;
-            transform.position += shootDir * translateDis;
+         //   float translateDis = Time.deltaTime * speed;
+            dis += Time.fixedDeltaTime * speed;
+           rig.MovePosition(startPos+ shootDir.normalized* dis);
 
-            yield return null;
+            yield return new WaitForFixedUpdate() ;
         }
 
         PowerDisapper(false);
@@ -111,6 +113,8 @@ public class ShootOutPower : MonoBehaviour
         shootEnergyEffect.StopEffect();
         if (playHitSfx)
             powerGun.PlayEnergyHitSfx(transform.position);
+        if (powerFlayingCoro != null)
+            StopCoroutine(powerFlayingCoro);
         transform.position = powerGun.PowerBackPool(this).position;
         // Debug.Log("PowerDisapper");
         gameObject.SetActive(false);

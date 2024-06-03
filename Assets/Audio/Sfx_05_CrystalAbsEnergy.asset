@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80dcf2c5ebfd5a45836c6f7ce02a8e1, type: 3}
   m_Name: Sfx_05_CrystalAbsEnergy
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 3c780a4afeb457a4285d60fb1bf308ec, type: 3}
+  audioClip: {fileID: 8300000, guid: 1a266f9e182a28241b6d086f83e7c56d, type: 3}

@@ -14,7 +14,7 @@ public class AudioSourceCtr : MonoBehaviour
 
     protected internal void PlayOnce(AudioClipObj audioClipObj)
     {
-        Debug.Log("Play:" + audioClipObj.name);
+      //  Debug.Log("Play:" + audioClipObj.name);
         audioSource.PlayOneShot(audioClipObj.audioClip);
     }
 

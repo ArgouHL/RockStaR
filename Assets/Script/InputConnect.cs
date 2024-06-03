@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +13,10 @@ public class InputConnect : MonoBehaviour
     [SerializeField] private bool test = false;
     private PlayerInputManager testPlayerInput;
     [SerializeField] private GameObject testPlayer;
-    private List<PlayerConfig> playerConfigs=new List<PlayerConfig>();
+    private List<PlayerConfig> playerConfigs = new List<PlayerConfig>();
     private PlayerSkinManagment[] playerSkinManagments;
     private CharaSwitcher charaSwitcher;
+
     private void Awake()
     {
         if (test)
@@ -27,14 +29,14 @@ public class InputConnect : MonoBehaviour
     {
         int index = PlayerConfigManager.instance.GetPlayerCount();
         Debug.Log("PlayerCount:" + index);
-       
+
         for (int i = 0; i < index; i++)
         {
             Debug.Log("Connect times:" + i + 1);
             var config = PlayerConfigManager.instance.GetPlayerConfig(i);
             playerCtrs[i].SetInput(config);
             CharaSwitcher.instance.AddPlayerSkinManagment(playerCtrs[i].GetComponent<PlayerSkinManagment>());
-           
+
         }
         ApplySkin();
 
@@ -53,7 +55,7 @@ public class InputConnect : MonoBehaviour
 
     private void ApplySkin()
     {
-       
+
         for (int i = 0; i < 4; i++)
         {
             charaSwitcher.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
@@ -66,11 +68,6 @@ public class InputConnect : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-
-
-    }
 
     private void OnDisable()
     {
@@ -80,6 +77,7 @@ public class InputConnect : MonoBehaviour
 
     private void ConnectTestInput()
     {
+        gameObject.AddComponent<PlayerConfigManager>();
         testPlayerInput = gameObject.AddComponent<PlayerInputManager>();
         testPlayerInput.playerPrefab = testPlayer;
         testPlayerInput.notificationBehavior = PlayerNotifications.InvokeCSharpEvents;
@@ -91,12 +89,12 @@ public class InputConnect : MonoBehaviour
         Debug.Log("Player" + playerInput.playerIndex + " Joined");
 
         var config = new PlayerConfig(playerInput);
-       
+
         playerInput.transform.SetParent(transform);
 
 
         playerCtrs[0].SetInput(config);
-
+        PlayerConfigManager.instance.AddConfigTest(config);
 
 
     }

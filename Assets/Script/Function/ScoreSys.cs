@@ -9,18 +9,14 @@ public class ScoreSys : MonoBehaviour
     public static ScoreSys instance;
     [SerializeField] private TMP_Text yellowScoreTMP;
     [SerializeField] private TMP_Text blueScoreTMP;
-    private static float yellowScore;
-    private static float blueScore;
+    private CanvasGroup canvasGroup;
+    internal static float yellowScore;
+    internal static float blueScore;
     private void Awake()
     {
         instance = this;
     }
 
-    private void Start()
-    {
-        Inst();
-        UpdateScore();
-    }
 
     private void UpdateScore()
     {
@@ -28,10 +24,11 @@ public class ScoreSys : MonoBehaviour
         blueScoreTMP.text = blueScore.ToString();
     }
 
-    private void Inst()
+    internal void Inst()
     {
         yellowScore=0;
         blueScore = 0;
+        UpdateScore();
     }
 
 
@@ -47,6 +44,11 @@ public class ScoreSys : MonoBehaviour
                 break;
         }
         UpdateScore();
+    }
+
+    internal void UnShow()
+    {
+        canvasGroup.alpha = 0;
     }
 }
 

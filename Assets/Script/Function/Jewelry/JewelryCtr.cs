@@ -188,11 +188,19 @@ public class JewelryCtr : MonoBehaviour
         GetComponentInChildren<Light>().intensity = 0;
         collider.enabled = false ;
         GetComponentInChildren<Light>().intensity = 0;
-      
-        crystalSfxControl.PlayCrystalDisappearSfx();
+        countEffect.StopEffect();
+
+
+    }
+    internal void EndStop()
+    {
+        if (moveCoro != null)
+            StopCoroutine(moveCoro);
+        Stop();
+
+
     }
 
-   
     #region bounce
     private void OnCollisionEnter(Collision collision)
     {

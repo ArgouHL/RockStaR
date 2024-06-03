@@ -17,6 +17,7 @@ public class PlayerConfig
     private InputActionAsset inputAsset;
     internal InputActionMap selectInput;
     internal InputActionMap gameInput;
+    internal InputActionMap uiInput;
 
     internal Team PlayerTeam;
 
@@ -28,6 +29,7 @@ public class PlayerConfig
         inputAsset = playerInput.actions;
         selectInput = inputAsset.FindActionMap("SelectChara");
         gameInput = inputAsset.FindActionMap("Player");
+        uiInput = inputAsset.FindActionMap("UI");
         ChangeCharater(PlayerIndex);
     }
 
@@ -46,6 +48,7 @@ public class PlayerConfig
         Debug.Log(inputType);
         selectInput.Disable();
         gameInput.Disable();
+        uiInput.Disable();
         switch (inputType)
         {
             case InputType.selectChara:
@@ -54,6 +57,9 @@ public class PlayerConfig
                 break;
             case InputType.player:
                 gameInput.Enable();
+                break;
+            case InputType.UI:
+                uiInput.Enable();
                 break;
         }
     }

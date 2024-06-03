@@ -94,12 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1ca68a4c06fab47b0242d897e47b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yellow: {r: 0, g: 0, b: 0, a: 0}
-  cyan: {r: 0, g: 0, b: 0, a: 0}
+  yellow: {r: 1, g: 0.9295865, b: 0, a: 0}
+  cyan: {r: 0, g: 0.8993242, b: 1, a: 0}
   noTeamEffect: {fileID: 0}
   yellowEffect: {fileID: 7205567877738488125}
   blueEffect: {fileID: 4820808822488969545}
-  _light: {fileID: 0}
+  _light: {fileID: 6368205568710380029}
 --- !u!108 &6368205568710380029
 Light:
   m_ObjectHideFlags: 0

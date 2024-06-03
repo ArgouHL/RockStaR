@@ -33,7 +33,7 @@ public class EffectSwitcher : MonoBehaviour
             StartLight(team);
     }
 
-    internal void StartEffectInTime(Team team,float startTime)
+    internal void StartEffectInTime(Team team, float startTime)
     {
         StopEffect();
         switch (team)
@@ -41,10 +41,10 @@ public class EffectSwitcher : MonoBehaviour
             case Team.None:
                 if (noTeamEffect != null)
                 {
-                    noTeamEffect.Simulate(startTime,true,true);
+                    noTeamEffect.Simulate(startTime, true, true);
                     noTeamEffect.Play();
                 }
-                   
+
 
                 break;
             case Team.Blue:
@@ -68,6 +68,8 @@ public class EffectSwitcher : MonoBehaviour
     {
         blueEffect.Stop();
         yellowEffect.Stop();
+        if (noTeamEffect != null)
+            noTeamEffect.Stop();
         if (_light != null)
             StopLight();
     }

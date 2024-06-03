@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80dcf2c5ebfd5a45836c6f7ce02a8e1, type: 3}
   m_Name: Sfx_09_energyShoot
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: bbdc0e70576fe5343bc57c2da50f5222, type: 3}
+  audioClip: {fileID: 8300000, guid: d58098c91bea20c42bd48c9bfa9694eb, type: 3}

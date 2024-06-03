@@ -244,6 +244,7 @@ public class PlayerCtr : MonoBehaviour
             playerModel.rotation = Quaternion.Euler(0, 180, 0);
             OnMove -= Move;
             OnRotate -= CharatarRotate;
+            StopMove();
         }
     }
 
@@ -613,6 +614,8 @@ public class PlayerCtr : MonoBehaviour
     private Coroutine ShootReocveryCoro;
     private void DoShoot(InputAction.CallbackContext obj)
     {
+        if (choosedTeam == Team.None)
+            return;
         ani.ResetTrigger("Shoot");
         if (stunned)
             return;
@@ -743,6 +746,7 @@ public class PlayerCtr : MonoBehaviour
     internal void StopMove()
     {
         rb.velocity = Vector3.zero;
+        ani.SetBool("running", false);
     }
 
 

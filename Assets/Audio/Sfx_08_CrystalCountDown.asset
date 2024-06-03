@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80dcf2c5ebfd5a45836c6f7ce02a8e1, type: 3}
   m_Name: Sfx_08_CrystalCountDown
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 6e473d2af84221140a684031829f4f52, type: 3}
+  audioClip: {fileID: 8300000, guid: 1a1b333e4f59f904cb78299b8d59a162, type: 3}

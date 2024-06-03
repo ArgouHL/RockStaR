@@ -19,7 +19,8 @@ public class JewelrySystem : MonoBehaviour
     [SerializeField] internal float totalTime = 2f;
     [SerializeField] internal int countTimes = 5;
     [SerializeField] internal float coolDownTime = 3f;
-    private Coroutine GetPountCountDown;
+    private Coroutine GetPountCountDownCoro;
+    private Coroutine WarningCoro;
 
     private int count = 0;
     float countTime = 0;
@@ -32,7 +33,7 @@ public class JewelrySystem : MonoBehaviour
 
     }
 
-    private Team nowTeam ;
+    private Team nowTeam;
     internal Team NowTeam()
     {
 
@@ -55,10 +56,10 @@ public class JewelrySystem : MonoBehaviour
 
     private IEnumerator GetPountIE(float countWait, float _totalTime)
     {
-         countTime = 0;
+        countTime = 0;
         count = 0;
-      //  JewelryCounterUI.instance.ShowEmpty();
-        StartCoroutine(CrystalWorning(_totalTime+ countWait*0.75f));
+        //  JewelryCounterUI.instance.ShowEmpty();
+        WarningCoro=StartCoroutine(CrystalWorning(_totalTime + countWait * 0.75f));
         while (countTime < _totalTime)
         {
             yield return new WaitForSeconds(countWait);
@@ -70,12 +71,13 @@ public class JewelrySystem : MonoBehaviour
         count++;
         ScoreSys.instance.AddScore(nowTeam, 1);
         jewelryCtr.disappearEffect.StartEffect(nowTeam);
+        jewelryCtr.crystalSfxControl.PlayCrystalDisappearSfx();
         //  JewelryCounterUI.instance.ShowEnd(nowTeam);
         nowTeam = Team.None;
         jewelryCtr.SetTeamVisual(Team.None);
         jewelryCtr.Stop();
         LeanTween.delayedCall(coolDownTime, () => SpawnJewelry());
-        GetPountCountDown = null;
+        GetPountCountDownCoro = null;
 
     }
 
@@ -89,7 +91,7 @@ public class JewelrySystem : MonoBehaviour
         {
             jewelryCtr.crystalSfxControl.PlayCrystalWrongingSfx();
 
-            Debug.Log("Wronging");
+
 
             // Calculate the current period based on elapsed time
             float t = elapsedTime / _totalTime; // Normalized time (0 to 1)
@@ -98,16 +100,26 @@ public class JewelrySystem : MonoBehaviour
             yield return new WaitForSeconds(currentPeriod);
             elapsedTime += currentPeriod;
         }
-       
 
+        WarningCoro = null;
     }
 
     internal void SpawnJewelry()
     {
         jewelryCtr.Appear(sceneRadius);
-        if (GetPountCountDown != null)
-            StopCoroutine(GetPountCountDown);
-        GetPountCountDown = StartCoroutine(GetPountIE(countWait: totalTime / countTimes, _totalTime: totalTime));
+        if (GetPountCountDownCoro != null)
+            StopCoroutine(GetPountCountDownCoro);
+        GetPountCountDownCoro = StartCoroutine(GetPountIE(countWait: totalTime / countTimes, _totalTime: totalTime));
+    }
+
+
+    internal void EndDespawn()
+    {
+        if (GetPountCountDownCoro != null)
+            StopCoroutine(GetPountCountDownCoro);
+        if(WarningCoro!=null) 
+            StopCoroutine(WarningCoro);
+        jewelryCtr.Stop();
     }
 }
 

@@ -11,18 +11,14 @@ namespace EpicToonFX
 
         private Light li;
         private float initIntensity;
-        private ParticleSystem ps;
-       
 
         // Use this for initialization
         void Start()
         {
-            ps = GetComponent<ParticleSystem>();
-            if (gameObject.TryGetComponent<Light>(out li))
+            if (gameObject.GetComponent<Light>())
             {
-               
+                li = gameObject.GetComponent<Light>();
                 initIntensity = li.intensity;
-                li.intensity = 0;
             }
             else
                 print("No light object found on " + gameObject.name);
@@ -33,8 +29,10 @@ namespace EpicToonFX
         {
             if (gameObject.GetComponent<Light>())
             {
-                li.intensity =initIntensity * ((life-ps.time )/ life);
-
+                li.intensity -= initIntensity * (Time.deltaTime / life);
+     //           if (killAfterLife && li.intensity <= 0)
+     //               //Destroy(gameObject);
+					//Destroy(gameObject.GetComponent<Light>());
             }
         }
     }

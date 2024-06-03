@@ -53,6 +53,9 @@ public class PlayerConfigManager : MonoBehaviour
                 case InputType.selectChara:
                     config.ChangeInputMap(InputType.selectChara);
                     break;
+                case InputType.UI:
+                    config.ChangeInputMap(InputType.UI);
+                    break;
             }
         }
     }
@@ -111,6 +114,12 @@ public class PlayerConfigManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
+
+
+    internal void AddConfigTest(PlayerConfig config)
+    {
+        playerConfigs.Add(config);
+    }
 }
 
-public enum InputType { player, selectChara }
+public enum InputType { player, selectChara ,UI}

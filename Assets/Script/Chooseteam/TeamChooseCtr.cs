@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class TeamChooseCtr : MonoBehaviour
 {
+
+
+
     [SerializeField] private TeamChooseDetecter blueField;
     [SerializeField] private TeamChooseDetecter redField;
     [SerializeField] private int targetNumber = 1;
