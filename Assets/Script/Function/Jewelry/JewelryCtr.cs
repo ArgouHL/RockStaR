@@ -34,6 +34,7 @@ public class JewelryCtr : MonoBehaviour
     [SerializeField] internal ParticleSystem appearEffect;
     [SerializeField] internal EffectSwitcher countEffect;
     [SerializeField] internal EffectSwitcher disappearEffect;
+    [SerializeField] internal EffectSwitcher absorbEnergyEffect;
     internal CrystalSfxControl crystalSfxControl;
 
     private void Awake()

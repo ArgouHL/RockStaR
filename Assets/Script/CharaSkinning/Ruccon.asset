@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f340f999c0e4b48b6ac4a620edbed9, type: 3}
   m_Name: Ruccon
   m_EditorClassIdentifier: 
-  charaterColorSetting:
+  charaterSetting:
     charaType: 2
     materials:
     - {fileID: 2100000, guid: 4bc33d986b04142c3a6b8a5c3f7be739, type: 2}
     - {fileID: 2100000, guid: 7ca0f7e3184b64cd6857f02a53f0342b, type: 2}
     - {fileID: 2100000, guid: c5d906eba575e47fabaaf3f9f7a3f71a, type: 2}
     - {fileID: 2100000, guid: f6951854747ec44ae9361f2c0d017db5, type: 2}
+    winPic: {fileID: 21300000, guid: fd2bb7c65c6a94fd39f91f0d0b2534dc, type: 3}
+    losePic: {fileID: 21300000, guid: f94ed8bf03bba48c892fbd28f831078f, type: 3}

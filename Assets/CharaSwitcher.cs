@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+[DefaultExecutionOrder(-1)]
 public class CharaSwitcher : MonoBehaviour
 {
     internal static CharaSwitcher instance;
@@ -14,14 +14,19 @@ public class CharaSwitcher : MonoBehaviour
 
     private void Awake()
     {
+        
         playerSkinManagments = new List<PlayerSkinManagment>();
+        Debug.Log("new");
         instance = this;
     }
 
     internal void AddPlayerSkinManagment(PlayerSkinManagment playerSkinManagment)
     {
+        Debug.Log("add");
         playerSkinManagments.Add(playerSkinManagment);
     }
+
+
     internal void SetPlayerSkinColor(int playerIndex, int newIndex)
     {
         CharaType charaType = (CharaType)PlayerConfigManager.instance.GetPlayerConfig(playerIndex).CharaterIndex;

@@ -10,8 +10,8 @@ public class ScoreSys : MonoBehaviour
     [SerializeField] private TMP_Text yellowScoreTMP;
     [SerializeField] private TMP_Text blueScoreTMP;
     private CanvasGroup canvasGroup;
-    internal static float yellowScore;
-    internal static float blueScore;
+    internal static int yellowScore;
+    internal static int blueScore;
     private void Awake()
     {
         instance = this;

@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SelectChara.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/StartScene.unity
+    guid: 990219c5563404690a08c0a2fec34667
   - enabled: 1
     path: Assets/Scenes/PlayScene.unity
     guid: ae09505db5e524c4db6d10f4e1d45a3d
+  - enabled: 1
+    path: Assets/Scenes/SelectChara.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5d7d572ac49f4a943a9e35c0a15e6cc7, type: 2}

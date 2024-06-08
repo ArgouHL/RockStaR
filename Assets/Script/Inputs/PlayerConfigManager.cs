@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class PlayerConfigManager : MonoBehaviour
 {
     private PlayerInputManager playerInputManager;
+
+    [SerializeField]
     private List<PlayerConfig> playerConfigs;
     internal List<PlayerConfig> PlayerConfigs()
     {
@@ -27,7 +29,7 @@ public class PlayerConfigManager : MonoBehaviour
         playerConfigs = new List<PlayerConfig>();
         if (instance != null)
         {
-
+            Destroy(gameObject);
             return;
         }
         else

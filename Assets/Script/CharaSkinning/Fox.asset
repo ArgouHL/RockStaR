@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f340f999c0e4b48b6ac4a620edbed9, type: 3}
   m_Name: Fox
   m_EditorClassIdentifier: 
-  charaterColorSetting:
+  charaterSetting:
     charaType: 0
     materials:
     - {fileID: 2100000, guid: 549ca2e5f47344cd0bc560411f6bc3a5, type: 2}
     - {fileID: 2100000, guid: f2679a9db1fd843c99745d53e8f69841, type: 2}
     - {fileID: 2100000, guid: e3e811dc618774d04bfd39628cf29237, type: 2}
     - {fileID: 2100000, guid: ba3617c1e1d4f4dc8a45cb31331cd5a1, type: 2}
+    winPic: {fileID: 21300000, guid: 623364aa4eee74552a77c1fa58e46eba, type: 3}
+    losePic: {fileID: 21300000, guid: b1498456862f440a08be6333e1889da7, type: 3}

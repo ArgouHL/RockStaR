@@ -15,9 +15,10 @@ public class InputConnect : MonoBehaviour
     [SerializeField] private GameObject testPlayer;
     private List<PlayerConfig> playerConfigs = new List<PlayerConfig>();
     private PlayerSkinManagment[] playerSkinManagments;
-    private CharaSwitcher charaSwitcher;
 
-    private void Awake()
+
+
+    private void Start()
     {
         if (test)
             ConnectTestInput();
@@ -32,25 +33,14 @@ public class InputConnect : MonoBehaviour
 
         for (int i = 0; i < index; i++)
         {
-            Debug.Log("Connect times:" + i + 1);
+            Debug.Log("Connect times:" + i);
             var config = PlayerConfigManager.instance.GetPlayerConfig(i);
             playerCtrs[i].SetInput(config);
-            CharaSwitcher.instance.AddPlayerSkinManagment(playerCtrs[i].GetComponent<PlayerSkinManagment>());
+            playerCtrs[i].playerConfig.ChangeInputMap(InputType.player);
 
         }
         ApplySkin();
-
-
-
-
-
-
-
         PlayerConfigManager.instance.ChangeActionMap(InputType.player);
-
-
-
-
     }
 
     private void ApplySkin()
@@ -58,8 +48,9 @@ public class InputConnect : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            charaSwitcher.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
 
+            CharaSwitcher.instance.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
+            CharaSwitcher.instance.SetPlayerSkin(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex);
 
             //playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
         }
@@ -94,6 +85,7 @@ public class InputConnect : MonoBehaviour
 
 
         playerCtrs[0].SetInput(config);
+        playerCtrs[0].playerConfig.ChangeInputMap(InputType.player);
         PlayerConfigManager.instance.AddConfigTest(config);
 
 

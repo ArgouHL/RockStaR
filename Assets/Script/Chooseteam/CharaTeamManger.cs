@@ -15,20 +15,26 @@ public class CharaTeamManger : MonoBehaviour
     private Coroutine teleCountCoro;
     internal bool canChangeTeam = true;
     [SerializeField] internal TeamSelectSfxCtr teamSelectSfxCtr;
+    public static CharaType[] yellowTeam;
+    public static CharaType[] blueTeam;
     private void Awake()
     {
         instance = this;
         charaTeamCtrs = new List<CharaTeamCtr>();
+        yellowTeam = null;
+        blueTeam = null;
     }
 
     internal void AddTeamCtr(CharaTeamCtr ctr)
     {
         charaTeamCtrs.Add(ctr);
+        Debug.Log("AddTeamCtr");
     }
 
     internal void ConfirmTeam(int playerIndex)
     {
         charaTeamCtrs[playerIndex].SetTeamInConfig();
+        Debug.Log("ConfirmTeam");
     }
 
     internal void CancelTeam(int playerIndex)
@@ -65,6 +71,8 @@ public class CharaTeamManger : MonoBehaviour
         yield return new WaitForSeconds(countTime);
         canChangeTeam = false;
         teamSelectSfxCtr.PlayTele();
+        yellowTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Yellow).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
+        blueTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Blue).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(1);
 

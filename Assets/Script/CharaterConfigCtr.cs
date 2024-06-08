@@ -102,7 +102,7 @@ public class CharaterConfigCtr : MonoBehaviour
         //    return;
         int newIndex = config.CharaterColorIndex + value;
         CharaType charaType = (CharaType)config.CharaterIndex;
-        int colorCount = SkinSystem.instance.GetSkinColors(charaType).materials.Length;
+        int colorCount = SkinSystem.instance.GetCharaData(charaType).materials.Length;
         if (newIndex < 0)
         {
             newIndex = colorCount - 1;

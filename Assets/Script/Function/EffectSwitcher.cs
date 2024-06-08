@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectSwitcher : MonoBehaviour
+public class EffectSwitcher : TeamEffect
 {
     [SerializeField] private Color yellow;
     [SerializeField] private Color cyan;
@@ -11,7 +11,8 @@ public class EffectSwitcher : MonoBehaviour
     [SerializeField] private ParticleSystem yellowEffect;
     [SerializeField] private ParticleSystem blueEffect;
     [SerializeField] private Light _light;
-    internal void StartEffect(Team team)
+
+    internal override void StartEffect(Team team)
     {
         StopEffect();
         switch (team)
@@ -64,7 +65,7 @@ public class EffectSwitcher : MonoBehaviour
     }
 
 
-    internal void StopEffect()
+    internal override void StopEffect()
     {
         blueEffect.Stop();
         yellowEffect.Stop();
@@ -73,6 +74,8 @@ public class EffectSwitcher : MonoBehaviour
         if (_light != null)
             StopLight();
     }
+
+
 
     private void StartLight(Team team)
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Serializable]
 public class PlayerConfig
 {
 
@@ -12,7 +13,7 @@ public class PlayerConfig
     public bool IsReady;
     public int CharaterIndex = 0;
     public int CharaterColorIndex = 0;
-    public InputManager inputManager;
+ 
 
     private InputActionAsset inputAsset;
     internal InputActionMap selectInput;

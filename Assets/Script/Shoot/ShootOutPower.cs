@@ -9,22 +9,27 @@ public class ShootOutPower : MonoBehaviour
     private PowerGun powerGun;
     private Coroutine powerFlayingCoro;
     private Rigidbody rig;
+    private Collider collider;
     [SerializeField] private EffectSwitcher shootEnergyEffect;
-
+    [SerializeField] private EffectSwitcher hitEffect;
+    [SerializeField] private Light light;
+    private Team nowTeam;
 
     private void Awake()
     {
 
         powerGun = GetComponentInParent<PowerGun>();
         rig = GetComponent<Rigidbody>();
-     //   GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
+        collider = GetComponent<Collider>();
+        //   GetComponentInChildren<MeshRenderer>().material = new Material(powerGun.powerMat);
     }
 
     internal void ShootOut(Vector3 shootDir, float maxDis, Vector3 startPos, float speed)
     {
+        light.enabled = true;
         shootEnergyEffect.StopEffect();
         transform.position = startPos;
-        gameObject.SetActive(true);
+        collider.enabled =true;
         SetTeam(powerGun.playerCtr.choosedTeam);
         powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed, startPos));
     }
@@ -37,11 +42,11 @@ public class ShootOutPower : MonoBehaviour
         float dis = 0;
         while (dis < maxDis)
         {
-         //   float translateDis = Time.deltaTime * speed;
+            //   float translateDis = Time.deltaTime * speed;
             dis += Time.fixedDeltaTime * speed;
-           rig.MovePosition(startPos+ shootDir.normalized* dis);
+            rig.MovePosition(startPos + shootDir.normalized * dis);
 
-            yield return new WaitForFixedUpdate() ;
+            yield return new WaitForFixedUpdate();
         }
 
         PowerDisapper(false);
@@ -72,28 +77,42 @@ public class ShootOutPower : MonoBehaviour
             {
                 StopCoroutine(powerFlayingCoro);
                 powerFlayingCoro = null;
+
             }
             PowerDisapper();
+            hitEffect.StartEffect(nowTeam);
         }
 
         if (other.CompareTag("Jewelry"))
         {
             JewelrySystem.instance.ChangeTeam(powerGun.playerCtr.choosedTeam);
+            if (powerFlayingCoro != null)
+            {
+                StopCoroutine(powerFlayingCoro);
+                powerFlayingCoro = null;
+
+            }
+            hitEffect.StartEffect(nowTeam);
             PowerDisapper();
         }
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
         if (other.gameObject.CompareTag("Wall"))
         {
+            if (powerFlayingCoro != null)
+            {
+                StopCoroutine(powerFlayingCoro);
+                powerFlayingCoro = null;
+
+            }
+            hitEffect.StartEffect(nowTeam);
             PowerDisapper();
         }
     }
+
+   
 
     internal void SetTeam(Team team)
     {
+        nowTeam = team;
         shootEnergyEffect.StartEffect(team);
         Debug.Log("Set " + team);
     }
@@ -108,16 +127,20 @@ public class ShootOutPower : MonoBehaviour
     }
 
 
+
+
+
     private void PowerDisapper(bool playHitSfx = true)
     {
         shootEnergyEffect.StopEffect();
+        light.enabled = false;
         if (playHitSfx)
             powerGun.PlayEnergyHitSfx(transform.position);
         if (powerFlayingCoro != null)
             StopCoroutine(powerFlayingCoro);
-        transform.position = powerGun.PowerBackPool(this).position;
+        powerGun.PowerBackPool(this);
         // Debug.Log("PowerDisapper");
-        gameObject.SetActive(false);
+        collider.enabled = false;
 
     }
 }

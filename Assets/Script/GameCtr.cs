@@ -1,14 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameCtr : MonoBehaviour
 {
 
-    [SerializeField] private float gameTime;
-    [SerializeField] private float time = 0;
-
+    [SerializeField] private int gameTime;
+    [SerializeField] private int time = 0;
+    [SerializeField] TMP_Text timeText;
     void Start()
     {
         StartCoroutine(GameIE());
@@ -19,11 +20,12 @@ public class GameCtr : MonoBehaviour
         ScoreSys.instance.Inst();
 
         LeanTween.delayedCall(2, () => JewelrySystem.instance.SpawnJewelry());
-        time = 0;
-        while (time < gameTime)
+        time = gameTime;
+        while (time >0)
         {
-            time += Time.deltaTime;
-            yield return null;
+            time -= 1;
+            timeText.text = time.ToString();
+            yield return new WaitForSeconds(1);
         }
         GameStop();
 
@@ -35,6 +37,6 @@ public class GameCtr : MonoBehaviour
         JewelrySystem.instance.EndDespawn();
         PlayerConfigManager.instance.ChangeActionMap(InputType.UI);
 
-        EndCountShow.instance.TestShow();
+        EndCountShow.instance.ShowEndCount();
     }
 }

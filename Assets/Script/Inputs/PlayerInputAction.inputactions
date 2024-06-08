@@ -522,6 +522,17 @@
                 {
                     "name": "",
                     "id": "2a05f687-56bc-428f-917c-79056450678a",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20f0d702-d091-42aa-923b-9c441694eb13",
                     "path": "<Keyboard>/rightBracket",
                     "interactions": "",
                     "processors": "",
@@ -534,6 +545,17 @@
                     "name": "",
                     "id": "942547d6-85c8-4aaf-a8ea-4d9c5dc21782",
                     "path": "<Keyboard>/leftBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "98d754bc-a882-4308-ae55-f2698d53c529",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

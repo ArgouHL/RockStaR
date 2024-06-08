@@ -23,6 +23,7 @@ public class CharaTeamCtr : MonoBehaviour
         playerCtr.choosedTeam = tempTeam;
         isReady = true;
         confirmEffect.StartEffect(tempTeam);
+        playerCtr.teamShowEffect.StartEffect(tempTeam);
         CharaTeamManger.instance.CheckReady();
     }
 
@@ -36,6 +37,7 @@ public class CharaTeamCtr : MonoBehaviour
         playerCtr.choosedTeam = Team.None;
         isReady = false;
         CharaTeamManger.instance.StopCount();
+        playerCtr.teamShowEffect.StopEffect();
     }
 
     internal void SetTempTeam(Team team)

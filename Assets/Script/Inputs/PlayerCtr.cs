@@ -99,7 +99,7 @@ public class PlayerCtr : MonoBehaviour
     private float stunTime = 0;
 
     [SerializeField] internal Team choosedTeam = Team.None;
-
+    [SerializeField] internal TeamEffect teamShowEffect;
 
     internal PlayerSfxControl playerSfxControl;
 
@@ -116,12 +116,16 @@ public class PlayerCtr : MonoBehaviour
 
 
         gameObject.SetActive(true);
-
+        CharaSwitcher.instance.AddPlayerSkinManagment(GetComponent<PlayerSkinManagment>());
         EnablePlayer();
         playerID = playerConfig.PlayerIndex;
         choosedTeam = playerConfig.PlayerTeam;
         GetComponentInChildren<TeamPlateShow>().ChangeTeam(choosedTeam);
+
         Debug.Log("SetInput");
+        if (choosedTeam == Team.None)
+            return;
+        teamShowEffect.StartEffect(choosedTeam);
 
     }
 
@@ -155,7 +159,7 @@ public class PlayerCtr : MonoBehaviour
 
     private void EnablePlayer()
     {
-        playerConfig.ChangeInputMap(InputType.player);
+        //playerConfig.ChangeInputMap(InputType.player);
         playerConfig.gameInput.FindAction("Jump").started += DoJump;
         playerConfig.gameInput.FindAction("Fire").performed += DoShoot;
 
@@ -233,9 +237,9 @@ public class PlayerCtr : MonoBehaviour
     private MovementEvent OnRotate;
     internal void CanMove(bool v)
     {
-        if(v)
+        if (v)
         {
-            
+
             OnMove += Move;
             OnRotate += CharatarRotate;
         }

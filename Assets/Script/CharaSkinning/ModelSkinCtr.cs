@@ -10,7 +10,7 @@ public class ModelSkinCtr : MonoBehaviour
 
     public void SetColor(int colorIndex)
     {
-        Material _material = SkinSystem.instance.GetSkinColors(charaType).materials[colorIndex];
+        Material _material = SkinSystem.instance.GetCharaData(charaType).materials[colorIndex];
         foreach( var meshRenderer in meshRenderers)
         {
             meshRenderer.material = _material;

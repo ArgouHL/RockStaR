@@ -19,14 +19,14 @@ public class SkinSystem : MonoBehaviour
         }
     }
 
-    [SerializeField] internal CharaterColorSettingObj[] charaterColorSettingObjs;
-    private Dictionary<CharaType, CharaterColorSetting> charaterColorSettingDict;
+    [SerializeField] internal CharaterSettingObj[] charaterColorSettingObjs;
+    private Dictionary<CharaType, CharaterSetting> charaterSettingDict;
     private void SetCharaDictionary()
     {
-        charaterColorSettingDict = new Dictionary<CharaType, CharaterColorSetting>();
+        charaterSettingDict = new Dictionary<CharaType, CharaterSetting>();
         foreach( var obj in charaterColorSettingObjs)
         {
-            charaterColorSettingDict.Add(obj.charaterColorSetting.charaType, obj.charaterColorSetting);
+            charaterSettingDict.Add(obj.charaterSetting.charaType, obj.charaterSetting);
         }
     }
 
@@ -36,9 +36,11 @@ public class SkinSystem : MonoBehaviour
         SetCharaDictionary();
     }
 
-    internal CharaterColorSetting GetSkinColors(CharaType type)
+    internal CharaterSetting GetCharaData(CharaType type)
     {
-        return charaterColorSettingDict[type];
+        return charaterSettingDict[type];
     }
+
+  
 
 }

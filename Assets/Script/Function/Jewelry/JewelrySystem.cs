@@ -48,6 +48,7 @@ public class JewelrySystem : MonoBehaviour
         jewelryCtr.crystalSfxControl.PlayCrystalChangeTeamSfx();
         jewelryCtr.SetTeamVisual(team);
         jewelryCtr.countEffect.StartEffectInTime(team, countTime);
+        jewelryCtr.absorbEnergyEffect.StartEffect(team);
         //JewelryCounterUI.instance.ShowCount(nowTeam, count);
         //if (GetPountCountDown != null)
         //    StopCoroutine(GetPountCountDown);
