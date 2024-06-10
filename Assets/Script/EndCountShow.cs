@@ -155,6 +155,7 @@ public class EndCountShow : MonoBehaviour
     private IEnumerator ShowScoreRise(float targetScore, TMP_Text scoreText)
     {
         float _score = 0;
+        scoreText.text = Mathf.RoundToInt(_score).ToString();
         while (_score < targetScore)
         {
             _score += Time.deltaTime * scoreSpeed;
@@ -166,10 +167,10 @@ public class EndCountShow : MonoBehaviour
 
     private IEnumerator ShowScoreAndBtns()
     {
-        Coroutine showYellow = StartCoroutine(ShowScoreRise(200, yellowTeamScoreText));
-        Coroutine showblue = StartCoroutine(ShowScoreRise(200, blueTeamScoreText));
-        //Coroutine showYellow = StartCoroutine(ShowScoreRise(ScoreSys.yellowScore, yellowTeamScoreText));
-        //Coroutine showblue = StartCoroutine(ShowScoreRise(ScoreSys.blueScore, blueTeamScoreText));
+        //Coroutine showYellow = StartCoroutine(ShowScoreRise(200, yellowTeamScoreText));
+        //Coroutine showblue = StartCoroutine(ShowScoreRise(200, blueTeamScoreText));
+        Coroutine showYellow = StartCoroutine(ShowScoreRise(ScoreSys.yellowScore, yellowTeamScoreText));
+        Coroutine showblue = StartCoroutine(ShowScoreRise(ScoreSys.blueScore, blueTeamScoreText));
         yield return showYellow;
         yield return showblue;
         replayBtn.blocksRaycasts = true;

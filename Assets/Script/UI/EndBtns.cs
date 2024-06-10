@@ -7,10 +7,10 @@ public class EndBtns : MonoBehaviour
 {
    public void Replay()
     {
-        SceneManager.LoadScene(2);
+        SceneMgr.instance.StartLoadSelectScene();
     }
     public void Menu()
     {
-        SceneManager.LoadScene(0);
+        SceneMgr.instance.LoadMenu();
     }
 }

@@ -139,6 +139,12 @@ public class PlayerCtr : MonoBehaviour
         playerSfxControl = GetComponentInChildren<PlayerSfxControl>();
         ReGetAnimator();
         charaterMovement = GetComponent<CharaterMovement>();
+
+        if(transform.parent.TryGetComponent<InputConnect>(out var con))
+        {
+            if (!con.test)
+                dummy = false;
+        }
         if (playerConfig == null && !dummy)
             gameObject.SetActive(false);
         if (dummy)

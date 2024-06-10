@@ -486,37 +486,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 2
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!1 &1529673327212331062
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8951546873052007416}
-  m_Layer: 0
-  m_Name: TeamChooseEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8951546873052007416
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529673327212331062}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7482543174625419741}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2074170769764722646
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +511,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074170769764722646}
   m_LocalRotation: {x: 0.28195804, y: 0.6484595, z: 0.6484595, w: -0.28195804}
-  m_LocalPosition: {x: 0, y: 0.023, z: 0}
+  m_LocalPosition: {x: 0, y: 0.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -963,7 +932,7 @@ Transform:
   - {fileID: 8468827758530656508}
   - {fileID: 3548654223440585976}
   m_Father: {fileID: 7482543174625419741}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &246135221074685665
 MonoBehaviour:
@@ -1183,7 +1152,6 @@ GameObject:
   - component: {fileID: 578256678308574816}
   - component: {fileID: 8395381349645988677}
   - component: {fileID: 1693285113997317164}
-  - component: {fileID: 8043876809993594670}
   - component: {fileID: 3940659957561374062}
   - component: {fileID: 8836287409614169942}
   - component: {fileID: 651977912732112398}
@@ -1218,7 +1186,6 @@ Transform:
   - {fileID: 4781334591752542111}
   - {fileID: 1203339604251422402}
   - {fileID: 8513029980030749794}
-  - {fileID: 8951546873052007416}
   - {fileID: 1425107492418356768}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1253,7 +1220,7 @@ MonoBehaviour:
   choosedTeam: 0
   teamShowEffect: {fileID: 5001123459787692914}
   pushedRecoverForce: 1
-  shootCoolDownTime: 0.2
+  shootCoolDownTime: 1
   shootReocvery: 0
   shootReocveryTime: 0.5
 --- !u!54 &578256678308574816
@@ -1299,21 +1266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bePushForce: 10
---- !u!114 &8043876809993594670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7482543174625419740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b8bfa4bd047f042ad95699da1f7418, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwForce: 2
-  itemInd: {fileID: 5614125232018477984}
-  holdingItem: {fileID: 0}
 --- !u!114 &3940659957561374062
 MonoBehaviour:
   m_ObjectHideFlags: 0

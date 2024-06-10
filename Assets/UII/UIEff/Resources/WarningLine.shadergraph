@@ -17,6 +17,9 @@
         },
         {
             "m_Id": "f79ae13bef264f83a7fe70b0e0bac1d8"
+        },
+        {
+            "m_Id": "c4857d7b49474d1eaef84cdf77eb0c11"
         }
     ],
     "m_Keywords": [],
@@ -95,6 +98,9 @@
         },
         {
             "m_Id": "47fd82e29cdc446db758d476a4263dcd"
+        },
+        {
+            "m_Id": "7e55f4de81854d95983ba4e6d8de8aae"
         }
     ],
     "m_GroupDatas": [],
@@ -229,6 +235,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "7e55f4de81854d95983ba4e6d8de8aae"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "e3982d3739ae430dbdbaa4f340096d68"
+                },
+                "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "7ebf8344b3624b1787d3e375b37e114d"
                 },
                 "m_SlotId": 0
@@ -355,8 +375,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": -0.0000069141387939453128,
+            "y": -62.000038146972659
         },
         "m_Blocks": [
             {
@@ -699,6 +719,21 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Smooth Delta",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "3ba3af6af2464f908d1a4939f4879030",
+    "m_Id": 0,
+    "m_DisplayName": "Rotation",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
@@ -1260,6 +1295,9 @@
         },
         {
             "m_Id": "f79ae13bef264f83a7fe70b0e0bac1d8"
+        },
+        {
+            "m_Id": "c4857d7b49474d1eaef84cdf77eb0c11"
         }
     ]
 }
@@ -1509,6 +1547,41 @@
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "7e55f4de81854d95983ba4e6d8de8aae",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -2103.999755859375,
+            "y": 254.99989318847657,
+            "width": 118.9998779296875,
+            "height": 34.00004577636719
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "3ba3af6af2464f908d1a4939f4879030"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "c4857d7b49474d1eaef84cdf77eb0c11"
     }
 }
 
@@ -2086,6 +2159,33 @@
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "c4857d7b49474d1eaef84cdf77eb0c11",
+    "m_Guid": {
+        "m_GuidSerialized": "4cbb3672-4d71-428a-9971-5eb3bd554fd7"
+    },
+    "m_Name": "Rotation",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Rotation",
+    "m_DefaultReferenceName": "_Rotation",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": -15.699999809265137,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 

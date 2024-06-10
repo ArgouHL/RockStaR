@@ -17,6 +17,7 @@ public class CharaTeamCtr : MonoBehaviour
             return;
         if (tempTeam == Team.None)
             return;
+        Debug.Log(tempTeam);
         playerCtr.CanMove(false);      
         playerConfig.SetPlayerTeam(tempTeam);
         GetComponentInChildren<TeamPlateShow>().ChangeTeam(tempTeam);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -42,6 +43,8 @@ public class PlayerConfigManager : MonoBehaviour
 
     }
 
+    
+
     public void ChangeActionMap(InputType inputType)
     {
         foreach (var config in playerConfigs)
@@ -62,15 +65,30 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
+
+
+    internal void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
+
     private void OnEnable()
     {
+        SceneMgr.OnSceneEnd += Destroy;
         playerInputManager.onPlayerJoined += PlayerJoin;
+       
     }
 
     private void OnDisable()
     {
+        SceneMgr.OnSceneEnd -= Destroy;
         playerInputManager.onPlayerJoined -= PlayerJoin;
+        
     }
+
+
+
+
     public void ReadyPlayer(int index)
     {
         playerConfigs[index].IsReady = true;
@@ -122,6 +140,10 @@ public class PlayerConfigManager : MonoBehaviour
     {
         playerConfigs.Add(config);
     }
+
+
+
+    
 }
 
 public enum InputType { player, selectChara ,UI}

@@ -7,7 +7,7 @@ public class MenuBtns : MonoBehaviour
 {
   public void LoadGame()
     {
-        SceneManager.LoadScene(2);
+        SceneMgr.instance.StartLoadSelectScene();
     }
 
     public void ExitGame()

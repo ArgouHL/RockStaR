@@ -74,7 +74,7 @@ public class CharaTeamManger : MonoBehaviour
         yellowTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Yellow).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
         blueTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Blue).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(1);
+        SceneMgr.instance.LoadGame();
 
     }
 }

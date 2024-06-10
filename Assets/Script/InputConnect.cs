@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +9,7 @@ using UnityEngine.InputSystem;
 public class InputConnect : MonoBehaviour
 {
     [SerializeField] private PlayerCtr[] playerCtrs;
-    [SerializeField] private bool test = false;
+    public bool test = false;
     private PlayerInputManager testPlayerInput;
     [SerializeField] private GameObject testPlayer;
     private List<PlayerConfig> playerConfigs = new List<PlayerConfig>();
