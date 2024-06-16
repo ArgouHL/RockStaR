@@ -67,9 +67,16 @@ public class EndCountShow : MonoBehaviour
         {
             CharaTeamManger.blueTeam = new CharaType[] { CharaType.Fox, CharaType.Fox };
         }
-        yellowNames.text = CharaTeamManger.yellowTeam[0] + " & " + CharaTeamManger.yellowTeam[1];
-        blueNames.text = CharaTeamManger.blueTeam[0] + " & " + CharaTeamManger.yellowTeam[1];
-
+        if(InputConnect.instance.playerCount>2)
+        {
+            yellowNames.text = CharaTeamManger.yellowTeam[0] + " & " + CharaTeamManger.yellowTeam[1];
+            blueNames.text = CharaTeamManger.blueTeam[0] + " & " + CharaTeamManger.yellowTeam[1];
+        }       
+        else
+        {
+            yellowNames.text = CharaTeamManger.yellowTeam[0].ToString();
+            blueNames.text = CharaTeamManger.blueTeam[0].ToString();
+        }
 
 
 
@@ -78,7 +85,7 @@ public class EndCountShow : MonoBehaviour
         {
             yellowWinLose.text = "Draw";
             blueWinLose.text = "Draw";
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < InputConnect.instance.playerCount/2; i++)
             {
                 yellowCharaImgs[i].sprite = SkinSystem.instance.GetCharaData(CharaTeamManger.yellowTeam[i]).winPic;
                 blueCharaImgs[i].sprite = SkinSystem.instance.GetCharaData(CharaTeamManger.blueTeam[i]).winPic;
@@ -92,7 +99,7 @@ public class EndCountShow : MonoBehaviour
             bool yellowWin = ScoreSys.yellowScore > ScoreSys.blueScore;
             yellowWinLose.text = yellowWin ? "Win" : "Lose";
             blueWinLose.text = yellowWin ? "Lose" : "Win";
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < InputConnect.instance.playerCount / 2; i++)
             {
                 var yData = SkinSystem.instance.GetCharaData(CharaTeamManger.yellowTeam[i]);
                 yellowCharaImgs[i].sprite = yellowWin ? yData.winPic : yData.losePic;

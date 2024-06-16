@@ -7,6 +7,7 @@ public class EffectSwitcher : TeamEffect
 {
     [SerializeField] private Color yellow;
     [SerializeField] private Color cyan;
+    [SerializeField] private bool setActive = false;
     [SerializeField] private ParticleSystem noTeamEffect;
     [SerializeField] private ParticleSystem yellowEffect;
     [SerializeField] private ParticleSystem blueEffect;
@@ -15,20 +16,29 @@ public class EffectSwitcher : TeamEffect
     internal override void StartEffect(Team team)
     {
         StopEffect();
+        ParticleSystem effect = null;
         switch (team)
         {
             case Team.None:
-                if (noTeamEffect != null)
-                    noTeamEffect.Play();
+                if (noTeamEffect == null)
+                    return;
+                effect = noTeamEffect;
                 break;
             case Team.Blue:
-                blueEffect.Play();
+                effect = blueEffect;
+
 
                 break;
             case Team.Yellow:
-                yellowEffect.Play();
+                effect = yellowEffect;
                 break;
 
+        }
+        if (effect != null)
+        {
+            effect.Play();
+            if (setActive)
+                effect.gameObject.SetActive(true);
         }
         if (_light != null)
             StartLight(team);
@@ -71,6 +81,14 @@ public class EffectSwitcher : TeamEffect
         yellowEffect.Stop();
         if (noTeamEffect != null)
             noTeamEffect.Stop();
+        if (setActive)
+        {
+            if (noTeamEffect != null)
+                noTeamEffect.gameObject.SetActive(true);
+            blueEffect.gameObject.SetActive(true);
+            yellowEffect.gameObject.SetActive(true);
+        }
+
         if (_light != null)
             StopLight();
     }

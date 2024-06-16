@@ -26,19 +26,25 @@ public class ShootOutPower : MonoBehaviour
 
     internal void ShootOut(Vector3 shootDir, float maxDis, Vector3 startPos, float speed)
     {
-        light.enabled = true;
+       
+       
         shootEnergyEffect.StopEffect();
-        transform.position = startPos;
-        collider.enabled =true;
-        SetTeam(powerGun.playerCtr.choosedTeam);
-        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed, startPos));
+        light.enabled = true;
+        transform.parent = null;
+        transform.position = startPos + shootDir.normalized * 1f;
+      
+        
+        
+        
+        powerFlayingCoro = StartCoroutine(PowerFlayingIE(shootDir, maxDis, speed, transform.position));
     }
 
     private IEnumerator PowerFlayingIE(Vector3 shootDir, float maxDis, float speed, Vector3 startPos)
     {
+        yield return null;
+        collider.enabled = true;
 
-        transform.parent = null;
-
+        SetTeam(powerGun.playerCtr.choosedTeam);
         float dis = 0;
         while (dis < maxDis)
         {

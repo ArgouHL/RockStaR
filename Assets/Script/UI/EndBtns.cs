@@ -7,7 +7,16 @@ public class EndBtns : MonoBehaviour
 {
    public void Replay()
     {
-        SceneMgr.instance.StartLoadSelectScene();
+        switch(InputConnect.instance.playerCount)
+        {
+            case 2:
+                SceneMgr.instance.StartLoadSelectScene(playMode.Two);
+                break;
+            case 4:
+                SceneMgr.instance.StartLoadSelectScene(playMode.Four);
+                break;
+        }
+    
     }
     public void Menu()
     {

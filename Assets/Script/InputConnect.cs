@@ -9,13 +9,17 @@ using UnityEngine.InputSystem;
 public class InputConnect : MonoBehaviour
 {
     [SerializeField] private PlayerCtr[] playerCtrs;
+    public static InputConnect instance;
     public bool test = false;
     private PlayerInputManager testPlayerInput;
     [SerializeField] private GameObject testPlayer;
     private List<PlayerConfig> playerConfigs = new List<PlayerConfig>();
     private PlayerSkinManagment[] playerSkinManagments;
-
-
+    public int playerCount=4;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -30,7 +34,7 @@ public class InputConnect : MonoBehaviour
         int index = PlayerConfigManager.instance.GetPlayerCount();
         Debug.Log("PlayerCount:" + index);
 
-        for (int i = 0; i < index; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             Debug.Log("Connect times:" + i);
             var config = PlayerConfigManager.instance.GetPlayerConfig(i);
@@ -45,12 +49,12 @@ public class InputConnect : MonoBehaviour
     private void ApplySkin()
     {
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < InputConnect.instance.playerCount; i++)
         {
 
-            CharaSwitcher.instance.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
+           
             CharaSwitcher.instance.SetPlayerSkin(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex);
-
+            CharaSwitcher.instance.SetPlayerSkinColor(i, PlayerConfigManager.instance.GetPlayerConfig(i).CharaterColorIndex);
             //playerSkinManagments[i].ChangeSkin(CharaterSelect.instance.GetChara(PlayerConfigManager.instance.GetPlayerConfig(i).CharaterIndex));
         }
 

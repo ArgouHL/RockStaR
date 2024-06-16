@@ -9,10 +9,19 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: 990219c5563404690a08c0a2fec34667
   - enabled: 1
-    path: Assets/Scenes/PlayScene.unity
+    path: Assets/Scenes/SelectTeamScene_4P.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/PlayScene_4P.unity
     guid: ae09505db5e524c4db6d10f4e1d45a3d
   - enabled: 1
-    path: Assets/Scenes/SelectChara.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/LoadingScene.unity
+    guid: d401d7ccdf7067b44a023f9a14dbb39b
+  - enabled: 1
+    path: Assets/Scenes/SelectTeamScene_2P.unity
+    guid: 9df7d6a137f346647858f0309a1aceb5
+  - enabled: 1
+    path: Assets/Scenes/PlayScene_2P.unity
+    guid: ad14bc770d40bb14eb42f7cab8762342
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5d7d572ac49f4a943a9e35c0a15e6cc7, type: 2}

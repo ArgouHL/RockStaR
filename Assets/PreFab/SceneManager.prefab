@@ -46,9 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Menu: StartScene
   m_LoadingScene: LoadingScene
-  m_SelectScene: SelectTeamScene
-  m_PlayScene: PlayScene
+  m_SelectScene: SelectTeamScene_4P
+  m_PlayScene: PlayScene_4P
+  m_SelectScene_2P: SelectTeamScene_2P
+  m_PlayScene_2P: PlayScene_2P
   Menu: {fileID: 102900000, guid: 990219c5563404690a08c0a2fec34667, type: 3}
   LoadingScene: {fileID: 102900000, guid: d401d7ccdf7067b44a023f9a14dbb39b, type: 3}
   SelectScene: {fileID: 102900000, guid: 9fc0d4010bbf28b4594072e72b8655ab, type: 3}
   PlayScene: {fileID: 102900000, guid: ae09505db5e524c4db6d10f4e1d45a3d, type: 3}
+  SelectScene_2P: {fileID: 102900000, guid: 9df7d6a137f346647858f0309a1aceb5, type: 3}
+  PlayScene_2P: {fileID: 102900000, guid: ad14bc770d40bb14eb42f7cab8762342, type: 3}

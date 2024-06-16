@@ -9,7 +9,7 @@ public class CharaterConfigCtr : MonoBehaviour
     private PlayerConfig playerConfig;
     private PlayerInput input;
     private InputActionAsset inputAsset;
-
+    internal bool canChange = true;
     [SerializeField] private InputActionMap selectInput;
     private void OnEnable()
     {
@@ -34,6 +34,9 @@ public class CharaterConfigCtr : MonoBehaviour
 
     private void SelectNextChara(InputAction.CallbackContext obj)
     {
+
+        if (!canChange)
+            return;
         Debug.Log("Change1");
         // ChangeCharaColor(1);
         ChangeChara(1);
@@ -41,6 +44,8 @@ public class CharaterConfigCtr : MonoBehaviour
 
     private void SelectPreChara(InputAction.CallbackContext obj)
     {
+        if (!canChange)
+            return;
         Debug.Log("Change-");
         // ChangeCharaColor(-1);
         ChangeChara(-1);
@@ -84,12 +89,16 @@ public class CharaterConfigCtr : MonoBehaviour
 
     private void SelectNextColor(InputAction.CallbackContext obj)
     {
+        if (!canChange)
+            return;
         Debug.Log("ChangeNextColo");
         ChangeCharaColor(1);
     }
 
     private void SelectPreColor(InputAction.CallbackContext obj)
     {
+        if (!canChange)
+            return;
         Debug.Log("ChangePreColor");
         ChangeCharaColor(-1);
     }
@@ -133,7 +142,7 @@ public class CharaterConfigCtr : MonoBehaviour
 
     private void Confirm(InputAction.CallbackContext obj)
     {
-        CharaTeamManger.instance.ConfirmTeam(input.playerIndex);
+        canChange=CharaTeamManger.instance.ConfirmTeam(input.playerIndex);
         //CharaterSelect.instance.ShowConfirm(input.playerIndex);
         // PlayerConfigManager.instance.ReadyPlayer(input.playerIndex);
 
@@ -141,7 +150,7 @@ public class CharaterConfigCtr : MonoBehaviour
     }
     private void Cancel(InputAction.CallbackContext obj)
     {
-        CharaTeamManger.instance.CancelTeam(input.playerIndex);
+        canChange =  CharaTeamManger.instance.CancelTeam(input.playerIndex);
         //CharaterSelect.instance.ShowConfirm(input.playerIndex);
         // PlayerConfigManager.instance.Cancel(input.playerIndex);
 

@@ -31,15 +31,18 @@ public class CharaTeamManger : MonoBehaviour
         Debug.Log("AddTeamCtr");
     }
 
-    internal void ConfirmTeam(int playerIndex)
+    internal bool ConfirmTeam(int playerIndex)
     {
+
         charaTeamCtrs[playerIndex].SetTeamInConfig();
         Debug.Log("ConfirmTeam");
+        return false;
     }
 
-    internal void CancelTeam(int playerIndex)
+    internal bool CancelTeam(int playerIndex)
     {
         charaTeamCtrs[playerIndex].CancelTeamInConfig();
+        return true;
     }
 
     internal void CheckReady()
@@ -74,7 +77,16 @@ public class CharaTeamManger : MonoBehaviour
         yellowTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Yellow).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
         blueTeam = charaTeamCtrs.Where(x => x.playerCtr.choosedTeam == Team.Blue).Select(x => (CharaType)x.playerCtr.playerConfig.CharaterIndex).ToArray();
         yield return new WaitForSeconds(2);
-        SceneMgr.instance.LoadGame();
+        switch(playerNum)
+        {
+            case 2:
+                SceneMgr.instance.LoadGame(playMode.Two);
 
+                break;
+            case 4:
+                SceneMgr.instance.LoadGame(playMode.Four);
+                break;
+        }
+        
     }
 }
